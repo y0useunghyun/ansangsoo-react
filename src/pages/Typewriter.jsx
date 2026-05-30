@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import PageHeader from '../components/PageHeader';
 
 export default function TypewriterIntro({ onClose }) {
   const [step, setStep] = useState(0);
@@ -104,7 +103,15 @@ export default function TypewriterIntro({ onClose }) {
       }}
       onClick={!showSimulator ? handleScreenClick : undefined}
     >
-      <PageHeader />
+      <div className="dm-header" style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1000, display: 'flex', alignItems: 'center' }}>
+        <button
+          className="dm-home-btn"
+          onClick={onClose}
+          style={{ border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: 'agahnsangsoo2012, sans-serif' }}
+        >
+          &lt; 홈
+        </button>
+      </div>
 
       {/* ─── 종이 인트로 ─── */}
       <AnimatePresence>
