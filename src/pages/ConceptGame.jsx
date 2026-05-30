@@ -247,7 +247,7 @@ export default function ConceptGame() {
           </AnimatePresence>
 
           {/* 입력창 + 개념 설명 카드 (함께 하단 고정) */}
-          <div style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', width: 360, display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', width: 560, display: 'flex', flexDirection: 'column', gap: 8 }}>
             <AnimatePresence>
               {def && (
                 <motion.div
@@ -258,14 +258,14 @@ export default function ConceptGame() {
                   transition={{ duration: 0.2 }}
                   style={{
                     background: '#fff', color: '#111',
-                    padding: '22px 28px', borderRadius: '16px',
+                    padding: '32px 36px', borderRadius: '20px',
                     textAlign: 'center', zIndex: 50,
                     boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
                     border: '1px solid #eee',
                   }}
                 >
-                  <div style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: 10 }}>{def.word}</div>
-                  <div style={{ fontSize: '19px', color: '#555', lineHeight: 1.7 }}>{def.def}</div>
+                  <div style={{ fontSize: '34px', fontWeight: 'bold', marginBottom: 14 }}>{def.word}</div>
+                  <div style={{ fontSize: '26px', color: '#555', lineHeight: 1.7 }}>{def.def}</div>
                 </motion.div>
               )}
             </AnimatePresence>
