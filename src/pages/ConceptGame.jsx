@@ -60,7 +60,7 @@ export default function ConceptGame() {
   useEffect(() => {
     if (phase !== 'playing') return;
 
-    const SPEED = 0.5;
+    const SPEED = 2.2;
     const TICK = 33;
 
     tickRef.current = setInterval(() => {
@@ -161,7 +161,7 @@ export default function ConceptGame() {
       {phase === 'playing' && (
         <div style={{ position: 'absolute', top: 24, right: 32, zIndex: 200, color: '#111', userSelect: 'none', textAlign: 'right', lineHeight: 1.2 }}>
           <div style={{ fontSize: '40px', color: '#e74c3c', letterSpacing: '4px' }}>{heartStr}</div>
-          <div style={{ fontSize: '28px', color: '#aaa', marginTop: 4 }}>{score}개</div>
+          <div style={{ fontSize: '28px', color: '#111', marginTop: 4 }}>{score}개</div>
         </div>
       )}
 
