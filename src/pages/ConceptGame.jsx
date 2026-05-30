@@ -185,19 +185,15 @@ export default function ConceptGame() {
 
       {/* ─── 게임 오버 ─── */}
       {phase === 'over' && (
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ fontSize: '13px', color: '#444', letterSpacing: '4px', marginBottom: 24 }}>GAME OVER</div>
-          <h1 style={{ fontSize: '64px', color: '#fff', margin: '0 0 12px' }}>{score}개 완료</h1>
-          <p style={{ fontSize: '20px', color: '#555', marginBottom: 60 }}>
-            {score >= 10 ? '안상수체 마스터입니다.' : score >= 5 ? '좋습니다. 한 번 더 해볼까요?' : '다시 도전해보세요.'}
-          </p>
+        <div style={{ position: 'absolute', inset: 0, background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <h1 style={{ fontSize: '64px', color: '#111', margin: '0 0 60px', fontWeight: 'bold', letterSpacing: '-1px' }}>{score}개 완료</h1>
           <div style={{ display: 'flex', gap: 16 }}>
             <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={startGame}
-              style={{ padding: '16px 44px', background: '#fff', color: '#000', border: 'none', borderRadius: '30px', fontSize: '22px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
+              style={{ padding: '16px 52px', background: '#111', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
               다시하기
             </motion.button>
             <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => navigate('/')}
-              style={{ padding: '16px 44px', background: 'none', color: '#fff', border: '1px solid #333', borderRadius: '30px', fontSize: '22px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
+              style={{ padding: '16px 52px', background: 'none', color: '#111', border: '2px solid #111', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
               홈으로
             </motion.button>
           </div>
