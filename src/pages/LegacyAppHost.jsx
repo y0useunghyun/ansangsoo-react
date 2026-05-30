@@ -56,34 +56,28 @@ export default function LegacyAppHost() {
   useEffect(() => {
     const typeSticker = document.getElementById('hp-tajagi-home');
     const gameSticker = document.getElementById('hp-game-sticker');
-    const titleBtn = document.getElementById('hp-title');
+    const titleBtn   = document.getElementById('hp-title');
+    const songBtn    = document.getElementById('hp-song');
+    const yuBtn      = document.getElementById('hp-yu');
 
-    const handleTypeClick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setShowTypewriterIntro(true);
-    };
-
-    const handleGameClick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      navigate('/game');
-    };
-
-    const handleTitleClick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      navigate('/song');
-    };
+    const handleTypeClick  = (e) => { e.preventDefault(); e.stopPropagation(); setShowTypewriterIntro(true); };
+    const handleGameClick  = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/game'); };
+    const handleTitleClick = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/song'); };
+    const handleSongClick  = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/song'); };
+    const handleYuClick    = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/song', { state: { scrollTo: 'yu' } }); };
 
     if (typeSticker) typeSticker.addEventListener('click', handleTypeClick);
     if (gameSticker) gameSticker.addEventListener('click', handleGameClick);
-    if (titleBtn) titleBtn.addEventListener('click', handleTitleClick);
+    if (titleBtn)    titleBtn.addEventListener('click', handleTitleClick);
+    if (songBtn)     songBtn.addEventListener('click', handleSongClick);
+    if (yuBtn)       yuBtn.addEventListener('click', handleYuClick);
 
     return () => {
       if (typeSticker) typeSticker.removeEventListener('click', handleTypeClick);
       if (gameSticker) gameSticker.removeEventListener('click', handleGameClick);
-      if (titleBtn) titleBtn.removeEventListener('click', handleTitleClick);
+      if (titleBtn)    titleBtn.removeEventListener('click', handleTitleClick);
+      if (songBtn)     songBtn.removeEventListener('click', handleSongClick);
+      if (yuBtn)       yuBtn.removeEventListener('click', handleYuClick);
     };
   }, [navigate]);
 
