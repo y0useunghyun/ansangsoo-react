@@ -2041,7 +2041,7 @@ html, body {
 .hp-project-wrap {
   position: absolute;
   left: 60.2%;
-  top: 50.6%;
+  top: 63%;
   animation: hp-drift-2 10s ease-in-out infinite;
 }
 .hp-project-obj {
@@ -2080,8 +2080,9 @@ html, body {
 /* ── 벽돌 + 시작하기: 1416,756 ── */
 .hp-brick-wrap {
   position: absolute;
-  left: 73.8%;
+  left: 82%;
   top: 70%;
+  width: 13vw;
   user-select: none;
   animation: hp-bob 2s ease-in-out infinite;
 }

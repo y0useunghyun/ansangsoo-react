@@ -8,14 +8,23 @@ import AncheProjectModal from '../components/AncheProjectModal';
 export default function Song() {
   const location    = useLocation();
   const navigate    = useNavigate();
-  const scrollRef   = useRef(null);
-  const section5Ref = useRef(null);
+  const scrollRef    = useRef(null);
+  const section5Ref  = useRef(null);
+  const section7Ref  = useRef(null);
+  const section8Ref  = useRef(null);
   const section10Ref = useRef(null);
 
   useEffect(() => {
-    if (location.state?.scrollTo === 'yu' && section10Ref.current && scrollRef.current) {
+    const targets = {
+      yu:     section10Ref,
+      expand: section10Ref,
+      hunmin: section7Ref,
+      hak:    section8Ref,
+    };
+    const target = targets[location.state?.scrollTo];
+    if (target?.current && scrollRef.current) {
       setTimeout(() => {
-        scrollRef.current.scrollTo({ top: section10Ref.current.offsetTop, behavior: 'instant' });
+        scrollRef.current.scrollTo({ top: target.current.offsetTop, behavior: 'instant' });
       }, 100);
     }
   }, [location.state]);
@@ -709,7 +718,7 @@ export default function Song() {
         </section>
 
         {/* 7번 페이지: 훈민정음의 창제 원리를 따르다 */}
-        <section style={{ width: '100%' }}>
+        <section ref={section7Ref} style={{ width: '100%' }}>
           <div className="dm-section dm-section--hunmin">
             <h2 className="dm-title hm-title">훈민정음의 창제 원리를 따르다</h2>
             <div className="hm-img-wrap">
@@ -721,7 +730,7 @@ export default function Song() {
         </section>
 
         {/* 8번 페이지: 안상수체 1984 개발 과정 */}
-        <section style={{ width: '100%' }}>
+        <section ref={section8Ref} style={{ width: '100%' }}>
           <div className="dm-section dm-section--dev1984" style={{ minHeight: '100vh' }}>
             <h2 className="dm-title dev1984-title">안상수체 1984 개발 과정</h2>
             <div className="dev1984-img-wrap">

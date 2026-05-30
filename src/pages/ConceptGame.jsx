@@ -1,198 +1,292 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import PageHeader from '../components/PageHeader';
 
-const CONCEPTS = [
-  {
-    id: 'intro',
-    title: '안상수체 파헤치기',
-    description: '안상수체는 한글 타이포그래피 역사상 가장 파격적인 실험이었습니다.\n어떤 철학이 담겨 있는지 함께 알아볼까요?',
-    image: null,
-  },
-  {
-    id: 'concept1',
-    title: '1. 탈네모틀 (Out of Square)',
-    description: '기존의 한글 폰트는 한자를 본따서 만든 보이지 않는 \'네모 틀\' 안에 갇혀 있었습니다.\n안상수체는 이 네모 틀을 깨부수고, 초성/중성/종성이 각자의 형태와 비율대로 자유롭게 존재하게 만들었습니다.',
-    image: '🔳 ➡️ 🦋',
-  },
-  {
-    id: 'concept2',
-    title: '2. 빨랫줄 비례 (Clothesline Alignment)',
-    description: '서양의 알파벳이 베이스라인(밑줄)에 맞춰 글자를 배열한다면, 안상수체는 한글의 특징을 살려 \'상단(윗줄)\'을 기준으로 글자를 배열합니다.\n마치 빨랫줄에 글자들을 널어놓은 듯한 독특하고 리듬감 있는 비례가 특징입니다.',
-    image: '👕---👖---🧦',
-  },
-  {
-    id: 'concept3',
-    title: '3. 3가지 모임꼴',
-    description: '안상수체는 모음(가운데소리)의 형태에 따라 크게 3가지로 글자를 조립합니다.\n\n가로모임: 가, 나, 다 (모음이 자음 오른쪽에 위치)\n세로모임: 고, 노, 도 (모음이 자음 아래에 위치)\n섞임모임: 과, 놔, 둬 (가로와 세로가 섞인 형태)',
-    image: '🧩',
-  }
+const WORDS = [
+  { word: '탈네모틀', def: '네모 틀을 벗어난 글자꼴. 초·중·종성이 각자의 형태로 자유롭게 배치된다.' },
+  { word: '훈민정음', def: '세종대왕이 창제한 한글의 원형. 안상수체는 이 창제 원리를 조형 언어로 삼았다.' },
+  { word: '세벌식', def: '초성·중성·종성을 각각 다른 글쇠에 배치한 자판. 공병우 박사가 1949년 고안했다.' },
+  { word: '모듈', def: '최소한의 자소 단위를 조합해 최대한의 글자를 만드는 안상수체의 핵심 원리.' },
+  { word: '기하학', def: '수직선·수평선·사선·정원으로만 이루어진 안상수체의 조형 언어.' },
+  { word: '공병우', def: '세벌식 타자기를 발명한 안과의사. 한글 기계화 역사를 바꿔놓은 인물.' },
+  { word: '초성', def: '음절의 첫소리 자음. 세벌식 자판에서는 왼손 영역에 배치된다.' },
+  { word: '중성', def: '음절 가운데의 모음. 세벌식에서 중앙 영역을 차지한다.' },
+  { word: '종성', def: '음절 끝의 받침 자음. 세벌식에서는 오른손 영역에 별도 배치된다.' },
+  { word: '확장', def: '안상수체는 40년간 확장을 거듭했다. 파생 서체, 배열 해체, 모듈 실험 등으로.' },
+  { word: '빨랫줄', def: '안상수체의 정렬 원리. 글자 상단을 한 줄에 맞춰 빨랫줄처럼 늘어놓는다.' },
+  { word: '오토캐드', def: '안상수가 1984년 글자 설계에 활용한 캐드 프로그램. 당시 건축용 도구였다.' },
+  { word: '안상수체', def: '1985년 디자이너 안상수가 설계한 탈네모틀 한글 서체. 40년 동안 우리 곁에 있었다.' },
+  { word: '타이포그라피', def: '글자를 매개로 하는 시각 디자인. 안상수는 한글 타이포그라피의 새 길을 열었다.' },
+  { word: '글자꼴', def: '글자의 조형적 형태. 안상수체는 탈네모틀 글자꼴의 가능성을 개척했다.' },
 ];
 
-const QUESTIONS = [
-  {
-    q: '안상수체가 기존 한글 폰트의 보이지 않는 사각형 구속을 벗어난 디자인 원칙을 무엇이라고 부를까요?',
-    options: ['탈네모틀', '안네모틀', '빨랫줄 원리', '정방형 원리'],
-    answer: 0
-  },
-  {
-    q: '다음 중 안상수체의 기준선(Alignment) 원리를 가장 잘 설명한 것은?',
-    options: ['모든 글자는 베이스라인(밑줄)에 맞춘다.', '글자의 상단을 기준선으로 삼는 빨랫줄 비례를 사용한다.', '글자의 중앙을 맞추는 센터 라인을 사용한다.', '기준선이 없이 무작위로 배열된다.'],
-    answer: 1
-  },
-  {
-    q: '다음 중 "섞임모임" 구조를 가진 글자는?',
-    options: ['가', '별', '귤', '쾅'],
-    answer: 3
-  }
-];
+let uid = 0;
 
 export default function ConceptGame() {
   const navigate = useNavigate();
-  const [step, setStep] = useState(0); // 0~3: 개념, 4: 게임시작, 5~7: 퀴즈, 8: 결과
+  const [phase, setPhase] = useState('idle'); // idle | playing | over
+  const [words, setWords] = useState([]);
+  const [input, setInput] = useState('');
   const [score, setScore] = useState(0);
+  const [lives, setLives] = useState(5);
+  const [pops, setPops] = useState([]);
+  const [def, setDef] = useState(null);
 
-  const handleNext = () => {
-    setStep(prev => prev + 1);
+  const wordsRef = useRef([]);
+  const livesRef = useRef(5);
+  const phaseRef = useRef('idle');
+  const areaRef = useRef(null);
+  const inputRef = useRef(null);
+  const tickRef = useRef(null);
+  const spawnRef = useRef(null);
+  const defTimerRef = useRef(null);
+
+  phaseRef.current = phase;
+  livesRef.current = lives;
+
+  const startGame = () => {
+    uid = 0;
+    wordsRef.current = [];
+    setWords([]);
+    setInput('');
+    setScore(0);
+    setLives(5);
+    setPops([]);
+    setDef(null);
+    setPhase('playing');
+    setTimeout(() => inputRef.current?.focus(), 50);
   };
 
-  const handleAnswer = (selectedIndex) => {
-    const qIndex = step - 5;
-    if (QUESTIONS[qIndex].answer === selectedIndex) {
-      setScore(prev => prev + 1);
-      // 정답 이펙트 
-    }
-    setStep(prev => prev + 1);
+  useEffect(() => {
+    if (phase !== 'playing') return;
+
+    const SPEED = 0.5;
+    const TICK = 33;
+
+    tickRef.current = setInterval(() => {
+      if (phaseRef.current !== 'playing') return;
+      const h = areaRef.current?.clientHeight ?? window.innerHeight;
+      const FLOOR = h - 100;
+
+      wordsRef.current = wordsRef.current.map(w => ({ ...w, y: w.y + w.speed }));
+      const fallen = wordsRef.current.filter(w => w.y >= FLOOR);
+      wordsRef.current = wordsRef.current.filter(w => w.y < FLOOR);
+
+      if (fallen.length > 0) {
+        const next = livesRef.current - fallen.length;
+        setLives(next);
+        if (next <= 0) {
+          clearInterval(tickRef.current);
+          clearInterval(spawnRef.current);
+          setPhase('over');
+          return;
+        }
+      }
+
+      setWords([...wordsRef.current]);
+    }, TICK);
+
+    const usedWords = new Set();
+    const spawn = () => {
+      if (phaseRef.current !== 'playing') return;
+      const w = areaRef.current?.clientWidth ?? window.innerWidth;
+      const pool = WORDS.filter(d => !usedWords.has(d.word));
+      if (pool.length === 0) usedWords.clear();
+      const data = pool[Math.floor(Math.random() * pool.length)];
+      usedWords.add(data.word);
+      const item = {
+        id: ++uid,
+        word: data.word,
+        def: data.def,
+        x: 40 + Math.random() * (w - 220),
+        y: -50,
+        speed: SPEED + Math.random() * 0.4,
+      };
+      wordsRef.current = [...wordsRef.current, item];
+      setWords([...wordsRef.current]);
+    };
+
+    spawn();
+    spawnRef.current = setInterval(spawn, 2800);
+
+    return () => {
+      clearInterval(tickRef.current);
+      clearInterval(spawnRef.current);
+    };
+  }, [phase]);
+
+  const handleInput = (e) => {
+    const val = e.target.value;
+    setInput(val);
+
+    const matched = wordsRef.current.find(w => w.word === val);
+    if (!matched) return;
+
+    // 맞췄을 때
+    setPops(prev => [...prev, { id: matched.id, word: matched.word, x: matched.x, y: matched.y }]);
+    wordsRef.current = wordsRef.current.filter(w => w.id !== matched.id);
+    setWords([...wordsRef.current]);
+    setScore(s => s + 1);
+    setInput('');
+
+    clearTimeout(defTimerRef.current);
+    setDef({ word: matched.word, def: matched.def });
+    defTimerRef.current = setTimeout(() => setDef(null), 3200);
+
+    setTimeout(() => setPops(prev => prev.filter(p => p.id !== matched.id)), 700);
   };
+
+  const heartStr = '♥'.repeat(lives) + '♡'.repeat(Math.max(0, 5 - lives));
 
   return (
-    <div style={{
-      width: '100vw', minHeight: '100vh',
-      backgroundColor: '#f5f5f5',
-      display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'agahnsangsoo2012, sans-serif',
-      padding: '120px 40px 40px 40px', // 헤더 공간 확보를 위해 위쪽 패딩 추가
-      position: 'relative',
-      overflowX: 'hidden'
-    }}>
-      <PageHeader />
+    <div
+      ref={areaRef}
+      style={{
+        width: '100vw', height: '100vh',
+        background: '#fff',
+        position: 'relative', overflow: 'hidden',
+        fontFamily: 'agahnsangsoo2012, sans-serif',
+      }}
+      onClick={() => inputRef.current?.focus()}
+    >
+      {/* 홈 */}
+      <button
+        onClick={() => navigate('/')}
+        style={{ position: 'absolute', top: 20, left: 24, zIndex: 200, background: 'none', border: '1px solid #333', color: '#666', padding: '8px 18px', borderRadius: '20px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012', fontSize: '14px' }}
+      >
+        ← 홈
+      </button>
 
-      <AnimatePresence mode="wait">
-        {/* === 개념 갤러리 섹션 === */}
-        {step < 4 && (
-          <motion.div
-            key={`concept-${step}`}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.4 }}
-            style={{ maxWidth: '800px', width: '100%', backgroundColor: '#fff', padding: '60px', borderRadius: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.05)', textAlign: 'center' }}
+      {/* 스코어 / 라이프 */}
+      {phase === 'playing' && (
+        <div style={{ position: 'absolute', top: 24, right: 32, zIndex: 200, color: '#111', userSelect: 'none', textAlign: 'right', lineHeight: 1.2 }}>
+          <div style={{ fontSize: '40px', color: '#e74c3c', letterSpacing: '4px' }}>{heartStr}</div>
+          <div style={{ fontSize: '28px', color: '#aaa', marginTop: 4 }}>{score}개</div>
+        </div>
+      )}
+
+      {/* ─── 대기 화면 ─── */}
+      {phase === 'idle' && (
+        <div style={{ position: 'absolute', inset: 0, background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <h1 style={{ fontSize: '64px', color: '#111', margin: '0 0 24px', fontWeight: 'bold', letterSpacing: '-1px' }}>낱말 받기</h1>
+          <p style={{ fontSize: '22px', color: '#aaa', margin: '0 0 60px', textAlign: 'center', lineHeight: 1.9, fontFamily: 'agahnsangsoo2012' }}>
+            단어가 하늘에서 떨어집니다<br />
+            타이핑해서 잡아내면 개념을 알 수 있어요
+          </p>
+          <motion.button
+            whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+            onClick={startGame}
+            style={{ padding: '16px 64px', background: '#111', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
           >
-            {CONCEPTS[step].image && (
-              <div style={{ fontSize: '80px', marginBottom: '30px' }}>{CONCEPTS[step].image}</div>
-            )}
-            <h1 style={{ fontSize: '48px', marginBottom: '30px', color: '#111' }}>{CONCEPTS[step].title}</h1>
-            <p style={{ fontSize: '26px', lineHeight: '1.6', color: '#444', whiteSpace: 'pre-wrap' }}>
-              {CONCEPTS[step].description}
-            </p>
-            <div style={{ marginTop: '50px' }}>
-              <button 
-                onClick={handleNext}
-                style={{ padding: '16px 40px', background: '#000', color: '#fff', border: 'none', borderRadius: '50px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
+            시작하기
+          </motion.button>
+        </div>
+      )}
+
+      {/* ─── 게임 오버 ─── */}
+      {phase === 'over' && (
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ fontSize: '13px', color: '#444', letterSpacing: '4px', marginBottom: 24 }}>GAME OVER</div>
+          <h1 style={{ fontSize: '64px', color: '#fff', margin: '0 0 12px' }}>{score}개 완료</h1>
+          <p style={{ fontSize: '20px', color: '#555', marginBottom: 60 }}>
+            {score >= 10 ? '안상수체 마스터입니다.' : score >= 5 ? '좋습니다. 한 번 더 해볼까요?' : '다시 도전해보세요.'}
+          </p>
+          <div style={{ display: 'flex', gap: 16 }}>
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={startGame}
+              style={{ padding: '16px 44px', background: '#fff', color: '#000', border: 'none', borderRadius: '30px', fontSize: '22px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
+              다시하기
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => navigate('/')}
+              style={{ padding: '16px 44px', background: 'none', color: '#fff', border: '1px solid #333', borderRadius: '30px', fontSize: '22px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
+              홈으로
+            </motion.button>
+          </div>
+        </div>
+      )}
+
+      {/* ─── 게임 플레이 ─── */}
+      {phase === 'playing' && (
+        <>
+          {/* 떨어지는 단어들 */}
+          {words.map(w => {
+            const isMatch = input.length > 0 && w.word.startsWith(input);
+            return (
+              <div
+                key={w.id}
+                style={{
+                  position: 'absolute',
+                  left: w.x, top: w.y,
+                  fontSize: '30px',
+                  color: isMatch ? '#e67e00' : '#111',
+                  opacity: isMatch ? 1 : 0.75,
+                  textShadow: isMatch ? '0 0 16px #e67e0044' : 'none',
+                  userSelect: 'none', pointerEvents: 'none',
+                  transition: 'color 0.1s, opacity 0.1s',
+                }}
               >
-                {step === 3 ? '게임 시작하기 🎮' : '다음 알아보기 ➡️'}
-              </button>
-            </div>
-          </motion.div>
-        )}
+                <span style={{ color: '#e67e00' }}>{isMatch ? w.word.slice(0, input.length) : ''}</span>
+                <span>{isMatch ? w.word.slice(input.length) : w.word}</span>
+              </div>
+            );
+          })}
 
-        {/* === 게임 브릿지 === */}
-        {step === 4 && (
-          <motion.div
-            key="game-intro"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.2 }}
-            style={{ textAlign: 'center' }}
-          >
-            <h1 style={{ fontSize: '64px', marginBottom: '20px' }}>단어 맞추기 퀴즈</h1>
-            <p style={{ fontSize: '28px', color: '#666', marginBottom: '40px' }}>앞서 배운 개념들을 얼마나 이해했는지 테스트해볼까요?</p>
-            <button 
-              onClick={handleNext}
-              style={{ padding: '20px 60px', background: '#FF3366', color: '#fff', border: 'none', borderRadius: '16px', fontSize: '32px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012', boxShadow: '0 10px 20px rgba(255,51,102,0.3)' }}
-            >
-              도전!
-            </button>
-          </motion.div>
-        )}
+          {/* 팡 이펙트 */}
+          <AnimatePresence>
+            {pops.map(p => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 1, scale: 1, x: p.x, y: p.y }}
+                animate={{ opacity: 0, scale: 2.2, y: p.y - 40 }}
+                exit={{}}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                style={{ position: 'absolute', fontSize: '30px', color: '#e67e00', pointerEvents: 'none', whiteSpace: 'nowrap' }}
+              >
+                {p.word}
+              </motion.div>
+            ))}
+          </AnimatePresence>
 
-        {/* === 퀴즈 섹션 === */}
-        {step >= 5 && step <= 7 && (
-          <motion.div
-            key={`quiz-${step}`}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            style={{ maxWidth: '800px', width: '100%' }}
-          >
-            <div style={{ fontSize: '24px', color: '#888', marginBottom: '20px' }}>문제 {step - 4} / 3</div>
-            <h2 style={{ fontSize: '36px', lineHeight: '1.5', marginBottom: '40px', color: '#111', background: '#fff', padding: '40px', borderRadius: '16px', boxShadow: '0 10px 20px rgba(0,0,0,0.05)' }}>
-              {QUESTIONS[step - 5].q}
-            </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
-              {QUESTIONS[step - 5].options.map((opt, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleAnswer(idx)}
+          {/* 입력창 + 개념 설명 카드 (함께 하단 고정) */}
+          <div style={{ position: 'absolute', bottom: 36, left: '50%', transform: 'translateX(-50%)', width: 360, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <AnimatePresence>
+              {def && (
+                <motion.div
+                  key={def.word}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 6 }}
+                  transition={{ duration: 0.2 }}
                   style={{
-                    padding: '24px', textAlign: 'left', fontSize: '28px', background: '#fff', 
-                    border: '2px solid #ddd', borderRadius: '12px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012',
-                    transition: 'all 0.2s'
+                    background: '#fff', color: '#111',
+                    padding: '16px 20px', borderRadius: '14px',
+                    textAlign: 'center', zIndex: 50,
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+                    border: '1px solid #eee',
                   }}
-                  onMouseOver={e => { e.currentTarget.style.borderColor = '#000'; e.currentTarget.style.background = '#f9f9f9'; }}
-                  onMouseOut={e => { e.currentTarget.style.borderColor = '#ddd'; e.currentTarget.style.background = '#fff'; }}
                 >
-                  <span style={{ fontWeight: 'bold', marginRight: '16px', color: '#999' }}>{idx + 1}</span> {opt}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* === 결과 섹션 === */}
-        {step === 8 && (
-          <motion.div
-            key="result"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            style={{ textAlign: 'center', background: '#fff', padding: '80px', borderRadius: '30px', boxShadow: '0 20px 50px rgba(0,0,0,0.1)' }}
-          >
-            <div style={{ fontSize: '100px', marginBottom: '20px' }}>{score === 3 ? '🎉' : '👏'}</div>
-            <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>
-              {score} / 3 정답!
-            </h1>
-            <p style={{ fontSize: '28px', color: '#666', marginBottom: '50px' }}>
-              {score === 3 ? '완벽합니다! 당신은 이미 안상수체 마스터입니다.' : '훌륭합니다! 안상수체의 철학을 잘 이해하고 계시네요.'}
-            </p>
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-              <button 
-                onClick={() => { setStep(0); setScore(0); }}
-                style={{ padding: '16px 40px', background: '#eee', color: '#111', border: 'none', borderRadius: '12px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
-              >
-                다시 학습하기
-              </button>
-              <button 
-                onClick={() => navigate('/')}
-                style={{ padding: '16px 40px', background: '#000', color: '#fff', border: 'none', borderRadius: '12px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
-              >
-                홈으로 돌아가기
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: 6 }}>{def.word}</div>
+                  <div style={{ fontSize: '15px', color: '#555', lineHeight: 1.7 }}>{def.def}</div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={handleInput}
+              placeholder="여기에 입력하세요"
+              autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck="false"
+              style={{
+                width: '100%', padding: '15px 24px',
+                background: '#f5f5f5', color: '#111',
+                border: '1.5px solid #ddd', borderRadius: '40px',
+                fontSize: '22px', fontFamily: 'agahnsangsoo2012',
+                outline: 'none', textAlign: 'center', boxSizing: 'border-box',
+                caretColor: '#e67e00',
+              }}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import initLegacyApp from '../legacy/app.js';
@@ -56,6 +56,7 @@ export default function LegacyAppHost() {
   useEffect(() => {
     const typeSticker = document.getElementById('hp-tajagi-home');
     const gameSticker = document.getElementById('hp-game-sticker');
+    const titleBtn = document.getElementById('hp-title');
 
     const handleTypeClick = (e) => {
       e.preventDefault();
@@ -69,12 +70,20 @@ export default function LegacyAppHost() {
       navigate('/game');
     };
 
+    const handleTitleClick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      navigate('/song');
+    };
+
     if (typeSticker) typeSticker.addEventListener('click', handleTypeClick);
     if (gameSticker) gameSticker.addEventListener('click', handleGameClick);
+    if (titleBtn) titleBtn.addEventListener('click', handleTitleClick);
 
     return () => {
       if (typeSticker) typeSticker.removeEventListener('click', handleTypeClick);
       if (gameSticker) gameSticker.removeEventListener('click', handleGameClick);
+      if (titleBtn) titleBtn.removeEventListener('click', handleTitleClick);
     };
   }, [navigate]);
 
@@ -145,29 +154,35 @@ export default function LegacyAppHost() {
       <img src="/image/멋지음안상수.png" alt="멋지음안상수" class="hp-img" />
     </div>
 
-    <!-- 벽돌 + 시작하기: 1416,756 -->
-    <div class="hp-brick-wrap">
-      <img src="/image/벽돌.png" alt="벽돌" class="hp-brick-img" />
-      <button class="hp-sijakagi" id="hp-sijakagi">시작하기</button>
+    <!-- 게임기: 벽돌 자리 -->
+    <div class="hp-brick-wrap" id="hp-game-sticker" style="cursor: pointer;">
+      <svg width="100%" viewBox="0 0 24 32" style="image-rendering: pixelated; display: block;" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="2" width="18" height="24" rx="2" fill="#111"/>
+        <rect x="4" y="3" width="16" height="22" rx="1" fill="#222"/>
+        <rect x="6" y="5" width="12" height="10" fill="#111"/>
+        <rect x="7" y="6" width="10" height="8" fill="#5f8a5f"/>
+        <rect x="7" y="6" width="3" height="2" fill="#7aaa7a" opacity="0.6"/>
+        <rect x="6" y="19" width="2" height="6" fill="#444"/>
+        <rect x="5" y="21" width="4" height="2" fill="#444"/>
+        <circle cx="16" cy="21" r="1.5" fill="#c0392b"/>
+        <circle cx="19" cy="20" r="1.5" fill="#2980b9"/>
+        <rect x="10" y="18" width="3" height="1" rx="0.5" fill="#555"/>
+        <rect x="14" y="18" width="3" height="1" rx="0.5" fill="#555"/>
+        <rect x="17" y="24" width="1" height="1" fill="#444"/>
+        <rect x="19" y="24" width="1" height="1" fill="#444"/>
+        <rect x="17" y="22" width="1" height="1" fill="#444"/>
+        <rect x="19" y="22" width="1" height="1" fill="#444"/>
+      </svg>
     </div>
 
     <!-- 한눈에 보기: 1563,10 -->
     <button class="hp-nav-btn" id="hp-hanbun">한눈에 보기</button>
 
-    <!-- 게임기 스티커 (단어 맞추기 게임 이동) -->
-    <div style="position: absolute; left: 60%; top: 60%; z-index: 100; pointer-events: none;">
-      <div style="animation: hp-drift-1 12s ease-in-out infinite;">
-        <button id="hp-game-sticker" style="pointer-events: auto; background: #FF3366; color: #fff; border: 3px solid #000; border-radius: 12px; padding: 10px 20px; font-size: 24px; font-family: agahnsangsoo2012; cursor: pointer; box-shadow: 4px 4px 0 #000; transform: rotate(-5deg); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1) rotate(5deg)'" onmouseout="this.style.transform='scale(1) rotate(-5deg)'">
-          🎮 단어 맞추기 게임
-        </button>
-      </div>
-    </div>
-
     <!-- 멋지은 이들: 1711,10 -->
     <button class="hp-nav-btn" id="hp-meotjieun">멋지은 이들</button>
 
     <!-- 송명선 상세 페이지로 이동하는 버튼 -->
-    <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 100; pointer-events: none;">
+    <div style="position: absolute; left: 58%; top: 50%; transform: translate(-50%, -50%); z-index: 100; pointer-events: none;">
       <div style="animation: hp-drift-2 11s ease-in-out infinite;">
         <a href="/song" id="hp-song" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(-3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
           <div class="hp-song-inner">
@@ -179,7 +194,7 @@ export default function LegacyAppHost() {
     </div>
 
     <!-- 유승현 섹션으로 이동하는 버튼 -->
-    <div style="position: absolute; left: 72%; top: 35%; z-index: 100; pointer-events: none;">
+    <div style="position: absolute; left: 72%; top: 52%; z-index: 100; pointer-events: none;">
       <div style="animation: hp-drift-3 13s ease-in-out infinite;">
         <a href="/song" id="hp-yu" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
           <div class="hp-yu-inner">
