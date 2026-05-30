@@ -185,9 +185,33 @@ export default function ConceptGame() {
 
       {/* ─── 게임 오버 ─── */}
       {phase === 'over' && (
-        <div style={{ position: 'absolute', inset: 0, background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <h1 style={{ fontSize: '64px', color: '#111', margin: '0 0 60px', fontWeight: 'bold', letterSpacing: '-1px' }}>{score}개 완료</h1>
-          <div style={{ display: 'flex', gap: 16 }}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          style={{ position: 'absolute', inset: 0, background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <motion.div
+            initial={{ scale: 0, rotate: -10 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 18, delay: 0.1 }}
+            style={{ fontSize: '160px', fontWeight: 'bold', color: '#111', lineHeight: 1, letterSpacing: '-6px' }}
+          >
+            {score}
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            style={{ fontSize: '28px', color: '#aaa', marginTop: 8, marginBottom: 64 }}
+          >
+            {score >= 10 ? '완벽해요 🎉' : score >= 5 ? '잘했어요 👍' : '한 번 더!'}
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            style={{ display: 'flex', gap: 16 }}
+          >
             <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={startGame}
               style={{ padding: '16px 52px', background: '#111', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
               다시하기
@@ -196,8 +220,8 @@ export default function ConceptGame() {
               style={{ padding: '16px 52px', background: 'none', color: '#111', border: '2px solid #111', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
               홈으로
             </motion.button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
 
       {/* ─── 게임 플레이 ─── */}
