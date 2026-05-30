@@ -60,7 +60,7 @@ export default function ConceptGame() {
   useEffect(() => {
     if (phase !== 'playing') return;
 
-    const SPEED = 2.2;
+    const SPEED = 3.2;
     const TICK = 33;
 
     tickRef.current = setInterval(() => {
@@ -131,7 +131,7 @@ export default function ConceptGame() {
 
     clearTimeout(defTimerRef.current);
     setDef({ word: matched.word, def: matched.def });
-    defTimerRef.current = setTimeout(() => setDef(null), 3200);
+    defTimerRef.current = setTimeout(() => setDef(null), 6000);
 
     setTimeout(() => setPops(prev => prev.filter(p => p.id !== matched.id)), 700);
   };
@@ -258,14 +258,14 @@ export default function ConceptGame() {
                   transition={{ duration: 0.2 }}
                   style={{
                     background: '#fff', color: '#111',
-                    padding: '16px 20px', borderRadius: '14px',
+                    padding: '22px 28px', borderRadius: '16px',
                     textAlign: 'center', zIndex: 50,
                     boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
                     border: '1px solid #eee',
                   }}
                 >
-                  <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: 6 }}>{def.word}</div>
-                  <div style={{ fontSize: '15px', color: '#555', lineHeight: 1.7 }}>{def.def}</div>
+                  <div style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: 10 }}>{def.word}</div>
+                  <div style={{ fontSize: '19px', color: '#555', lineHeight: 1.7 }}>{def.def}</div>
                 </motion.div>
               )}
             </AnimatePresence>
