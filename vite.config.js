@@ -3,9 +3,10 @@ import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
 
-const isCI = !!process.env.CI;
+const isGithubPages = !!process.env.GITHUB_ACTIONS;
 const repoBase = '/ansangsoo-react/';
-const base = isCI ? repoBase : '/';
+const base = isGithubPages ? repoBase : '/';
+const isCI = isGithubPages;
 
 // Vite 8 한글 파일명 서빙 버그 우회
 function unicodePublicPlugin() {
