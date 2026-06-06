@@ -31,6 +31,7 @@ export default function ConceptGame() {
   const [lives, setLives] = useState(5);
   const [pops, setPops] = useState([]);
   const [def, setDef] = useState(null);
+  const [speedConfig, setSpeedConfig] = useState({ baseSpeed: 3.2, spawnInterval: 2800 });
 
   const wordsRef = useRef([]);
   const livesRef = useRef(5);
@@ -44,7 +45,15 @@ export default function ConceptGame() {
   phaseRef.current = phase;
   livesRef.current = lives;
 
-  const startGame = () => {
+  const startGame = (diff = '중급') => {
+    let bSpeed = 3.2;
+    let sInterval = 2800;
+    if (diff === '초급') { bSpeed = 1.8; sInterval = 3500; }
+    else if (diff === '중급') { bSpeed = 3.5; sInterval = 2400; }
+    else if (diff === '고급') { bSpeed = 6.0; sInterval = 1500; }
+    
+    setSpeedConfig({ baseSpeed: bSpeed, spawnInterval: sInterval });
+
     uid = 0;
     wordsRef.current = [];
     setWords([]);
@@ -60,7 +69,7 @@ export default function ConceptGame() {
   useEffect(() => {
     if (phase !== 'playing') return;
 
-    const SPEED = 3.2;
+    const SPEED = speedConfig.baseSpeed;
     const TICK = 33;
 
     tickRef.current = setInterval(() => {
@@ -107,7 +116,7 @@ export default function ConceptGame() {
     };
 
     spawn();
-    spawnRef.current = setInterval(spawn, 2800);
+    spawnRef.current = setInterval(spawn, speedConfig.spawnInterval);
 
     return () => {
       clearInterval(tickRef.current);
@@ -173,13 +182,29 @@ export default function ConceptGame() {
             단어가 하늘에서 떨어집니다<br />
             타이핑해서 잡아내면 개념을 알 수 있어요
           </p>
-          <motion.button
-            whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
-            onClick={startGame}
-            style={{ padding: '16px 64px', background: '#111', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
-          >
-            시작하기
-          </motion.button>
+          <div style={{ display: 'flex', gap: '16px' }}>
+            <motion.button
+              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+              onClick={() => startGame('초급')}
+              style={{ padding: '16px 40px', background: '#555', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
+            >
+              초급
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+              onClick={() => startGame('중급')}
+              style={{ padding: '16px 40px', background: '#111', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
+            >
+              중급
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+              onClick={() => startGame('고급')}
+              style={{ padding: '16px 40px', background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
+            >
+              고급
+            </motion.button>
+          </div>
         </div>
       )}
 

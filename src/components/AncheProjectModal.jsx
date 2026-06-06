@@ -26,16 +26,22 @@ export default function AncheProjectModal({ isOpen, onClose }) {
   const [lineHeight, setLineHeight] = useState(1.6);
   const [strokeColor, setStrokeColor] = useState('#000000');
   const [fillColor, setFillColor] = useState('#ffffff');
-  const [fillAlpha, setFillAlpha] = useState(0);
+  const [fillAlpha, setFillAlpha] = useState(100);
   const [showUI, setShowUI] = useState(true);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [customDashStr, setCustomDashStr] = useState('');
   
-  const [choPos, setChoPos] = useState({ x: 0, y: 0 });
-  const [jungVert, setJungVert] = useState({ x: 0, y: 0, sy: 1.0 });
-  const [jungHoriz, setJungHoriz] = useState({ x: 0, y: 0, sx: 1.0 });
-  const [jungMixed, setJungMixed] = useState({ x: 0, y: 0 });
-  const [jongVert, setJongVert] = useState({ x: 0, y: 0 });
-  const [jongHoriz, setJongHoriz] = useState({ x: 0, y: 0 });
-  const [jongMixed, setJongMixed] = useState({ x: 0, y: 0 });
+  const handleCustomDash = (e) => {
+    const val = e.target.value;
+    setCustomDashStr(val);
+    if (!val.trim()) {
+      setLineDash([]);
+      return;
+    }
+    const parsed = val.split(/[,\s]+/).map(n => Number(n)).filter(n => !isNaN(n) && n > 0);
+    setLineDash(parsed);
+  };
+  
 
   const renderCanvas = () => {
     const canvas = canvasRef.current;
@@ -88,67 +94,26 @@ export default function AncheProjectModal({ isOpen, onClose }) {
 
     let x = padX, y = padY;
 
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i];
-      if (ch === '\n') { x = padX; y += lineH; continue; }
+    // 텍스트를 줄바꿈 기준으로 분리
+    const lines = text.split('\n');
+    ctx.font = `${sz}px agahnsangsoo2012, sans-serif`;
 
-      const dec = decomposeKo(ch);
-
-      if (!dec) {
-        ctx.font = `${sz * 0.82}px agahnsangsoo2012, sans-serif`;
-        const cw = ctx.measureText(ch).width;
-        if (x + cw > maxW) { x = padX; y += lineH; }
-        if (y > H) break;
-        drawText(ch, x, y + sz * 0.1);
-        x += cw + sz * 0.04;
-        continue;
-      }
-
-      if (x + sz > maxW) { x = padX; y += lineH; }
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
       if (y > H) break;
-
-      ctx.font = `${jSz}px agahnsangsoo2012, sans-serif`;
-
-      const isVert  = VERT_JUNG.includes(dec.ji);
-      const isMixed = MIXED_JUNG.includes(dec.ji);
-      const hasJong = dec.jong !== '';
-      const co  = choPos;
-      const juo = isVert ? jungVert : (isMixed ? jungMixed : jungHoriz);
-      const joo = isVert ? jongVert : (isMixed ? jongMixed : jongHoriz);
-
-      if (isVert) {
-        drawText(dec.cho, x + sz * 0.03 + co.x, y + (hasJong ? sz * 0.02 : sz * 0.10) + co.y);
-        ctx.save();
-        const jvx = x + sz * 0.42 + juo.x;
-        const jvy = y + sz * 0.02 + juo.y;
-        ctx.translate(jvx + jSz * 0.5, jvy);
-        ctx.scale(1, juo.sy || 1);
-        ctx.translate(-(jvx + jSz * 0.5), -jvy);
-        drawText(dec.jung, jvx, jvy);
-        ctx.restore();
-        if (hasJong) drawText(dec.jong, x + sz * 0.12 + joo.x, y + sz * 0.58 + joo.y);
-      } else {
-        drawText(dec.cho, x + sz * 0.16 + co.x, y + sz * 0.02 + co.y);
-        ctx.save();
-        const jhx = x + sz * 0.06 + juo.x;
-        const jhy = y + sz * 0.40 + juo.y;
-        ctx.translate(jhx, jhy + jSz * 0.5);
-        ctx.scale(juo.sx || 1, 1);
-        ctx.translate(-jhx, -(jhy + jSz * 0.5));
-        drawText(dec.jung, jhx, jhy);
-        ctx.restore();
-        if (hasJong) drawText(dec.jong, x + sz * 0.20 + joo.x, y + sz * 0.72 + joo.y);
-      }
-
-      x += sz;
+      
+      // 화면 너비를 넘어가면 어떻게 할지? (간단히 잘리게 두거나 자동 줄바꿈)
+      // 여기서는 캔버스에 그대로 씁니다.
+      drawText(line, x, y);
+      
+      y += lineH;
     }
   };
 
   useEffect(() => {
     if (isOpen) renderCanvas();
   }, [
-    isOpen, text, lineDash, lineWidth, fontSize, lineHeight, strokeColor, fillColor, fillAlpha,
-    choPos, jungVert, jungHoriz, jungMixed, jongVert, jongHoriz, jongMixed
+    isOpen, text, lineDash, lineWidth, fontSize, lineHeight, strokeColor, fillColor, fillAlpha
   ]);
 
   useEffect(() => {
@@ -172,22 +137,25 @@ export default function AncheProjectModal({ isOpen, onClose }) {
 
   const handleRandomize = () => {
     const r = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-    const rs = (min, max) => Number((Math.random() * (max - min) + min).toFixed(2));
     
-    setChoPos({ x: r(-40, 40), y: r(-40, 40) });
-    setJungVert({ x: r(-40, 40), y: r(-40, 40), sy: rs(0.5, 1.8) });
-    setJungHoriz({ x: r(-40, 40), y: r(-40, 40), sx: rs(0.5, 1.8) });
-    setJungMixed({ x: r(-40, 40), y: r(-40, 40) });
-    setJongVert({ x: r(-40, 40), y: r(-40, 40) });
-    setJongHoriz({ x: r(-40, 40), y: r(-40, 40) });
-    setJongMixed({ x: r(-40, 40), y: r(-40, 40) });
+    const colors = ['#000000', '#FF3B30', '#007AFF', '#34C759', '#AF52DE', '#FF9500', '#FFCC00', '#5AC8FA', '#FFFFFF', '#8E8E93', 'transparent'];
     
-    const colors = ['#000000', '#FF0000', '#0000FF', '#00FF00', '#FF00FF'];
-    setStrokeColor(colors[Math.floor(Math.random() * colors.length)]);
+    setStrokeColor(colors[Math.floor(Math.random() * (colors.length - 1))]); // 선은 투명 제외
     
-    const dashes = [[], [], [7,5], [2,4], [14,4,2,4]];
-    setLineDash(dashes[Math.floor(Math.random() * dashes.length)]);
-    setLineWidth(r(1, 6));
+    // 면색은 가끔 투명해지도록 포함
+    setFillColor(colors[Math.floor(Math.random() * colors.length)]);
+    
+    // 투명도도 랜덤 (20% ~ 100%)
+    setFillAlpha(r(20, 100));
+    
+    const dashes = [
+      [], [20,10], [7,5], [2,4], [14,4,2,4], [15,4,3,4,3,4], [20,5,5,5,10,15]
+    ];
+    const newDash = dashes[Math.floor(Math.random() * dashes.length)];
+    setLineDash(newDash);
+    setCustomDashStr(newDash.join(' ')); // 커스텀 점선 인풋도 동기화
+    
+    setLineWidth(r(1, 8));
   };
 
   if (!isOpen) return null;
@@ -203,77 +171,7 @@ export default function AncheProjectModal({ isOpen, onClose }) {
     </div>
   );
 
-  const XYPad = ({ x, y, onChange, min = -40, max = 40, label }) => {
-    const padRef = useRef(null);
 
-    const handlePointerMove = (e) => {
-      if (!padRef.current) return;
-      const rect = padRef.current.getBoundingClientRect();
-      let nx = e.clientX - rect.left;
-      let ny = e.clientY - rect.top;
-      
-      nx = Math.max(0, Math.min(nx, rect.width));
-      ny = Math.max(0, Math.min(ny, rect.height));
-
-      const valX = Math.round((nx / rect.width) * (max - min) + min);
-      const valY = Math.round((ny / rect.height) * (max - min) + min);
-
-      onChange({ x: valX, y: valY });
-    };
-
-    const handlePointerDown = (e) => {
-      e.target.setPointerCapture(e.pointerId);
-      handlePointerMove(e);
-      
-      const onMove = (ev) => handlePointerMove(ev);
-      const onUp = (ev) => {
-        e.target.releasePointerCapture(ev.pointerId);
-        e.target.removeEventListener('pointermove', onMove);
-        e.target.removeEventListener('pointerup', onUp);
-      };
-      
-      e.target.addEventListener('pointermove', onMove);
-      e.target.addEventListener('pointerup', onUp);
-    };
-
-    const w = 120, h = 120;
-    const thumbX = ((x - min) / (max - min)) * w;
-    const thumbY = ((y - min) / (max - min)) * h;
-
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-        <div style={{ fontSize: '24px', color: '#000' }}>{label}</div>
-        <div 
-          ref={padRef}
-          onPointerDown={handlePointerDown}
-          style={{ 
-            width: w, height: h, 
-            backgroundColor: 'rgba(255,255,255,0.7)', 
-            border: '2px solid #000',
-            position: 'relative',
-            cursor: 'crosshair',
-            touchAction: 'none'
-          }}
-        >
-          <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '1px', backgroundColor: 'rgba(0,0,0,0.15)' }}></div>
-          <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '1px', backgroundColor: 'rgba(0,0,0,0.15)' }}></div>
-          <div style={{ 
-            position: 'absolute', 
-            left: thumbX, top: thumbY, 
-            width: '12px', height: '12px', 
-            backgroundColor: '#000', 
-            borderRadius: '50%', 
-            transform: 'translate(-50%, -50%)',
-            pointerEvents: 'none'
-          }}></div>
-        </div>
-        <button 
-          onClick={() => onChange({x:0, y:0})}
-          style={{ fontSize: '18px', padding: '0px 6px', border: 'none', background: 'transparent', color: '#666', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
-        >리셋</button>
-      </div>
-    );
-  };
 
   return (
     <div style={{ 
@@ -335,10 +233,56 @@ export default function AncheProjectModal({ isOpen, onClose }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-end', background: 'rgba(255,255,255,0.85)', padding: '30px', border: '2px solid #000' }}>
           <Slider label="글자 크기" min={30} max={400} step={4} value={fontSize} onChange={e => setFontSize(Number(e.target.value))} />
           <Slider label="선 굵기" min={0.5} max={10} step={0.5} value={lineWidth} onChange={e => setLineWidth(Number(e.target.value))} />
-          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-            {[{l:'실선', d:[]}, {l:'파선', d:[7,5]}, {l:'점선', d:[2,4]}, {l:'쇄선', d:[14,4,2,4]}].map(btn => (
-              <button key={btn.l} onClick={() => setLineDash(btn.d)} style={{ padding: '4px 10px', border: '1px solid #000', background: lineDash.join(',') === btn.d.join(',') ? '#000' : 'transparent', color: lineDash.join(',') === btn.d.join(',') ? '#fff' : '#000', cursor: 'pointer', fontSize: '20px', fontFamily: 'agahnsangsoo2012' }}>{btn.l}</button>
+          <Slider label="면 투명도" min={0} max={100} step={1} value={fillAlpha} onChange={e => setFillAlpha(Number(e.target.value))} />
+          <div style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap', justifyContent: 'flex-end', width: '300px' }}>
+            {[
+              {l:'실선', d:[]}, 
+              {l:'파선(긴)', d:[20,10]}, 
+              {l:'파선(짧)', d:[7,5]}, 
+              {l:'점선', d:[2,4]}, 
+              {l:'쇄선', d:[14,4,2,4]},
+              {l:'이중쇄선', d:[15,4,3,4,3,4]},
+              {l:'불규칙', d:[20,5,5,5,10,15]}
+            ].map(btn => (
+              <button key={btn.l} onClick={() => { setLineDash(btn.d); setCustomDashStr(''); }} style={{ padding: '4px 10px', border: '1px solid #000', background: lineDash.join(',') === btn.d.join(',') && customDashStr === '' ? '#000' : 'transparent', color: lineDash.join(',') === btn.d.join(',') && customDashStr === '' ? '#fff' : '#000', cursor: 'pointer', fontSize: '20px', fontFamily: 'agahnsangsoo2012' }}>{btn.l}</button>
             ))}
+          </div>
+          
+          <div style={{ display: 'flex', gap: '8px', marginTop: '4px', alignItems: 'center', justifyContent: 'flex-end', width: '100%' }}>
+            <div 
+              style={{ position: 'relative' }} 
+              onMouseEnter={() => setShowTooltip(true)} 
+              onMouseLeave={() => setShowTooltip(false)}
+            >
+              <span 
+                style={{ fontSize: '20px', color: '#000', fontFamily: 'agahnsangsoo2012', cursor: 'help', borderBottom: '1px dashed #000' }}
+              >
+                나만의 커스텀 점선(?) :
+              </span>
+              
+              {showTooltip && (
+                <div style={{
+                  position: 'absolute', top: '-60px', left: '50%', transform: 'translateX(-50%)',
+                  background: '#000', color: '#fff', padding: '8px 12px', fontSize: '14px',
+                  borderRadius: '4px', whiteSpace: 'nowrap', zIndex: 100, pointerEvents: 'none',
+                  fontFamily: 'sans-serif'
+                }}>
+                  숫자(선 굵기 공백)를 번갈아 입력하세요<br/>(예: 20 5 5 5 = 긴 선, 짧은 공백, 짧은 선 반복)
+                  {/* 말풍선 꼬리 */}
+                  <div style={{
+                    position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%) rotate(45deg)',
+                    width: '8px', height: '8px', background: '#000'
+                  }}></div>
+                </div>
+              )}
+            </div>
+            <input 
+              type="text" 
+              value={customDashStr} 
+              onChange={handleCustomDash}
+              placeholder="숫자 입력 (예: 10 5 2 5)"
+              style={{ width: '150px', fontSize: '18px', padding: '4px 8px', fontFamily: 'agahnsangsoo2012', border: '1px solid #000', outline: 'none' }}
+            />
           </div>
           <div style={{ display: 'flex', gap: '24px', marginTop: '12px' }}>
             <label style={{ fontSize: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>선 색 <input type="color" value={strokeColor} onChange={e => setStrokeColor(e.target.value)} style={{ width: '32px', height: '32px', padding: 0, border: '1px solid #000', cursor: 'pointer', background: 'transparent' }} /></label>
@@ -347,48 +291,7 @@ export default function AncheProjectModal({ isOpen, onClose }) {
         </div>
       </div>
 
-      {/* 하단 전체: 바닥에 뿌려진 꼴모임 패드들 (플로팅) */}
-      <div style={{ position: 'absolute', bottom: '60px', left: '0', width: '100%', zIndex: 10, display: showUI ? 'flex' : 'none', justifyContent: 'center', gap: '60px', flexWrap: 'wrap', padding: '0 40px' }}>
-        
-        {/* 첫소리 */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
-          <span style={{ fontSize: '28px', borderBottom: '3px solid rgba(255, 0, 255, 0.4)', paddingBottom: '6px' }}>첫소리 (초성)</span>
-          <XYPad label="이동" x={choPos.x} y={choPos.y} onChange={val => setChoPos(prev => ({...prev, ...val}))} />
-        </div>
 
-        {/* 가운데소리 */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
-          <span style={{ fontSize: '28px', borderBottom: '3px solid rgba(0, 255, 255, 0.4)', paddingBottom: '6px' }}>가운데소리 (모음)</span>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <XYPad label="가로(가)" x={jungVert.x} y={jungVert.y} onChange={val => setJungVert(prev => ({...prev, ...val}))} />
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', marginTop: '8px' }}>
-                <span style={{ fontSize: '18px', color: '#000', fontFamily: 'agahnsangsoo2012' }}>상하 늘리기</span>
-                <input type="range" min={50} max={200} step={5} value={jungVert.sy * 100} onChange={e => setJungVert(p => ({...p, sy: Number(e.target.value)/100}))} style={{ width: '100px', accentColor: '#000' }} />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <XYPad label="세로(고)" x={jungHoriz.x} y={jungHoriz.y} onChange={val => setJungHoriz(prev => ({...prev, ...val}))} />
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', marginTop: '8px' }}>
-                <span style={{ fontSize: '18px', color: '#000', fontFamily: 'agahnsangsoo2012' }}>좌우 늘리기</span>
-                <input type="range" min={50} max={200} step={5} value={jungHoriz.sx * 100} onChange={e => setJungHoriz(p => ({...p, sx: Number(e.target.value)/100}))} style={{ width: '100px', accentColor: '#000' }} />
-              </div>
-            </div>
-            <XYPad label="섞임(과)" x={jungMixed.x} y={jungMixed.y} onChange={val => setJungMixed(prev => ({...prev, ...val}))} />
-          </div>
-        </div>
-
-        {/* 끝소리 */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
-          <span style={{ fontSize: '28px', borderBottom: '3px solid rgba(255, 255, 0, 0.4)', paddingBottom: '6px' }}>끝소리 (받침)</span>
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <XYPad label="가로(강)" x={jongVert.x} y={jongVert.y} onChange={val => setJongVert(prev => ({...prev, ...val}))} />
-            <XYPad label="세로(곰)" x={jongHoriz.x} y={jongHoriz.y} onChange={val => setJongHoriz(prev => ({...prev, ...val}))} />
-            <XYPad label="섞임(쾅)" x={jongMixed.x} y={jongMixed.y} onChange={val => setJongMixed(prev => ({...prev, ...val}))} />
-          </div>
-        </div>
-
-      </div>
 
       {/* 우측 하단: 랜덤 섞기 플로팅 버튼 */}
       {showUI && (

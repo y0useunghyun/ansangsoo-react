@@ -147,6 +147,8 @@ export default function Song() {
 
   // 히어로 드래그 ref
   const heroRef = useRef(null);
+  const apGridRef = useRef(null);
+
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
@@ -169,6 +171,31 @@ export default function Song() {
       hero.removeEventListener('mouseup',    onUp);
       hero.removeEventListener('mousemove',  onMove);
       hero.removeEventListener('click',      onClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    const grid = apGridRef.current;
+    if (!grid) return;
+    const TOTAL = 4;
+    let isDown = false, startX = 0, scrollLeft = 0, moved = false;
+    const getItemW = () => (grid.children[0] ? grid.children[0].offsetWidth : 731.98) + 20;
+    const onDown  = (e) => { isDown = true; moved = false; grid.classList.add('is-grabbing'); startX = e.pageX - grid.getBoundingClientRect().left; scrollLeft = grid.scrollLeft; };
+    const onLeave = ()  => { isDown = false; grid.classList.remove('is-grabbing'); };
+    const onUp    = ()  => { isDown = false; grid.classList.remove('is-grabbing'); };
+    const onMove  = (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - grid.getBoundingClientRect().left; const walk = (x - startX) * 1.5; if (Math.abs(walk) > 4) moved = true; grid.scrollLeft = scrollLeft - walk; };
+    const onClick = (e) => { e.stopPropagation(); if (moved) { moved = false; return; } const ITEM_W = getItemW(); const idx = Math.round(grid.scrollLeft / ITEM_W); grid.scrollTo({ left: ((idx + 1) % TOTAL) * ITEM_W, behavior: 'smooth' }); };
+    grid.addEventListener('mousedown',  onDown);
+    grid.addEventListener('mouseleave', onLeave);
+    grid.addEventListener('mouseup',    onUp);
+    grid.addEventListener('mousemove',  onMove);
+    grid.addEventListener('click',      onClick);
+    return () => {
+      grid.removeEventListener('mousedown',  onDown);
+      grid.removeEventListener('mouseleave', onLeave);
+      grid.removeEventListener('mouseup',    onUp);
+      grid.removeEventListener('mousemove',  onMove);
+      grid.removeEventListener('click',      onClick);
     };
   }, []);
 
@@ -315,6 +342,7 @@ export default function Song() {
 
   // 상/하단 클릭 시 스크롤 및 텍스트 진행 처리
   const handleViewportClick = (e) => {
+    if (e.target.closest('button, a, .dm-u, .dm-hero, .dm-ap-grid, .ap-sticker')) return;
     if (!scrollRef.current) return;
     
     const isTopHalf = e.clientY < window.innerHeight / 2;
@@ -539,11 +567,11 @@ export default function Song() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                style={{ position: 'absolute', left: '100px', top: '550px', width: '1720px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px' }}
+                style={{ position: 'absolute', left: '100px', top: '550px', width: '1720px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px', alignItems: 'flex-end' }}
               >
                 {/* 1. 안상수체 (확대 대상, 카메라는 여기를 추적함) */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'flex-start' }}>
-                  <div style={{ fontSize: '130px', fontFamily: 'AGahnsangsoo2012', color: 'black', fontWeight: 700, lineHeight: 1, display: 'inline-flex' }}>
+                  <div style={{ fontSize: '130px', fontFamily: 'AGahnsangsoo2012', color: 'black', fontWeight: 500, lineHeight: 1, display: 'inline-flex' }}>
                     {[
                       { char: '송', jamo: 'ㅇ', left: '50%', transform: 'translateX(-50%)', bottom: '-61px' },
                       { char: '명', jamo: 'ㅇ', left: '74%', transform: 'translateX(-50%)', bottom: '-61px' },
@@ -577,20 +605,20 @@ export default function Song() {
                 </div>
 
                 {/* 2. 오늘한체 (줌인 시 페이드아웃) */}
-                <motion.div animate={{ opacity: step2 >= 1 ? 0 : 1 }} transition={{ duration: 0.4 }} style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-                  <div style={{ fontSize: '130px', fontFamily: 'OnulHanChe', color: 'black', fontWeight: 700 }}>송명선</div>
+                <motion.div animate={{ opacity: step2 >= 1 ? 0 : 1 }} transition={{ duration: 0.4 }} style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'flex-start' }}>
+                  <div style={{ fontSize: '130px', fontFamily: 'OnulHanChe', color: 'black', fontWeight: 500, lineHeight: 1 }}>송명선</div>
                   <div style={{ fontSize: '15px', fontFamily: 'Pretendard', color: '#bbb', fontWeight: 500, letterSpacing: '2px' }}>오늘한체</div>
                 </motion.div>
 
                 {/* 3. 공한체 */}
-                <motion.div animate={{ opacity: step2 >= 1 ? 0 : 1 }} transition={{ duration: 0.4 }} style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-                  <div style={{ fontSize: '130px', fontFamily: '"공한체", "Gonghan", "Gong Han", sans-serif', color: 'black', fontWeight: 700 }}>송명선</div>
+                <motion.div animate={{ opacity: step2 >= 1 ? 0 : 1 }} transition={{ duration: 0.4 }} style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'flex-start' }}>
+                  <div style={{ fontSize: '130px', fontFamily: '"공한체", "Gonghan", "Gong Han", sans-serif', color: 'black', fontWeight: 500, lineHeight: 1 }}>송명선</div>
                   <div style={{ fontSize: '15px', fontFamily: 'Pretendard', color: '#bbb', fontWeight: 500, letterSpacing: '2px' }}>공한체</div>
                 </motion.div>
 
                 {/* 4. 동대문체 */}
-                <motion.div animate={{ opacity: step2 >= 1 ? 0 : 1 }} transition={{ duration: 0.4 }} style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-                  <div style={{ fontSize: '130px', fontFamily: '"동대문체", "Dongdaemun", sans-serif', color: 'black', fontWeight: 400 }}>송명선</div>
+                <motion.div animate={{ opacity: step2 >= 1 ? 0 : 1 }} transition={{ duration: 0.4 }} style={{ display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'flex-start' }}>
+                  <div style={{ fontSize: '130px', fontFamily: '"동대문체", "Dongdaemun", sans-serif', color: 'black', fontWeight: 500, lineHeight: 1 }}>송명선</div>
                   <div style={{ fontSize: '15px', fontFamily: 'Pretendard', color: '#bbb', fontWeight: 500, letterSpacing: '2px' }}>동대문체</div>
                 </motion.div>
               </motion.div>
@@ -882,41 +910,7 @@ export default function Song() {
           </motion.div>
         </section>
 
-        {/* 12번 페이지: 안체 프로젝트 A-Project */}
-        <section style={{ width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div className="dm-section dm-section--aproject" id="sec-aproject" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <h2 className="dm-title">&lt;안체 프로젝트 A-Project&gt;</h2>
-            <div className="dm-ap-grid">
-              <figure className="dm-ap-thumb" data-fn="ap1">
-                <img src="/image/네빌 브로디.png" alt="네빌 브로디" className="dm-ap-img" />
-                <figcaption className="dm-ref-caption">네빌 브로디</figcaption>
-              </figure>
-              <figure className="dm-ap-thumb" data-fn="ap2">
-                <img src="/image/사랑 쿨카르니.png" alt="사랑 쿨카르니" className="dm-ap-img" />
-                <figcaption className="dm-ref-caption">사랑 쿨카르니</figcaption>
-              </figure>
-              <figure className="dm-ap-thumb" data-fn="ap3">
-                <img src="/image/엠엠파리.png" alt="엠엠 파리" className="dm-ap-img" />
-                <figcaption className="dm-ref-caption">엠엠 파리</figcaption>
-              </figure>
-              <figure className="dm-ap-thumb" data-fn="ap4">
-                <img src="/image/하라 겐야.png" alt="하라 겐야" className="dm-ap-img" />
-                <figcaption className="dm-ref-caption">하라 겐야</figcaption>
-              </figure>
-            </div>
-            <p className="dm-body">안체 프로젝트는 AG 안상수체 탄생 40주년을 기념해 진행된 프로젝트로, 참여 디자이너들이 AG 안상수체의 모듈을 활용해 새로운 탈네모틀 한글꼴을 제작하고 안상수과 한글에 대한 각자의 생각을 담아내는 연구 프로젝트다. 연구소는 디자이너들이 11,172자의 한글 완성형 글자를 완성할 수 있도록 제작 전 과정을 지원한다.</p>
-            <img 
-              src="/image/안체프로젝트.png" 
-              className="ap-sticker" 
-              alt="안체프로젝트 바로가기" 
-              style={{ cursor: 'pointer' }}
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsAncheOpen(!isAncheOpen);
-              }}
-            />
-          </div>
-        </section>
+
       </div>
 
       {/* 기본형태 오버레이 */}

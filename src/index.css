@@ -2126,7 +2126,21 @@ html, body {
   font-weight: 700;
   white-space: nowrap;
 }
-#hp-hanbun    { left: 81.4%; top: 0.9%; }
+#hp-hanbun    { left: 81.4%; top: 0.9%; z-index: 1000; }
+
+/* 한눈에 보기 이미지 줌 스타일 */
+.hb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
+}
+.hb-img.zoomed {
+  transform: scale(2.5);
+  cursor: zoom-out;
+}
 #hp-meotjieun { left: 89.1%; top: 0.9%; }
 .hp-nav-btn:hover { opacity: 0.6; }
 
@@ -3441,14 +3455,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 6vw;
+  padding: 0;
   box-sizing: border-box;
-}
-.hb-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
 }
 .hb-arrow {
   position: absolute;
@@ -4686,7 +4694,7 @@ html, body {
 }
 
 /* ─── 안체프로젝트 A-Project 섹션 ─── */
-.dm-section--aproject {
+.dm-section--aproject-info {
   height: auto;
   min-height: 100vh;
   align-items: center;
@@ -4695,31 +4703,55 @@ html, body {
   position: relative;
 }
 
-.dm-ap-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(6px, 0.8vw, 16px);
-  width: clamp(300px, 40.2vw, 772px);
+.dm-section--aproject-images {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.dm-ap-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  margin-top: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 0 calc(50vw - 366px);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+.dm-ap-grid::-webkit-scrollbar { display: none; }
 
 .dm-ap-thumb {
   margin: 0;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  width: 732px;
 }
 
-.dm-ap-thumb:nth-child(1) { animation: hp-drift-2  9s ease-in-out infinite; }
-.dm-ap-thumb:nth-child(2) { animation: hp-drift-1 11s ease-in-out infinite; animation-delay: -3s; }
-.dm-ap-thumb:nth-child(3) { animation: hp-drift-3 10s ease-in-out infinite; animation-delay: -6s; }
-.dm-ap-thumb:nth-child(4) { animation: hp-drift-2 12s ease-in-out infinite; animation-delay: -1.5s; }
+.dm-ap-thumb:nth-child(1),
+.dm-ap-thumb:nth-child(2),
+.dm-ap-thumb:nth-child(3),
+.dm-ap-thumb:nth-child(4) {
+  animation: none;
+}
 
 .dm-ap-img {
   width: 100%;
   height: auto;
+  max-height: 70vh;
+  object-fit: contain;
   display: block;
   border-radius: 2px;
+  box-sizing: border-box;
+  background-color: white;
   transition: outline 0.15s, box-shadow 0.15s;
 }
 
@@ -4740,6 +4772,7 @@ html, body {
   width: clamp(110px, 11vw, 198px);
   cursor: pointer;
   animation: ap-sticker-pulse 2s ease-in-out infinite;
+  z-index: 10;
 }
 
 .ap-sticker:hover {
@@ -4896,7 +4929,9 @@ html, body {
   .dm-hero { flex-direction: column; }
   .dm-hero-img { width: 100%; }
   
-  .dm-ap-grid { grid-template-columns: 1fr 1fr; gap: 10px; } /* 4단 -> 2단 */
+  .dm-ap-grid { padding: 0 5%; flex-direction: column; }
+  .dm-ap-thumb { width: 100%; height: auto; }
+  .dm-ap-img { width: 100%; height: auto; }
   .rope-columns { grid-template-columns: 1fr; gap: 24px; } /* 3단 -> 1단 */
   
   .dm-ref-row { flex-direction: column; align-items: flex-start; }

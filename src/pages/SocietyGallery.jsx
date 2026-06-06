@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 // 실제 이미지 리스트 (만두피, 혜진님) - 컴포넌트 외부에서 한 번만 생성하여 purity 에러 방지
 const files = [
-  { src: '/image/만두피.jpeg', caption: '만두피', desc: '마트를 돌다가 우연히 발견한 만두피 제품.', tooltipDir: 'left' },
-  { src: '/image/혜진님.jpeg', caption: '혜진님', desc: '부산 여행을 간 학우 혜진님이 찾아서 보내준 사진.', tooltipDir: 'right' }
+  { src: '/image/manduppi.jpeg', caption: '만두피', desc: '마트를 돌다가 우연히 발견한 만두피 제품.', tooltipDir: 'left' },
+  { src: '/image/hyejin.jpeg', caption: '혜진님', desc: '부산 여행을 간 학우 혜진님이 찾아서 보내준 사진.', tooltipDir: 'right' }
 ];
 
 const societyImages = files.map((file, i) => {

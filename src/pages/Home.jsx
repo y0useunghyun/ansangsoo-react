@@ -1,8 +1,17 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+
+const HANBUN_IMAGES = [
+  { src: '/image/8주차_1조_송명선.jpg', alt: '송명선' },
+  { src: '/image/8주차_1조_유승현.png', alt: '유승현' },
+];
 
 export default function Home() {
   const navigate = useNavigate();
+  const [showHanbun, setShowHanbun] = useState(false);
+  const [hanbunIndex, setHanbunIndex] = useState(0);
+  const [zoomed, setZoomed] = useState(false);
   return (
     // framer-motion을 통해 페이지 전환 애니메이션 추가 (원한다면 나중에 더 화려하게 가능)
     <motion.div 
@@ -30,15 +39,15 @@ export default function Home() {
         <img src="/image/타자기.png" alt="타자기" className="hp-tajagi-base" />
       </div>
 
-      <div className="hp-hak" style={{ cursor: 'pointer' }} onClick={() => navigate('/song', { state: { scrollTo: 'hak' } })}>
+      <div className="hp-hak" style={{ cursor: 'pointer' }} onClick={() => navigate('/hak')}>
         <img src="/image/학.png" alt="학" className="hp-img" />
       </div>
 
-      <div className="hp-expand" style={{ cursor: 'pointer' }} onClick={() => navigate('/song', { state: { scrollTo: 'expand' } })}>
+      <div className="hp-expand" style={{ cursor: 'pointer' }} onClick={() => navigate('/expand')}>
         <img src="/image/확장.png" alt="확장" className="hp-img" />
       </div>
 
-      <div className="hp-hunmin" style={{ cursor: 'pointer' }} onClick={() => navigate('/song', { state: { scrollTo: 'hunmin' } })}>
+      <div className="hp-hunmin" style={{ cursor: 'pointer' }} onClick={() => navigate('/hunmin')}>
         <img src="/image/훈민정음.png" alt="훈민정음" className="hp-img" />
       </div>
 
@@ -83,8 +92,56 @@ export default function Home() {
         </svg>
       </div>
 
-      <button className="hp-nav-btn" id="hp-hanbun">한눈에 보기</button>
+      <button
+        className="hp-nav-btn"
+        id="hp-hanbun"
+        onClick={() => { setShowHanbun(v => !v); setHanbunIndex(0); setZoomed(false); }}
+      >한눈에 보기</button>
       <button className="hp-nav-btn" id="hp-meotjieun">멋지은 이들</button>
+
+      {showHanbun && (
+        <div style={{
+          position: 'fixed', bottom: 0, left: 0, width: '100vw',
+          height: '60vh', background: 'rgba(255,255,255,0.97)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 2000, boxShadow: '0 -4px 24px rgba(0,0,0,0.12)',
+          overflow: 'hidden',
+        }}>
+          <button
+            onClick={() => { setHanbunIndex(0); setZoomed(false); }}
+            style={{
+              position: 'absolute', left: 24, background: 'none', border: 'none',
+              fontSize: 'clamp(14px,1.875vw,36px)', fontFamily: 'AGahnsangsoo2012, sans-serif',
+              fontWeight: 700, cursor: 'pointer', opacity: hanbunIndex === 0 ? 0.3 : 1,
+            }}
+            disabled={hanbunIndex === 0}
+          >&lt;</button>
+
+          <img
+            src={HANBUN_IMAGES[hanbunIndex].src}
+            alt={HANBUN_IMAGES[hanbunIndex].alt}
+            className={`hb-img${zoomed ? ' zoomed' : ''}`}
+            style={{ maxHeight: '55vh', width: 'auto', maxWidth: '80vw' }}
+            onClick={() => setZoomed(z => !z)}
+          />
+
+          <button
+            onClick={() => { setHanbunIndex(1); setZoomed(false); }}
+            style={{
+              position: 'absolute', right: 24, background: 'none', border: 'none',
+              fontSize: 'clamp(14px,1.875vw,36px)', fontFamily: 'AGahnsangsoo2012, sans-serif',
+              fontWeight: 700, cursor: 'pointer', opacity: hanbunIndex === 1 ? 0.3 : 1,
+            }}
+            disabled={hanbunIndex === 1}
+          >&gt;</button>
+
+          <span style={{
+            position: 'absolute', bottom: 12,
+            fontFamily: 'AGahnsangsoo2012, sans-serif',
+            fontSize: 'clamp(12px,1.2vw,20px)', color: '#888',
+          }}>{HANBUN_IMAGES[hanbunIndex].alt}</span>
+        </div>
+      )}
 
       {/* 송명선 상세 페이지로 이동하는 SPA Link 버튼 */}
       <Link 
