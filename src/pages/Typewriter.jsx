@@ -111,6 +111,31 @@ export default function TypewriterIntro({ onClose }) {
         >
           &lt; 홈
         </button>
+        <svg id="dm-progress-svg" className="dm-progress-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1918.2 97.7" preserveAspectRatio="none" style={{ pointerEvents: 'none', position: 'absolute', top: 0, left: 0, width: '100%' }}>
+          <defs>
+            <clipPath id="dm-clip">
+              <rect id="dm-clip-rect" x="0" y="0" width="0" height="97.7" style={{ transition: 'width 1s ease' }} />
+            </clipPath>
+          </defs>
+          <path d="M56.8,31c-4-3.1-8.8-4.7-14-4.7-12.6,0-22.6,10.1-22.6,22.6s10.1,22.6,22.6,22.6,10.1-1.8,14-4.8v9.9h8.8V21.1h-8.8v9.9ZM42.8,62.6c-7.5,0-13.7-6.1-13.7-13.7s6.1-13.5,13.7-13.5,13.8,5.9,13.8,13.5-6.3,13.7-13.8,13.7Z"/>
+          <g clipPath="url(#dm-clip)">
+            <g id="dm-bars">
+              <rect x="75.1" y="32.6" width="8.8" height="32.9"/><rect x="93.4" y="32.6" width="8.8" height="32.9"/><rect x="111.8" y="32.6" width="8.8" height="32.9"/><rect x="130.1" y="32.6" width="8.8" height="32.9"/><rect x="148.4" y="32.6" width="8.8" height="32.9"/><rect x="166.7" y="32.6" width="8.8" height="32.9"/><rect x="185.1" y="32.6" width="8.8" height="32.9"/><rect x="203.4" y="32.6" width="8.8" height="32.9"/><rect x="221.7" y="32.6" width="8.8" height="32.9"/><rect x="240" y="32.6" width="8.8" height="32.9"/>
+              <rect x="258.4" y="32.6" width="8.8" height="32.9"/><rect x="276.7" y="32.6" width="8.8" height="32.9"/><rect x="295" y="32.6" width="8.8" height="32.9"/><rect x="313.3" y="32.6" width="8.8" height="32.9"/><rect x="331.7" y="32.6" width="8.8" height="32.9"/><rect x="350" y="32.6" width="8.8" height="32.9"/><rect x="368.3" y="32.6" width="8.8" height="32.9"/><rect x="386.6" y="32.6" width="8.8" height="32.9"/><rect x="405" y="32.6" width="8.8" height="32.9"/><rect x="423.3" y="32.6" width="8.8" height="32.9"/>
+              <rect x="441.6" y="32.6" width="8.8" height="32.9"/><rect x="459.9" y="32.6" width="8.8" height="32.9"/><rect x="478.3" y="32.6" width="8.8" height="32.9"/><rect x="496.6" y="32.6" width="8.8" height="32.9"/><rect x="514.9" y="32.6" width="8.8" height="32.9"/><rect x="533.2" y="32.6" width="8.8" height="32.9"/><rect x="551.6" y="32.6" width="8.8" height="32.9"/><rect x="569.9" y="32.6" width="8.8" height="32.9"/><rect x="588.2" y="32.6" width="8.8" height="32.9"/><rect x="606.5" y="32.6" width="8.8" height="32.9"/>
+              <rect x="624.8" y="32.6" width="8.8" height="32.9"/><rect x="643.2" y="32.6" width="8.8" height="32.9"/><rect x="661.5" y="32.6" width="8.8" height="32.9"/><rect x="679.8" y="32.6" width="8.8" height="32.9"/><rect x="698.1" y="32.6" width="8.8" height="32.9"/><rect x="716.5" y="32.6" width="8.8" height="32.9"/><rect x="734.8" y="32.6" width="8.8" height="32.9"/><rect x="753.1" y="32.6" width="8.8" height="32.9"/><rect x="771.4" y="32.6" width="8.8" height="32.9"/><rect x="789.8" y="32.6" width="8.8" height="32.9"/>
+              <rect x="808.1" y="32.6" width="8.8" height="32.9"/><rect x="826.4" y="32.6" width="8.8" height="32.9"/><rect x="844.7" y="32.6" width="8.8" height="32.9"/><rect x="863.1" y="32.6" width="8.8" height="32.9"/><rect x="881.4" y="32.6" width="8.8" height="32.9"/><rect x="899.7" y="32.6" width="8.8" height="32.9"/><rect x="918" y="32.6" width="8.8" height="32.9"/><rect x="936.4" y="32.6" width="8.8" height="32.9"/><rect x="954.7" y="32.6" width="8.8" height="32.9"/><rect x="973" y="32.6" width="8.8" height="32.9"/>
+              <rect x="991.3" y="32.6" width="8.8" height="32.9"/><rect x="1009.7" y="32.6" width="8.8" height="32.9"/><rect x="1028" y="32.6" width="8.8" height="32.9"/><rect x="1046.3" y="32.6" width="8.8" height="32.9"/><rect x="1064.6" y="32.6" width="8.8" height="32.9"/><rect x="1083" y="32.6" width="8.8" height="32.9"/><rect x="1101.3" y="32.6" width="8.8" height="32.9"/><rect x="1119.6" y="32.6" width="8.8" height="32.9"/><rect x="1137.9" y="32.6" width="8.8" height="32.9"/><rect x="1156.2" y="32.6" width="8.8" height="32.9"/>
+              <rect x="1174.6" y="32.6" width="8.8" height="32.9"/><rect x="1192.9" y="32.6" width="8.8" height="32.9"/><rect x="1211.2" y="32.6" width="8.8" height="32.9"/><rect x="1229.5" y="32.6" width="8.8" height="32.9"/><rect x="1247.9" y="32.6" width="8.8" height="32.9"/><rect x="1266.2" y="32.6" width="8.8" height="32.9"/><rect x="1284.5" y="32.6" width="8.8" height="32.9"/><rect x="1302.8" y="32.6" width="8.8" height="32.9"/><rect x="1321.2" y="32.6" width="8.8" height="32.9"/><rect x="1339.5" y="32.6" width="8.8" height="32.9"/>
+              <rect x="1357.8" y="32.6" width="8.8" height="32.9"/><rect x="1376.1" y="32.6" width="8.8" height="32.9"/><rect x="1394.5" y="32.6" width="8.8" height="32.9"/><rect x="1412.8" y="32.6" width="8.8" height="32.9"/><rect x="1431.1" y="32.6" width="8.8" height="32.9"/><rect x="1449.4" y="32.6" width="8.8" height="32.9"/><rect x="1467.8" y="32.6" width="8.8" height="32.9"/><rect x="1486.1" y="32.6" width="8.8" height="32.9"/><rect x="1504.4" y="32.6" width="8.8" height="32.9"/><rect x="1522.7" y="32.6" width="8.8" height="32.9"/>
+              <rect x="1541.1" y="32.6" width="8.8" height="32.9"/><rect x="1559.4" y="32.6" width="8.8" height="32.9"/><rect x="1577.7" y="32.6" width="8.8" height="32.9"/><rect x="1596" y="32.6" width="8.8" height="32.9"/><rect x="1614.4" y="32.6" width="8.8" height="32.9"/><rect x="1632.7" y="32.6" width="8.8" height="32.9"/><rect x="1651" y="32.6" width="8.8" height="32.9"/><rect x="1669.3" y="32.6" width="8.8" height="32.9"/><rect x="1687.7" y="32.6" width="8.8" height="32.9"/><rect x="1706" y="32.6" width="8.8" height="32.9"/>
+              <rect x="1724.3" y="32.6" width="8.8" height="32.9"/><rect x="1742.6" y="32.6" width="8.8" height="32.9"/><rect x="1760.9" y="32.6" width="8.8" height="32.9"/><rect x="1779.3" y="32.6" width="8.8" height="32.9"/><rect x="1797.6" y="32.6" width="8.8" height="32.9"/><rect x="1815.9" y="32.6" width="8.8" height="32.9"/><rect x="1834.2" y="32.6" width="8.8" height="32.9"/>
+            </g>
+          </g>
+          <g id="dm-right-d" transform="translate(-1843,0)" style={{ opacity: 0, transition: 'transform 1s ease, opacity 1s ease' }}>
+            <path d="M1861.4,21.1h-8.8s0,55.5,0,55.5h8.8s0-9.9,0-9.9c4,3.1,8.8,4.8,14,4.8,12.6,0,22.6-10.1,22.6-22.6,0-12.6-10.1-22.6-22.6-22.6s-10.1,1.6-14,4.7v-9.9ZM1861.6,49c0-7.5,6.3-13.5,13.8-13.5s13.7,5.9,13.7,13.5c0,7.5-6.1,13.7-13.7,13.7s-13.8-6.1-13.8-13.7Z"/>
+          </g>
+        </svg>
       </div>
 
       {/* ─── 종이 인트로 ─── */}
@@ -297,70 +322,70 @@ export default function TypewriterIntro({ onClose }) {
 
                   {/* Row 1 */}
                   <div className="tj-kb-row">
-                    <div className="tj-key tj-key--sym" data-key="`"><span className="tj-key-shift">~</span><span className="tj-key-jamo">*</span></div>
-                    <div className="tj-key" data-key="1" data-type="jong"><span className="tj-key-shift">ㄲ</span><span className="tj-key-jamo">ㅎ</span></div>
-                    <div className="tj-key" data-key="2" data-type="jong"><span className="tj-key-shift">ㄺ</span><span className="tj-key-jamo">ㅆ</span></div>
-                    <div className="tj-key" data-key="3" data-type="jong"><span className="tj-key-shift">ㅈ</span><span className="tj-key-jamo">ㅂ</span></div>
-                    <div className="tj-key" data-key="4" data-type="jung"><span className="tj-key-shift">ㄿ</span><span className="tj-key-jamo">ㅛ</span></div>
-                    <div className="tj-key" data-key="5" data-type="jung"><span className="tj-key-shift">ㄾ</span><span className="tj-key-jamo">ㅠ</span></div>
-                    <div className="tj-key" data-key="6" data-type="jung"><span className="tj-key-shift">=</span><span className="tj-key-jamo">ㅑ</span></div>
-                    <div className="tj-key" data-key="7" data-type="jung"><span className="tj-key-shift">"</span><span className="tj-key-jamo">ㅖ</span></div>
-                    <div className="tj-key" data-key="8" data-type="jung"><span className="tj-key-shift">"</span><span className="tj-key-jamo">ㅓ</span></div>
-                    <div className="tj-key" data-key="9" data-type="jung"><span className="tj-key-shift">|</span><span className="tj-key-jamo">ㅜ</span></div>
-                    <div className="tj-key" data-key="0" data-type="jong"><span className="tj-key-shift">~</span><span className="tj-key-jamo">ㅋ</span></div>
-                    <div className="tj-key tj-key--sym" data-key="-"><span className="tj-key-shift">;</span><span className="tj-key-jamo">,</span></div>
-                    <div className="tj-key tj-key--sym" data-key="="><span className="tj-key-shift">+</span><span className="tj-key-jamo">&gt;</span></div>
+                    <div className="tj-key tj-key--sym" data-key="`"><span className="tj-key-shift">~</span><span className="tj-key-jamo">₩</span></div>
+                    <div className="tj-key" data-key="1" data-type="jong"><span className="tj-key-shift">!</span><span className="tj-key-jamo">ㅎ</span></div>
+                    <div className="tj-key" data-key="2" data-type="jong"><span className="tj-key-shift">@</span><span className="tj-key-jamo">ㅆ</span></div>
+                    <div className="tj-key" data-key="3" data-type="jong"><span className="tj-key-shift">#</span><span className="tj-key-jamo">ㅂ</span></div>
+                    <div className="tj-key" data-key="4" data-type="jung"><span className="tj-key-shift">$</span><span className="tj-key-jamo">ㅛ</span></div>
+                    <div className="tj-key" data-key="5" data-type="jung"><span className="tj-key-shift">%</span><span className="tj-key-jamo">ㅠ</span></div>
+                    <div className="tj-key" data-key="6" data-type="jung"><span className="tj-key-shift">^</span><span className="tj-key-jamo">ㅑ</span></div>
+                    <div className="tj-key" data-key="7" data-type="jung"><span className="tj-key-shift">&amp;</span><span className="tj-key-jamo">ㅖ</span></div>
+                    <div className="tj-key" data-key="8" data-type="jung"><span className="tj-key-shift">*</span><span className="tj-key-jamo">ㅢ</span></div>
+                    <div className="tj-key" data-key="9" data-type="jung"><span className="tj-key-shift">(</span><span className="tj-key-jamo">ㅜ</span></div>
+                    <div className="tj-key" data-key="0" data-type="cho"><span className="tj-key-shift">)</span><span className="tj-key-jamo">ㅋ</span></div>
+                    <div className="tj-key tj-key--sym" data-key="-"><span className="tj-key-shift">_</span><span className="tj-key-jamo">-</span></div>
+                    <div className="tj-key tj-key--sym" data-key="="><span className="tj-key-shift">+</span><span className="tj-key-jamo">=</span></div>
                     <div className="tj-key tj-key--wide tj-key--sym" data-key="Backspace"><span className="tj-key-jamo">⌫</span></div>
                   </div>
 
                   {/* Row 2 */}
                   <div className="tj-kb-row">
                     <div className="tj-key tj-key--wide tj-key--sym" data-key="Tab"><span className="tj-key-jamo">Tab</span></div>
-                    <div className="tj-key" data-key="q" data-type="cho"><span className="tj-key-shift">ㅍ</span><span className="tj-key-jamo">ㅅ</span></div>
-                    <div className="tj-key" data-key="w" data-type="cho"><span className="tj-key-shift">ㅌ</span><span className="tj-key-jamo">ㄹ</span></div>
-                    <div className="tj-key" data-key="e" data-type="cho"><span className="tj-key-shift">ㄵ</span><span className="tj-key-jamo">ㅋ</span></div>
-                    <div className="tj-key" data-key="r" data-type="jung"><span className="tj-key-shift">ㅀ</span><span className="tj-key-jamo">ㅐ</span></div>
-                    <div className="tj-key" data-key="t" data-type="jung"><span className="tj-key-shift">ㄽ</span><span className="tj-key-jamo">ㅏ</span></div>
-                    <div className="tj-key" data-key="y" data-type="jong"><span className="tj-key-shift">5</span><span className="tj-key-jamo">ㄹ</span></div>
-                    <div className="tj-key" data-key="u" data-type="jong"><span className="tj-key-shift">6</span><span className="tj-key-jamo">ㄷ</span></div>
-                    <div className="tj-key" data-key="i" data-type="jong"><span className="tj-key-shift">7</span><span className="tj-key-jamo">ㅁ</span></div>
-                    <div className="tj-key" data-key="o" data-type="jong"><span className="tj-key-shift">8</span><span className="tj-key-jamo">ㅊ</span></div>
-                    <div className="tj-key" data-key="p" data-type="jong"><span className="tj-key-shift">9</span><span className="tj-key-jamo">ㅍ</span></div>
-                    <div className="tj-key tj-key--sym" data-key="["><span className="tj-key-shift">%</span><span className="tj-key-jamo">(</span></div>
-                    <div className="tj-key tj-key--sym" data-key="]"><span className="tj-key-shift">/</span><span className="tj-key-jamo">&lt;</span></div>
-                    <div className="tj-key tj-key--sym" data-key="\"><span className="tj-key-shift">ㅃ</span><span className="tj-key-jamo">:</span></div>
+                    <div className="tj-key" data-key="q" data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅅ</span></div>
+                    <div className="tj-key" data-key="w" data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄹ</span></div>
+                    <div className="tj-key" data-key="e" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅕ</span></div>
+                    <div className="tj-key" data-key="r" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅐ</span></div>
+                    <div className="tj-key" data-key="t" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅓ</span></div>
+                    <div className="tj-key" data-key="y" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄹ</span></div>
+                    <div className="tj-key" data-key="u" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄷ</span></div>
+                    <div className="tj-key" data-key="i" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅁ</span></div>
+                    <div className="tj-key" data-key="o" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅊ</span></div>
+                    <div className="tj-key" data-key="p" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅍ</span></div>
+                    <div className="tj-key tj-key--sym" data-key="["><span className="tj-key-shift">{'{'}</span><span className="tj-key-jamo">[</span></div>
+                    <div className="tj-key tj-key--sym" data-key="]"><span className="tj-key-shift">{'}'}</span><span className="tj-key-jamo">]</span></div>
+                    <div className="tj-key tj-key--sym" data-key="\"><span className="tj-key-shift">|</span><span className="tj-key-jamo">\</span></div>
                   </div>
 
                   {/* Row 3 */}
                   <div className="tj-kb-row">
                     <div className="tj-key tj-key--wider tj-key--sym"><span className="tj-key-jamo">Caps</span></div>
-                    <div className="tj-key" data-key="a" data-type="cho"><span className="tj-key-shift">ㄷ</span><span className="tj-key-jamo">ㅇ</span></div>
-                    <div className="tj-key" data-key="s" data-type="cho"><span className="tj-key-shift">ㄶ</span><span className="tj-key-jamo">ㄴ</span></div>
-                    <div className="tj-key" data-key="d" data-type="jung"><span className="tj-key-shift">ㄼ</span><span className="tj-key-jamo">ㅣ</span></div>
-                    <div className="tj-key" data-key="f" data-type="jung"><span className="tj-key-shift">ㄻ</span><span className="tj-key-jamo">ㅏ</span></div>
-                    <div className="tj-key" data-key="g" data-type="jung"><span className="tj-key-shift">ㅂ</span><span className="tj-key-jamo">ㅡ</span></div>
-                    <div className="tj-key" data-key="h" data-type="jong"><span className="tj-key-shift">0</span><span className="tj-key-jamo">ㄴ</span></div>
-                    <div className="tj-key" data-key="j" data-type="jong"><span className="tj-key-shift">1</span><span className="tj-key-jamo">ㅇ</span></div>
-                    <div className="tj-key" data-key="k" data-type="jong"><span className="tj-key-shift">2</span><span className="tj-key-jamo">ㄱ</span></div>
-                    <div className="tj-key" data-key="l" data-type="jong"><span className="tj-key-shift">3</span><span className="tj-key-jamo">ㅈ</span></div>
-                    <div className="tj-key" data-key=";" data-type="jong"><span className="tj-key-shift">4</span><span className="tj-key-jamo">ㅂ</span></div>
-                    <div className="tj-key" data-key="'" data-type="jong"><span className="tj-key-shift">"</span><span className="tj-key-jamo">ㅌ</span></div>
+                    <div className="tj-key" data-key="a" data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅇ</span></div>
+                    <div className="tj-key" data-key="s" data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄴ</span></div>
+                    <div className="tj-key" data-key="d" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅣ</span></div>
+                    <div className="tj-key" data-key="f" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅏ</span></div>
+                    <div className="tj-key" data-key="g" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅡ</span></div>
+                    <div className="tj-key" data-key="h" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄴ</span></div>
+                    <div className="tj-key" data-key="j" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅇ</span></div>
+                    <div className="tj-key" data-key="k" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄱ</span></div>
+                    <div className="tj-key" data-key="l" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅈ</span></div>
+                    <div className="tj-key" data-key=";" data-type="cho"><span className="tj-key-shift">:</span><span className="tj-key-jamo">ㅂ</span></div>
+                    <div className="tj-key" data-key="'" data-type="cho"><span className="tj-key-shift">"</span><span className="tj-key-jamo">ㅌ</span></div>
                     <div className="tj-key tj-key--wider tj-key--sym" data-key="Enter"><span className="tj-key-jamo">↵</span></div>
                   </div>
 
                   {/* Row 4 */}
                   <div className="tj-kb-row">
                     <div className="tj-key tj-key--wider tj-key--sym" data-key="Shift"><span className="tj-key-jamo">⇧</span></div>
-                    <div className="tj-key" data-key="z" data-type="cho"><span className="tj-key-shift">ㅊ</span><span className="tj-key-jamo">ㅁ</span></div>
-                    <div className="tj-key" data-key="x" data-type="cho"><span className="tj-key-shift">ㅄ</span><span className="tj-key-jamo">ㄱ</span></div>
-                    <div className="tj-key" data-key="c" data-type="jung"><span className="tj-key-shift">ㅋ</span><span className="tj-key-jamo">ㅔ</span></div>
-                    <div className="tj-key" data-key="v" data-type="jung"><span className="tj-key-shift">ㄲ</span><span className="tj-key-jamo">ㅗ</span></div>
-                    <div className="tj-key" data-key="b" data-type="jung"><span className="tj-key-shift">?</span><span className="tj-key-jamo">ㅜ</span></div>
-                    <div className="tj-key" data-key="n" data-type="jong"><span className="tj-key-shift">-</span><span className="tj-key-jamo">ㅅ</span></div>
-                    <div className="tj-key" data-key="m" data-type="jong"><span className="tj-key-shift">=</span><span className="tj-key-jamo">ㅎ</span></div>
-                    <div className="tj-key tj-key--sym" data-key=","><span className="tj-key-shift">,</span><span className="tj-key-jamo">;</span></div>
-                    <div className="tj-key tj-key--sym" data-key="."><span className="tj-key-shift">:</span><span className="tj-key-jamo">.</span></div>
-                    <div className="tj-key tj-key--sym" data-key="/"><span className="tj-key-shift">!</span><span className="tj-key-jamo">ㅗ</span></div>
+                    <div className="tj-key" data-key="z" data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅁ</span></div>
+                    <div className="tj-key" data-key="x" data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄱ</span></div>
+                    <div className="tj-key" data-key="c" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅔ</span></div>
+                    <div className="tj-key" data-key="v" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅗ</span></div>
+                    <div className="tj-key" data-key="b" data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅜ</span></div>
+                    <div className="tj-key" data-key="n" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅅ</span></div>
+                    <div className="tj-key" data-key="m" data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅎ</span></div>
+                    <div className="tj-key tj-key--sym" data-key=","><span className="tj-key-shift">&lt;</span><span className="tj-key-jamo">,</span></div>
+                    <div className="tj-key tj-key--sym" data-key="."><span className="tj-key-shift">&gt;</span><span className="tj-key-jamo">.</span></div>
+                    <div className="tj-key tj-key--sym" data-key="/"><span className="tj-key-shift">?</span><span className="tj-key-jamo">ㅗ</span></div>
                     <div className="tj-key tj-key--wider tj-key--sym" data-key="Shift"><span className="tj-key-jamo">⇧</span></div>
                   </div>
 

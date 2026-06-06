@@ -686,64 +686,64 @@ const LONGTEXT_CATS = [
 /* ── 세벌식 390 자판 레이아웃 ── */
 const SEBEOL_LAYOUT = [
   [
-    {code:'Backquote',key:'`',norm:'',shft:'~'},
-    {code:'Digit1',key:'1',norm:'1',shft:'!'},
-    {code:'Digit2',key:'2',norm:'2',shft:'@'},
-    {code:'Digit3',key:'3',norm:'3',shft:'#'},
-    {code:'Digit4',key:'4',norm:'4',shft:'$'},
-    {code:'Digit5',key:'5',norm:'5',shft:'%'},
-    {code:'Digit6',key:'6',norm:'6',shft:'^'},
-    {code:'Digit7',key:'7',norm:'7',shft:'&'},
-    {code:'Digit8',key:'8',norm:'8',shft:'*'},
-    {code:'Digit9',key:'9',norm:'9',shft:'('},
-    {code:'Digit0',key:'0',norm:'0',shft:')'},
+    {code:'Backquote',key:'`',norm:'₩',shft:'~'},
+    {code:'Digit1',key:'1',norm:'ㅎ',shft:'!'},
+    {code:'Digit2',key:'2',norm:'ㅆ',shft:'@'},
+    {code:'Digit3',key:'3',norm:'ㅂ',shft:'#'},
+    {code:'Digit4',key:'4',norm:'ㅛ',shft:'$'},
+    {code:'Digit5',key:'5',norm:'ㅠ',shft:'%'},
+    {code:'Digit6',key:'6',norm:'ㅑ',shft:'^'},
+    {code:'Digit7',key:'7',norm:'ㅖ',shft:'&'},
+    {code:'Digit8',key:'8',norm:'ㅢ',shft:'*'},
+    {code:'Digit9',key:'9',norm:'ㅜ',shft:'('},
+    {code:'Digit0',key:'0',norm:'ㅋ',shft:')'},
     {code:'Minus',key:'-',norm:'-',shft:'_'},
     {code:'Equal',key:'=',norm:'=',shft:'+'},
     {code:'Backspace',key:'⌫',wide:'bs',norm:'',shft:''},
   ],
   [
     {code:'Tab',key:'Tab',wide:'tab',norm:'',shft:''},
-    {code:'KeyQ',key:'Q',norm:'ㅂ',shft:'ㅃ'},
-    {code:'KeyW',key:'W',norm:'ㅈ',shft:'ㅉ'},
-    {code:'KeyE',key:'E',norm:'ㄷ',shft:'ㄸ'},
-    {code:'KeyR',key:'R',norm:'ㄱ',shft:'ㄲ'},
-    {code:'KeyT',key:'T',norm:'ㅅ',shft:'ㅆ'},
-    {code:'KeyY',key:'Y',norm:'ㅛ',shft:''},
-    {code:'KeyU',key:'U',norm:'ㅕ',shft:''},
-    {code:'KeyI',key:'I',norm:'ㅑ',shft:''},
-    {code:'KeyO',key:'O',norm:'ㅐ',shft:'ㅒ'},
-    {code:'KeyP',key:'P',norm:'ㅔ',shft:'ㅖ'},
+    {code:'KeyQ',key:'Q',norm:'ㅅ',shft:''},
+    {code:'KeyW',key:'W',norm:'ㄹ',shft:''},
+    {code:'KeyE',key:'E',norm:'ㅕ',shft:''},
+    {code:'KeyR',key:'R',norm:'ㅐ',shft:''},
+    {code:'KeyT',key:'T',norm:'ㅓ',shft:''},
+    {code:'KeyY',key:'Y',norm:'ㄹ',shft:''},
+    {code:'KeyU',key:'U',norm:'ㄷ',shft:''},
+    {code:'KeyI',key:'I',norm:'ㅁ',shft:''},
+    {code:'KeyO',key:'O',norm:'ㅊ',shft:''},
+    {code:'KeyP',key:'P',norm:'ㅍ',shft:''},
     {code:'BracketLeft',key:'[',norm:'[',shft:'{'},
     {code:'BracketRight',key:']',norm:']',shft:'}'},
     {code:'Backslash',key:'\\',wide:'bs2',norm:'\\',shft:'|'},
   ],
   [
     {code:'CapsLock',key:'Caps',wide:'caps',norm:'',shft:''},
-    {code:'KeyA',key:'A',norm:'ㅁ',shft:''},
+    {code:'KeyA',key:'A',norm:'ㅇ',shft:''},
     {code:'KeyS',key:'S',norm:'ㄴ',shft:''},
-    {code:'KeyD',key:'D',norm:'ㅇ',shft:''},
-    {code:'KeyF',key:'F',norm:'ㄹ',shft:''},
-    {code:'KeyG',key:'G',norm:'ㅎ',shft:''},
-    {code:'KeyH',key:'H',norm:'ㅗ',shft:''},
-    {code:'KeyJ',key:'J',norm:'ㅓ',shft:''},
-    {code:'KeyK',key:'K',norm:'ㅏ',shft:''},
-    {code:'KeyL',key:'L',norm:'ㅣ',shft:''},
-    {code:'Semicolon',key:';',norm:';',shft:':'},
-    {code:'Quote',key:"'",norm:"'",shft:'"'},
+    {code:'KeyD',key:'D',norm:'ㅣ',shft:''},
+    {code:'KeyF',key:'F',norm:'ㅏ',shft:''},
+    {code:'KeyG',key:'G',norm:'ㅡ',shft:''},
+    {code:'KeyH',key:'H',norm:'ㄴ',shft:''},
+    {code:'KeyJ',key:'J',norm:'ㅇ',shft:''},
+    {code:'KeyK',key:'K',norm:'ㄱ',shft:''},
+    {code:'KeyL',key:'L',norm:'ㅈ',shft:''},
+    {code:'Semicolon',key:';',norm:'ㅂ',shft:':'},
+    {code:'Quote',key:"'",norm:'ㅌ',shft:'"'},
     {code:'Enter',key:'↵',wide:'enter',norm:'',shft:''},
   ],
   [
     {code:'ShiftLeft',key:'⇧',wide:'sl',norm:'',shft:''},
-    {code:'KeyZ',key:'Z',norm:'ㅋ',shft:''},
-    {code:'KeyX',key:'X',norm:'ㅌ',shft:''},
-    {code:'KeyC',key:'C',norm:'ㅊ',shft:''},
-    {code:'KeyV',key:'V',norm:'ㅍ',shft:''},
-    {code:'KeyB',key:'B',norm:'ㅠ',shft:''},
-    {code:'KeyN',key:'N',norm:'ㅜ',shft:''},
-    {code:'KeyM',key:'M',norm:'ㅡ',shft:''},
+    {code:'KeyZ',key:'Z',norm:'ㅁ',shft:''},
+    {code:'KeyX',key:'X',norm:'ㄱ',shft:''},
+    {code:'KeyC',key:'C',norm:'ㅔ',shft:''},
+    {code:'KeyV',key:'V',norm:'ㅗ',shft:''},
+    {code:'KeyB',key:'B',norm:'ㅜ',shft:''},
+    {code:'KeyN',key:'N',norm:'ㅅ',shft:''},
+    {code:'KeyM',key:'M',norm:'ㅎ',shft:''},
     {code:'Comma',key:',',norm:',',shft:'<'},
     {code:'Period',key:'.',norm:'.',shft:'>'},
-    {code:'Slash',key:'/',norm:'/',shft:'?'},
+    {code:'Slash',key:'/',norm:'ㅗ',shft:'?'},
     {code:'ShiftRight',key:'⇧',wide:'sr',norm:'',shft:''},
   ],
   [
@@ -1843,7 +1843,7 @@ document.getElementById('main-header')?.addEventListener('click', () => {
     (function () {
       var dmScroll = document.querySelector('.dm-scroll');
       dmScroll?.addEventListener('click', function (e) {
-        if (e.target.closest('button, a, .dm-u, .dm-hero')) return;
+        if (e.target.closest('button, a, .dm-u, .dm-hero, .dm-ap-grid, .ap-sticker')) return;
         var sections = dmScroll.querySelectorAll('.dm-section');
         var scrollTop = dmScroll.scrollTop;
         var isUpperHalf = e.clientY < window.innerHeight / 2;
@@ -1942,9 +1942,9 @@ document.getElementById('main-header')?.addEventListener('click', () => {
       openDetailMain('sec-birth');
     });
 
-    document.querySelector('.hp-kerning')?.addEventListener('click', function () {
-      openDetailMain('sec-charform');
-    });
+    // document.querySelector('.hp-kerning')?.addEventListener('click', function () {
+    //   openDetailMain('sec-charform');
+    // });
 
     document.querySelector('.hp-hunmin')?.addEventListener('click', function () {
       openDetailMain('sec-hunmin');
@@ -2376,6 +2376,7 @@ document.getElementById('main-header')?.addEventListener('click', () => {
     (function () {
       var slider   = document.getElementById('hb-slider');
       var track    = document.getElementById('hb-track');
+      if (!slider || !track) return;
       var total    = 2;
       var current = 0;
 
@@ -2462,51 +2463,67 @@ document.getElementById('main-header')?.addEventListener('click', () => {
        메인 세부 — 히어로 드래그 스크롤 + 클릭 섹터 이동
     ================================================================ */
     (function () {
-      var hero = document.getElementById('dm-hero');
-      if (!hero) return;
-      var isDown = false, startX, scrollLeft, moved = false;
-      var ITEM_W = 731.98 + 20; /* 이미지 너비 + gap */
-      var TOTAL  = 4;
-
-      hero?.addEventListener('mousedown', function (e) {
-        isDown = true;
-        moved  = false;
-        hero?.classList?.add('is-grabbing');
-        startX     = e.pageX - hero.getBoundingClientRect().left;
-        scrollLeft = hero.scrollLeft;
-      });
-      hero?.addEventListener('mouseleave', function () { isDown = false; hero?.classList?.remove('is-grabbing'); });
-      hero?.addEventListener('mouseup',    function () { isDown = false; hero?.classList?.remove('is-grabbing'); });
-      hero?.addEventListener('mousemove',  function (e) {
-        if (!isDown) return;
-        e.preventDefault();
-        var x    = e.pageX - hero.getBoundingClientRect().left;
-        var walk = (x - startX) * 1.5;
-        if (Math.abs(walk) > 4) moved = true;
-        hero.scrollLeft = scrollLeft - walk;
-      });
-
-      /* 클릭 → 다음 섹터 */
-      hero?.addEventListener('click', function () {
-        if (moved) { moved = false; return; }
-        var idx     = Math.round(hero.scrollLeft / ITEM_W);
-        var nextIdx = (idx + 1) % TOTAL;
-        hero.scrollTo({ left: nextIdx * ITEM_W, behavior: 'smooth' });
-      });
-
-      /* 터치 스와이프 → 다음/이전 섹터 (모바일) */
-      var touchStartX = 0;
-      hero?.addEventListener('touchstart', function (e) {
-        touchStartX = e.touches[0].clientX;
-      }, { passive: true });
-      hero?.addEventListener('touchend', function (e) {
-        var dx = e.changedTouches[0].clientX - touchStartX;
-        if (Math.abs(dx) < 10) {
-          /* 탭 → 다음 섹터 */
-          var idx = Math.round(hero.scrollLeft / ITEM_W);
-          hero.scrollTo({ left: ((idx + 1) % TOTAL) * ITEM_W, behavior: 'smooth' });
+      var heros = [document.getElementById('dm-hero'), document.querySelector('.dm-ap-grid')];
+      heros.forEach(function (hero) {
+        if (!hero) return;
+        var isDown = false, startX, scrollLeft, moved = false;
+        var TOTAL  = 4;
+        
+        function getItemW() {
+          return (hero.children[0] ? hero.children[0].offsetWidth : 731.98) + 20;
         }
-      }, { passive: true });
+
+        hero.addEventListener('mousedown', function (e) {
+          isDown = true;
+          moved  = false;
+          hero.classList.add('is-grabbing');
+          startX     = e.pageX - hero.getBoundingClientRect().left;
+          scrollLeft = hero.scrollLeft;
+        });
+        hero.addEventListener('mouseleave', function () { isDown = false; hero.classList.remove('is-grabbing'); });
+        hero.addEventListener('mouseup',    function () { isDown = false; hero.classList.remove('is-grabbing'); });
+        hero.addEventListener('mousemove',  function (e) {
+          if (!isDown) return;
+          e.preventDefault();
+          var x    = e.pageX - hero.getBoundingClientRect().left;
+          var walk = (x - startX) * 1.5;
+          if (Math.abs(walk) > 4) moved = true;
+          hero.scrollLeft = scrollLeft - walk;
+        });
+
+        /* 클릭 → 다음 섹터 (footnote 클릭이랑 충돌 방지를 위해 img를 직접 클릭했을 때만 넘어가게 수정하거나, 그냥 스크롤용 드래그만 지원해도 충분함. 기존 히어로를 위해 유지) */
+        hero.addEventListener('click', function (e) {
+          if (moved) { 
+            moved = false; 
+            e.preventDefault();
+            e.stopPropagation();
+            return; 
+          }
+          
+          e.stopPropagation(); // 각주가 열리지 않도록 상위로 전파 방지
+          
+          var ITEM_W = getItemW();
+          var idx     = Math.round(hero.scrollLeft / ITEM_W);
+          var nextIdx = (idx + 1) % TOTAL;
+          hero.scrollTo({ left: nextIdx * ITEM_W, behavior: 'smooth' });
+        });
+
+        /* 터치 스와이프 → 다음/이전 섹터 (모바일) */
+        var touchStartX = 0;
+        hero.addEventListener('touchstart', function (e) {
+          touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        hero.addEventListener('touchend', function (e) {
+          var dx = e.changedTouches[0].clientX - touchStartX;
+          if (Math.abs(dx) < 10) {
+            e.stopPropagation(); // 각주 전파 방지
+            var ITEM_W = getItemW();
+            /* 탭 → 다음 섹터 */
+            var idx = Math.round(hero.scrollLeft / ITEM_W);
+            hero.scrollTo({ left: ((idx + 1) % TOTAL) * ITEM_W, behavior: 'smooth' });
+          }
+        }, { passive: false }); // stopPropagation을 위해 passive false로 해야할 수도 있지만 일단 유지(stopPropagation은 passive상관없음)
+      });
     })();
 
     history.replaceState({ page: 'home' }, '');
@@ -3331,25 +3348,7 @@ document.getElementById('main-header')?.addEventListener('click', () => {
     console.error('Legacy app error:', e);
   }
 
-  // Override specific routing buttons (React Router 연결)
-  setTimeout(() => {
-    // 송명선 페이지로 이동
-    const songBtn = document.getElementById('hp-song');
-    if (songBtn) {
-       songBtn?.addEventListener('click', (e) => {
-         e.preventDefault();
-         navigate('/song');
-       });
-    }
-    // 유승현 섹션으로 이동
-    const yuBtn = document.getElementById('hp-yu');
-    if (yuBtn) {
-       yuBtn?.addEventListener('click', (e) => {
-         e.preventDefault();
-         navigate('/song', { state: { scrollTo: 'yu' } });
-       });
-    }
-  }, 100);
+  // Override specific routing buttons (React Router 연결은 LegacyAppHost에서 처리함)
 
   return () => {
      if (_activeKbDown) document.removeEventListener('keydown', _activeKbDown);
