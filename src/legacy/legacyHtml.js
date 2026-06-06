@@ -380,6 +380,199 @@ const LEGACY_HTML = `
 
   </div><!-- /detail-anche -->
 
+  <!-- 안체프로젝트 세부 페이지 2 — 나만의 안체 만들기 -->
+  <div id="detail-anche3" class="detail-page">
+    <button class="dp-back" id="dp-anche3-back">← 뒤로</button>
+
+    <!-- 좌측: 캔버스 영역 -->
+    <div class="ap3-main">
+      <h2 class="ap3-title">나만의 안체 만들기</h2>
+      <!-- 인라인 텍스트 입력 바 -->
+      <div class="ap3-input-bar">
+        <textarea id="ap3-text-input" placeholder="한글을 입력하세요. 실시간으로 렌더링됩니다."></textarea>
+        <label for="ap3-inline-sz">글자크기</label>
+        <input type="number" id="ap3-inline-sz" value="80" min="30" max="200" step="4" />
+        <label>px</label>
+      </div>
+      <div class="ap3-canvas-wrap">
+        <canvas id="ap3-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- 우측: 컨트롤 열 -->
+    <div class="ap3-ctrl-col" id="ap3-ctrl-col">
+      <button class="ap3-ctrl-btn ap3-active" data-sub="ap3-sub-stroke">선종류 변경</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-color">색상 변경</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-ratio">비율 변경</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-cho">초성 위치 변경</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-jung-vert">가로모임꼴 민글자</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-jung-horiz">세로모임꼴 민글자</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-jung-mixed">섞임모임꼴 민글자</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-jong-vert">가로모임꼴 받침글자</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-jong-horiz">세로모임꼴 받침글자</button>
+      <button class="ap3-ctrl-btn" data-sub="ap3-sub-jong-mixed">섞임모임꼴 받침글자</button>
+    </div>
+    <button class="ap3-save-btn" id="ap3-save">저장</button>
+
+    <!-- 서브 패널: 선종류 (기본 표시) -->
+    <div class="ap3-sub" id="ap3-sub-stroke">
+      <div class="ap3-sub-label">선 종류</div>
+      <div class="ap3-line-grid">
+        <button class="ap3-line-btn ap3-active" data-dash="">실선</button>
+        <button class="ap3-line-btn" data-dash="7,5">파선</button>
+        <button class="ap3-line-btn" data-dash="2,4">점선</button>
+        <button class="ap3-line-btn" data-dash="14,4,2,4">일점쇄선</button>
+      </div>
+      <div class="ap3-sub-label">선 굵기</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-lw" min="0.5" max="8" step="0.5" value="1.5" />
+        <span id="ap3-lw-val">1.5</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 비율 -->
+    <div class="ap3-sub" id="ap3-sub-ratio" hidden>
+      <div class="ap3-sub-label">글자 크기</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-sz" min="30" max="200" step="4" value="80" />
+        <span id="ap3-sz-val">80px</span>
+      </div>
+      <div class="ap3-sub-label">행간</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-lh" min="100" max="300" step="5" value="160" />
+        <span id="ap3-lh-val">1.6</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 초성 위치 -->
+    <div class="ap3-sub" id="ap3-sub-cho" hidden>
+      <div class="ap3-sub-label">초성 가로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-cho-x" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-cho-x-val">0</span>
+      </div>
+      <div class="ap3-sub-label">초성 세로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-cho-y" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-cho-y-val">0</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 가로모임꼴 민글자 -->
+    <div class="ap3-sub" id="ap3-sub-jung-vert" hidden>
+      <div class="ap3-sub-label">가로모임꼴 민글자 — 중성 가로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jung-vert-x" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jung-vert-x-val">0</span>
+      </div>
+      <div class="ap3-sub-label">가로모임꼴 중성 세로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jung-vert-y" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jung-vert-y-val">0</span>
+      </div>
+      <div class="ap3-sub-label">가로모임꼴 중성 길이 (세로)</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jung-vert-sy" min="50" max="200" step="5" value="100" />
+        <span id="ap3-jung-vert-sy-val">100%</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 세로모임꼴 민글자 -->
+    <div class="ap3-sub" id="ap3-sub-jung-horiz" hidden>
+      <div class="ap3-sub-label">세로모임꼴 민글자 — 중성 가로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jung-horiz-x" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jung-horiz-x-val">0</span>
+      </div>
+      <div class="ap3-sub-label">세로모임꼴 중성 세로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jung-horiz-y" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jung-horiz-y-val">0</span>
+      </div>
+      <div class="ap3-sub-label">세로모임꼴 중성 길이 (가로)</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jung-horiz-sx" min="50" max="200" step="5" value="100" />
+        <span id="ap3-jung-horiz-sx-val">100%</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 가로모임꼴 받침글자 -->
+    <div class="ap3-sub" id="ap3-sub-jong-vert" hidden>
+      <div class="ap3-sub-label">가로모임꼴 받침글자 — 종성 가로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jong-vert-x" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jong-vert-x-val">0</span>
+      </div>
+      <div class="ap3-sub-label">가로모임꼴 종성 세로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jong-vert-y" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jong-vert-y-val">0</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 세로모임꼴 받침글자 -->
+    <div class="ap3-sub" id="ap3-sub-jong-horiz" hidden>
+      <div class="ap3-sub-label">세로모임꼴 받침글자 — 종성 가로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jong-horiz-x" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jong-horiz-x-val">0</span>
+      </div>
+      <div class="ap3-sub-label">세로모임꼴 종성 세로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jong-horiz-y" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jong-horiz-y-val">0</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 섞임모임꼴 민글자 -->
+    <div class="ap3-sub" id="ap3-sub-jung-mixed" hidden>
+      <div class="ap3-sub-label">섞임모임꼴 민글자 — 중성 가로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jung-mixed-x" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jung-mixed-x-val">0</span>
+      </div>
+      <div class="ap3-sub-label">섞임모임꼴 민글자 — 중성 세로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jung-mixed-y" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jung-mixed-y-val">0</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 섞임모임꼴 받침글자 -->
+    <div class="ap3-sub" id="ap3-sub-jong-mixed" hidden>
+      <div class="ap3-sub-label">섞임모임꼴 받침글자 — 종성 가로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jong-mixed-x" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jong-mixed-x-val">0</span>
+      </div>
+      <div class="ap3-sub-label">섞임모임꼴 받침글자 — 종성 세로</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-jong-mixed-y" min="-40" max="40" step="1" value="0" />
+        <span id="ap3-jong-mixed-y-val">0</span>
+      </div>
+    </div>
+
+    <!-- 서브 패널: 색상 -->
+    <div class="ap3-sub" id="ap3-sub-color" hidden>
+      <div class="ap3-sub-label">선 색상 (획)</div>
+      <div class="ap3-color-row">
+        <input type="color" id="ap3-stroke-color" value="#000000" class="ap3-color-picker" />
+        <span class="ap3-color-label">획 색상</span>
+      </div>
+      <div class="ap3-sub-label">면 색상 (야첨)</div>
+      <div class="ap3-color-row">
+        <input type="color" id="ap3-fill-color" value="#ffffff" class="ap3-color-picker" />
+        <span class="ap3-color-label">야첨 색상</span>
+      </div>
+      <div class="ap3-sub-label">면 불투명도</div>
+      <div class="ap3-slider-wrap">
+        <input type="range" id="ap3-fill-alpha" min="0" max="100" step="1" value="0" />
+        <span id="ap3-fill-alpha-val">0%</span>
+      </div>
+    </div>
+
+  </div><!-- /detail-anche3 -->
+
   
 
   
