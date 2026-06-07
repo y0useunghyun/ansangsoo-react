@@ -47,8 +47,8 @@ export default function Home() {
         <img src="/image/확장.png" alt="확장" className="hp-img" />
       </div>
 
-      <div className="hp-hunmin" style={{ cursor: 'pointer' }} onClick={() => navigate('/hunmin')}>
-        <img src="/image/훈민정음.png" alt="훈민정음" className="hp-img" />
+      <div className="hp-ahn" style={{ cursor: 'pointer', position: 'absolute', left: '120px', top: '150px', width: '200px' }} onClick={() => navigate('/ahn')}>
+        <img src="/image/안체1.jpg" alt="안상수체" className="hp-img" style={{ borderRadius: '10px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }} />
       </div>
 
       <div className="hp-joyoungjae">

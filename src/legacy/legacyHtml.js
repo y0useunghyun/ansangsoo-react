@@ -7,42 +7,44 @@ const LEGACY_HTML = `
     <button class="hp-title" id="hp-title">안상수체에.대해.얼마나.알고.있니</button>
 
     <!-- 그룹커닝 자리에 귀여운 눈동자 마운트 -->
-    <div class="hp-kerning" id="hp-cute-eyes-mount" style="display: flex; justify-content: center; align-items: center; width: 200px; height: 200px; transform: translate(-30px, -30px); z-index: 50;">
+    <div class="hp-kerning" id="hp-cute-eyes-mount" style="display: flex; justify-content: center; align-items: center; width: 200px; height: 200px; position: absolute; left: 75%; top: 35%; transform: translate(-30px, -30px) rotate(-12deg); z-index: 50;">
     </div>
 
     <!-- 타자기 (홈) -->
-    <div class="hp-tajagi" id="hp-tajagi-home" style="cursor: pointer;">
+    <div class="hp-tajagi" id="hp-tajagi-home" style="cursor: pointer; position: absolute; left: 30%; top: 22%; transform: rotate(8deg);">
       <img src="/image/타자기2.png" alt="종이" class="hp-tajagi-paper" />
       <img src="/image/타자기.png" alt="타자기" class="hp-tajagi-base" />
     </div>
     <!-- 학 (교체된 이미지): 1500,234 -->
-    <div class="hp-hak" id="hp-hak" style="cursor: pointer;">
+    <div class="hp-hak" id="hp-hak" style="cursor: pointer; position: absolute; left: 10%; top: 22%; transform: rotate(-15deg);">
       <img src="/image/학.png" alt="학" class="hp-img" />
     </div>
 
     <!-- 확장 자리 제거됨 (유승현 텍스트 버튼으로 교체됨) -->
 
-    <!-- 훈민정음 책: 137,490 / rotate:-15deg -->
-    <div class="hp-hunmin" id="hp-hunmin" style="cursor: pointer;">
-      <img src="/image/훈민정음.png" alt="훈민정음" class="hp-img" />
+    <!-- 안체1 스티커: 정중앙 배치 (회전 제거, 크기 펄스 애니메이션) -->
+    <div class="hp-ahn" id="hp-ahn" style="cursor: pointer; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 360px;">
+      <div style="animation: ahn-pulse 6s ease-in-out infinite; transform-origin: center center;">
+        <img src="/image/안체1.jpg" alt="안상수체" class="hp-img" />
+      </div>
     </div>
 
     <!-- 조영제/한글그리드 삭제됨 -->
 
     <!-- 안체프로젝트: 1118,475 / 352×306 -->
-    <div class="hp-project-wrap">
+    <div class="hp-project-wrap" style="position: absolute; left: 65%; top: 15%; transform: rotate(5deg);">
       <button class="hp-project-obj" id="hp-project">
         <img src="/image/안체프로젝트.png" alt="안체프로젝트" class="hp-proj-img" />
       </button>
     </div>
 
     <!-- 멋지음안상수: 1428,708 / 348×275 -->
-    <div class="hp-blob">
+    <div class="hp-blob" style="position: absolute; left: 20%; top: 75%; transform: rotate(-8deg);">
       <img src="/image/멋지음안상수.png" alt="멋지음안상수" class="hp-img" />
     </div>
 
     <!-- 게임기: 벽돌 자리 -->
-    <div class="hp-brick-wrap" id="hp-game-sticker" style="cursor: pointer;">
+    <div class="hp-brick-wrap" id="hp-game-sticker" style="cursor: pointer; position: absolute; left: 85%; top: 65%; transform: rotate(12deg);">
       <svg width="100%" viewBox="0 0 24 32" style="image-rendering: pixelated; display: block;" xmlns="http://www.w3.org/2000/svg">
         <rect x="3" y="2" width="18" height="24" rx="2" fill="#111"/>
         <rect x="4" y="3" width="16" height="22" rx="1" fill="#222"/>
@@ -69,7 +71,7 @@ const LEGACY_HTML = `
     <button class="hp-nav-btn" id="hp-meotjieun">멋지은 이들</button>
 
     <!-- 송명선 상세 페이지로 이동하는 버튼 -->
-    <div style="position: absolute; left: 58%; top: 50%; transform: translate(-50%, -50%); z-index: 100; pointer-events: none;">
+    <div style="position: absolute; left: 20%; top: 55%; transform: translate(-50%, -50%) rotate(6deg); z-index: 100; pointer-events: none;">
       <div style="animation: hp-drift-2 11s ease-in-out infinite;">
         <a href="/song" id="hp-song" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(-3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
           <div class="hp-song-inner">
@@ -81,9 +83,9 @@ const LEGACY_HTML = `
     </div>
 
     <!-- 유승현 섹션으로 이동하는 버튼 (구 확장 자리) -->
-    <div class="hp-expand" style="z-index: 100; pointer-events: none; display: flex; justify-content: center; align-items: center;">
+    <div class="hp-expand" style="position: absolute; left: 55%; top: 75%; transform: rotate(-5deg); z-index: 100; pointer-events: none; display: flex; justify-content: center; align-items: center;">
       <div style="animation: hp-drift-3 13s ease-in-out infinite;">
-        <a href="/song" id="hp-yu" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
+        <a href="/yu" id="hp-yu" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
           <div class="hp-yu-inner">
             <span class="hp-yu-normal">유승현</span>
             <span class="hp-yu-jamo">ㅇㅠㅅㅡㅇㅎㅕㄴ</span>

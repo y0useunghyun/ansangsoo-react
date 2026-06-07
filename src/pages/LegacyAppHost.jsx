@@ -45,6 +45,16 @@ export default function LegacyAppHost() {
         navigate('/hanbun');
       });
     }
+
+    setTimeout(() => {
+      const ahnEl = document.getElementById('hp-ahn');
+      if (ahnEl) {
+        ahnEl.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigate('/ahn');
+        });
+      }
+    }, 100);
     
     // 유승현 버튼 클릭 시 한눈에 보기 모달 열기
     setTimeout(() => {
@@ -136,7 +146,7 @@ export default function LegacyAppHost() {
     const handleHunminClick = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/hunmin'); };
     const handleTitleClick  = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/song'); };
     const handleSongClick   = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/song'); };
-    const handleYuClick     = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/song', { state: { scrollTo: 'yu' } }); };
+    const handleYuClick     = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/yu'); };
 
     if (typeSticker)  typeSticker.addEventListener('click', handleTypeClick);
     if (gameSticker)  gameSticker.addEventListener('click', handleGameClick);

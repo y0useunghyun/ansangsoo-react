@@ -5,6 +5,7 @@ import Hanbun from './pages/Hanbun';
 import TypewriterIntro from './pages/Typewriter';
 import ConceptGame from './pages/ConceptGame';
 import Hunmin from './pages/Hunmin';
+import Ahn from './pages/Ahn';
 import Hak from './pages/Hak';
 import Expand from './pages/Expand';
 import Yu from './pages/Yu';
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<LegacyAppHost />} />
           <Route path="/song" element={<Song />} />
           <Route path="/hunmin" element={<Hunmin />} />
+          <Route path="/ahn" element={<Ahn />} />
           <Route path="/hak" element={<Hak />} />
           <Route path="/expand" element={<Expand />} />
           <Route path="/yu" element={<Yu />} />

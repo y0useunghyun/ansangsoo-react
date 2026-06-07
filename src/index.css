@@ -1833,6 +1833,11 @@ html, body {
    ══════════════════════════════════════ */
 
 /* 플로팅 keyframes — 3가지 궤도 */
+@keyframes ahn-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
 @keyframes hp-bob {
   0%   { transform: translateY(0); }
   50%  { transform: translateY(-80px); }
