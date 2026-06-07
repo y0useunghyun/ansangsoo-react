@@ -105,8 +105,9 @@ export default function Ahn() {
       setAgFixed(null);
       return;
     }
-    const circleRect = agCirclesRef.current.getBoundingClientRect();
-    setAgFixed({ x: circleRect.left, y: circleRect.top });
+    if (!agWordRef.current) return;
+    const wr = agWordRef.current.getBoundingClientRect();
+    setAgFixed({ x: wr.left + wr.width / 2, y: wr.top + wr.height / 2 });
     setAgOpen(true);
   };
 
@@ -136,6 +137,22 @@ export default function Ahn() {
     window.addEventListener('click', handleGlobalClick);
     return () => window.removeEventListener('click', handleGlobalClick);
   }, [fnActive]);
+
+  useEffect(() => {
+    const positionCircles = () => {
+      if (!agSectionRef.current || !agWordRef.current || !agCirclesRef.current || agOpen) return;
+      const sr = agSectionRef.current.getBoundingClientRect();
+      const wr = agWordRef.current.getBoundingClientRect();
+      agCirclesRef.current.style.left = `${wr.left - sr.left + wr.width / 2}px`;
+      agCirclesRef.current.style.top = `${wr.top - sr.top + wr.height / 2}px`;
+    };
+    
+    positionCircles();
+    window.addEventListener('resize', positionCircles);
+    document.fonts?.ready?.then(positionCircles);
+    
+    return () => window.removeEventListener('resize', positionCircles);
+  }, [agOpen]);
 
   useEffect(() => {
     let ticking = false;
@@ -170,7 +187,7 @@ export default function Ahn() {
       style={{ width: '100vw', height: '100vh', backgroundColor: '#fff', position: 'relative', overflow: 'hidden' }}
     >
       {/* 고정 헤더 */}
-      <div className="dm-header" id="dm-header" style={{ pointerEvents: 'auto', zIndex: 100 }}>
+      <div className="dm-header" id="dm-header" style={{ pointerEvents: 'auto', zIndex: 100, '--progress': `${progress * 100}%` }}>
         <Link to="/" className="dm-home-btn" id="dm-home-btn" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&lt; 홈</Link>
         <svg id="dm-progress-svg" className="dm-progress-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1918.2 97.7" preserveAspectRatio="none" style={{ pointerEvents: 'none' }}>
           <defs>

@@ -11,7 +11,7 @@ const LEGACY_HTML = `
     </div>
 
     <!-- 타자기 (홈) -->
-    <div class="hp-tajagi" id="hp-tajagi-home" style="cursor: pointer; position: absolute; left: 30%; top: 22%; transform: rotate(8deg);">
+    <div class="hp-tajagi" id="hp-tajagi-home" style="cursor: pointer; position: absolute; left: 33%; top: 17%; transform: rotate(8deg);">
       <img src="/image/타자기2.png" alt="종이" class="hp-tajagi-paper" />
       <img src="/image/타자기.png" alt="타자기" class="hp-tajagi-base" />
     </div>
@@ -38,9 +38,9 @@ const LEGACY_HTML = `
       </button>
     </div>
 
-    <!-- 멋지음안상수: 1428,708 / 348×275 -->
-    <div class="hp-blob" style="position: absolute; left: 20%; top: 75%; transform: rotate(-8deg);">
-      <img src="/image/멋지음안상수.png" alt="멋지음안상수" class="hp-img" />
+    <!-- 멋지음안상수: 좌측 하단 (클래스 제거, 인라인 스타일 강제) -->
+    <div id="hp-blob-btn" style="cursor: pointer; position: absolute; left: 20%; top: 75%; transform: rotate(-8deg); z-index: 9999999; animation: hp-drift-1 14s ease-in-out infinite; pointer-events: auto;" onclick="window.location.href='/meotjieum'; return false;" onpointerdown="window.location.href='/meotjieum'; return false;">
+      <img src="/image/멋지음안상수.png" alt="멋지음안상수" style="width: 12.5vw; height: auto; pointer-events: auto; cursor: pointer; display: block;" />
     </div>
 
     <!-- 게임기: 벽돌 자리 -->
@@ -68,10 +68,10 @@ const LEGACY_HTML = `
     <button class="hp-nav-btn" id="hp-hanbun">한눈에 보기</button>
 
     <!-- 멋지은 이들: 1711,10 -->
-    <button class="hp-nav-btn" id="hp-meotjieun">멋지은 이들</button>
+    <button class="hp-nav-btn" id="hp-meotjieun" style="position: absolute; left: 1711px; top: 10px; z-index: 100; pointer-events: auto;">멋지은 이들</button>
 
     <!-- 송명선 상세 페이지로 이동하는 버튼 -->
-    <div style="position: absolute; left: 20%; top: 55%; transform: translate(-50%, -50%) rotate(6deg); z-index: 100; pointer-events: none;">
+    <div id="hp-song-wrap" style="position: absolute; left: 22%; top: 58%; transform: translate(-50%, -50%) rotate(6deg); z-index: 100; pointer-events: none;">
       <div style="animation: hp-drift-2 11s ease-in-out infinite;">
         <a href="/song" id="hp-song" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(-3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
           <div class="hp-song-inner">
@@ -83,7 +83,7 @@ const LEGACY_HTML = `
     </div>
 
     <!-- 유승현 섹션으로 이동하는 버튼 (구 확장 자리) -->
-    <div class="hp-expand" style="position: absolute; left: 55%; top: 75%; transform: rotate(-5deg); z-index: 100; pointer-events: none; display: flex; justify-content: center; align-items: center;">
+    <div class="hp-expand" style="position: absolute; left: 60%; top: 70%; transform: rotate(-5deg); z-index: 100; pointer-events: none; display: flex; justify-content: center; align-items: center;">
       <div style="animation: hp-drift-3 13s ease-in-out infinite;">
         <a href="/yu" id="hp-yu" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
           <div class="hp-yu-inner">

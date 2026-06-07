@@ -2867,8 +2867,8 @@ document.getElementById('main-header')?.addEventListener('click', () => {
         var closeBtn = document.getElementById('rope-overlay-close');
         if (closeBtn) closeBtn.click();
         
-        if (typeof navigate === 'function') {
-          navigate('/typewriter');
+        if (typeof window.openTypewriterIntro === 'function') {
+          window.openTypewriterIntro();
         }
       });
     });

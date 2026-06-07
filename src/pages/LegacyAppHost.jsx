@@ -9,7 +9,6 @@ const LEGACY_DOM = { __html: LEGACY_HTML };
 import AncheProjectModal from '../components/AncheProjectModal';
 import TypewriterIntro from './Typewriter';
 import CuteEyes from '../components/CuteEyes';
-
 export default function LegacyAppHost() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -133,28 +132,36 @@ export default function LegacyAppHost() {
 
   // 스티커 클릭 이벤트 직접 바인딩
   useEffect(() => {
-    const typeSticker = document.getElementById('hp-tajagi-home');
-    const gameSticker = document.getElementById('hp-game-sticker');
-    const hakSticker  = document.getElementById('hp-hak');
-    const hunminSticker = document.getElementById('hp-hunmin');
-    const titleBtn   = document.getElementById('hp-title');
-    const songBtn    = document.getElementById('hp-song');
-    const yuBtn      = document.getElementById('hp-yu');
     const handleTypeClick   = (e) => { e.preventDefault(); e.stopPropagation(); setShowTypewriterIntro(true); };
     const handleGameClick   = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/game'); };
     const handleHakClick    = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/hak'); };
     const handleHunminClick = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/hunmin'); };
     const handleTitleClick  = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/song'); };
     const handleSongClick   = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/song'); };
-    const handleYuClick     = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/yu'); };
+    const handleYuClick        = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/yu'); };
+    const handleMeotjieumClick = (e) => { e.preventDefault(); e.stopPropagation(); navigate('/meotjieum'); };
 
-    if (typeSticker)  typeSticker.addEventListener('click', handleTypeClick);
-    if (gameSticker)  gameSticker.addEventListener('click', handleGameClick);
-    if (hakSticker)   hakSticker.addEventListener('click', handleHakClick);
-    if (hunminSticker) hunminSticker.addEventListener('click', handleHunminClick);
-    if (titleBtn)     titleBtn.addEventListener('click', handleTitleClick);
-    if (songBtn)      songBtn.addEventListener('click', handleSongClick);
-    if (yuBtn)        yuBtn.addEventListener('click', handleYuClick);
+    let typeSticker, gameSticker, hakSticker, hunminSticker, titleBtn, songBtn, yuBtn, blobBtn;
+
+    setTimeout(() => {
+      typeSticker = document.getElementById('hp-tajagi-home');
+      gameSticker = document.getElementById('hp-game-sticker');
+      hakSticker  = document.getElementById('hp-hak');
+      hunminSticker = document.getElementById('hp-hunmin');
+      titleBtn   = document.getElementById('hp-title');
+      songBtn    = document.getElementById('hp-song');
+      yuBtn      = document.getElementById('hp-yu');
+      blobBtn    = document.getElementById('hp-blob-btn');
+
+      if (typeSticker)  typeSticker.addEventListener('click', handleTypeClick);
+      if (gameSticker)  gameSticker.addEventListener('click', handleGameClick);
+      if (hakSticker)   hakSticker.addEventListener('click', handleHakClick);
+      if (hunminSticker) hunminSticker.addEventListener('click', handleHunminClick);
+      if (titleBtn)     titleBtn.addEventListener('click', handleTitleClick);
+      if (songBtn)      songBtn.addEventListener('click', handleSongClick);
+      if (yuBtn)        yuBtn.addEventListener('click', handleYuClick);
+      if (blobBtn)      blobBtn.addEventListener('click', handleMeotjieumClick);
+    }, 200);
 
     return () => {
       if (typeSticker)  typeSticker.removeEventListener('click', handleTypeClick);
@@ -164,6 +171,7 @@ export default function LegacyAppHost() {
       if (titleBtn)     titleBtn.removeEventListener('click', handleTitleClick);
       if (songBtn)      songBtn.removeEventListener('click', handleSongClick);
       if (yuBtn)        yuBtn.removeEventListener('click', handleYuClick);
+      if (blobBtn)      blobBtn.removeEventListener('click', handleMeotjieumClick);
     };
   }, [navigate]);
 
@@ -176,9 +184,10 @@ export default function LegacyAppHost() {
       style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden' }}
     >
 
-      {/* 한눈에 보기 인터셉터 — detail 페이지·타자기·안체모달 열릴 때 숨김 */}
+      {/* 데스크톱: 한눈에 보기 인터셉터 */}
       {!anyDetailOpen && !showTypewriterIntro && !isAncheOpen && <button
         onClick={() => navigate('/hanbun')}
+        className="react-hanbun-btn"
         style={{
           position: 'fixed', left: '81.4%', top: '0.9%', zIndex: 1001,
           background: 'none', border: 'none', padding: 0, cursor: 'pointer',
@@ -187,6 +196,22 @@ export default function LegacyAppHost() {
           whiteSpace: 'nowrap',
         }}
       >한눈에 보기</button>}
+
+      {/* 모바일 전용 헤더 */}
+      {!anyDetailOpen && !showTypewriterIntro && !isAncheOpen && (
+        <div className="mobile-home-header">
+          <button
+            onClick={() => navigate('/song')}
+            className="mobile-home-header__title"
+          >
+            안상수체에.대해.얼마나.알고.있니
+          </button>
+          <div className="mobile-home-header__nav">
+            <button onClick={() => navigate('/hanbun')} className="mobile-home-header__nav-btn">한눈에 보기</button>
+            <button onClick={() => navigate('/society')} className="mobile-home-header__nav-btn">멋지은 이들</button>
+          </div>
+        </div>
+      )}
 
       {/* TypewriterIntro 모달 오버레이 */}
       {showTypewriterIntro && (

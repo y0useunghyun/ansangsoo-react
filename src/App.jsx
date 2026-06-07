@@ -10,6 +10,7 @@ import Hak from './pages/Hak';
 import Expand from './pages/Expand';
 import Yu from './pages/Yu';
 import SocietyGallery from './pages/SocietyGallery';
+import Meotjieum from './pages/Meotjieum';
 import { AnimatePresence } from 'framer-motion';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/typewriter" element={<Navigate to="/" replace />} />
           <Route path="/game" element={<ConceptGame />} />
           <Route path="/hanbun" element={<Hanbun />} />
+          <Route path="/meotjieum" element={<Meotjieum />} />
         </Routes>
       </div>
     </BrowserRouter>

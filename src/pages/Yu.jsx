@@ -13,7 +13,7 @@ export default function Yu() {
 
   // 타임라인 가로 패닝
   const [hPx, setHPx] = useState(0);
-  const H_STEP = 1400;
+  const H_STEP = window.innerWidth <= 768 ? 250 : 1400;
   const H_MAX = 6500;
 
   const [isAncheOpen, setIsAncheOpen] = useState(false);
@@ -21,9 +21,12 @@ export default function Yu() {
   const [activePopup, setActivePopup] = useState(null);
   useEffect(() => {
     const handleResize = () => {
-      const scaleX = window.innerWidth / 1920;
-      const scaleY = window.innerHeight / 1080;
-      setScale(Math.min(scaleX, scaleY) * 0.9);
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const isMob = w <= 768;
+      const scaleX = w / 1920;
+      const scaleY = h / 1080;
+      setScale(Math.min(scaleX, scaleY) * (isMob ? 2.8 : 0.9));
     };
     window.addEventListener('resize', handleResize);
     handleResize();
@@ -69,7 +72,7 @@ export default function Yu() {
       transition={{ duration: 0.5 }}
       style={{ width: '100vw', height: '100vh', backgroundColor: '#fff', position: 'relative', overflow: 'hidden' }}
     >
-      <div className="dm-header" id="dm-header" style={{ pointerEvents: 'auto', zIndex: 100 }}>
+      <div className="dm-header" id="dm-header" style={{ pointerEvents: 'auto', zIndex: 100, '--progress': `${progress * 100}%` }}>
         <Link to="/" className="dm-home-btn" id="dm-home-btn" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&lt; 홈</Link>
         <svg id="dm-progress-svg" className="dm-progress-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1918.2 97.7" preserveAspectRatio="none" style={{ pointerEvents: 'none' }}>
           <defs>
@@ -117,14 +120,13 @@ export default function Yu() {
         }}
       >
         <section style={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-          <div style={{ width: '100%', padding: '15vh 5vw', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '50px', color: 'black', fontSize: 'clamp(22px, 2.8vw, 52px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, lineHeight: '1.4' }}>
+          <div style={{ width: '100%', padding: '15vh 5vw', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '50px', color: 'black', fontSize: 'clamp(18px, 2.8vw, 52px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, lineHeight: '1.5', wordBreak: 'keep-all' }}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: step >= 0 ? 1 : 0, y: step >= 0 ? 0 : 20 }}
                 transition={{ duration: 0.5 }}
               >
-                글자체에 대해서 무지했던 저는 안상수체가 처음 나왔을 때부터<br/>
-                3종이 다 나왔을 거라고 생각했습니다.
+                글자체에 대해서 무지했던 나는 안상수체가 처음 나왔을 때부터 3종이 다 나왔을 거라고 생각했다.
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -138,8 +140,7 @@ export default function Yu() {
                 animate={{ opacity: step >= 2 ? 1 : 0, y: step >= 2 ? 0 : 20 }}
                 transition={{ duration: 0.5 }}
               >
-                이렇게 꾸준히 변화하는 점이 대단하게 느껴졌습니다.<br/>
-                그래서 어떻게 변화해왔는지 정리해 보려고 합니다.
+                이렇게 꾸준히 변화하는 점이 대단하게 느껴졌다. 그래서 어떻게 변화해왔는지 정리해 보려고 한다.
               </motion.div>
           </div>
         </section>
@@ -207,9 +208,9 @@ export default function Yu() {
 
 
             {[
-              { x: 100,  text: '1937\n최현배의 풀어쓰기 〈한글〉 5권 5호', content: { title: '최현배의 풀어쓰기', desc: "국어학자 최현배 선생은 한글을 네모틀(모아쓰기)에 가두지 말고 영문 알파벳처럼 가로로 길게 늘어쓰자고 주장했습니다. 이는 기계화(타자기)와 타자의 효율성을 높이기 위한 혁신적인 시도였습니다.", note: "* 출처: 국립국어원 및 한국학중앙연구원 등 역사 자료", color: '#D3D3D3', left: 100 + 200, top: 193 - 10 } },
-              { x: 1100, text: '1989\n장봉선의 풀어쓰기 〈한글풀어쓰기 교본〉', content: { title: '장봉선의 풀어쓰기', desc: "주시경-최현배로 이어지는 풀어쓰기 운동의 흐름을 계승하여 교본을 펴냈습니다. 완전히 풀어쓰는 방식뿐만 아니라 시각적 과도기 형태인 '반 풀어쓰기' 등 다양한 타이포그래피적 대안을 제안했습니다.", note: "* 출처: 국립국어원 《국어생활》 (1989년) 등 학술지 기록", color: '#D3D3D3', left: 1100 + 200, top: 193 - 10 } },
-              { x: 2300, text: '1993\n조정보의 풀어쓰기 〈한글정보〉 제 5호', content: { title: '조정보의 풀어쓰기', desc: "본격적인 컴퓨터 정보화 시대가 도래하면서, 디지털 전산 처리와 한글의 구조적 특성을 결합하여 '기계에 가장 친화적인' 형태의 한글 풀어쓰기 방식을 제안한 연구입니다.", note: "* 출처: 디자인 매거진 《한글정보》 1993년 제5호", color: '#D3D3D3', left: 2300 + 200, top: 193 - 10 } },
+              { x: 100,  text: '1937\n최현배의 풀어쓰기 〈한글〉 5권 5호', content: { title: '최현배의 풀어쓰기', desc: "국어학자 최현배 선생은 한글을 네모틀(모아쓰기)에 가두지 말고 영문 알파벳처럼 가로로 길게 늘어쓰자고 주장했다. 이는 기계화(타자기)와 타자의 효율성을 높이기 위한 혁신적인 시도였다.", note: "* 출처: 국립국어원 및 한국학중앙연구원 등 역사 자료", color: '#D3D3D3', left: 100 + 200, top: 193 - 10 } },
+              { x: 1100, text: '1989\n장봉선의 풀어쓰기 〈한글풀어쓰기 교본〉', content: { title: '장봉선의 풀어쓰기', desc: "주시경-최현배로 이어지는 풀어쓰기 운동의 흐름을 계승하여 교본을 펴냈다. 완전히 풀어쓰는 방식뿐만 아니라 시각적 과도기 형태인 '반 풀어쓰기' 등 다양한 타이포그래피적 대안을 제안했다.", note: "* 출처: 국립국어원 《국어생활》 (1989년) 등 학술지 기록", color: '#D3D3D3', left: 1100 + 200, top: 193 - 10 } },
+              { x: 2300, text: '1993\n조정보의 풀어쓰기 〈한글정보〉 제 5호', content: { title: '조정보의 풀어쓰기', desc: "본격적인 컴퓨터 정보화 시대가 도래하면서, 디지털 전산 처리와 한글의 구조적 특성을 결합하여 '기계에 가장 친화적인' 형태의 한글 풀어쓰기 방식을 제안한 연구다.", note: "* 출처: 디자인 매거진 《한글정보》 1993년 제5호", color: '#D3D3D3', left: 2300 + 200, top: 193 - 10 } },
             ].map((item, i) => (
               <div 
                 key={i} 

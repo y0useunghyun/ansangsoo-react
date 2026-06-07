@@ -1835,7 +1835,7 @@ html, body {
 /* 플로팅 keyframes — 3가지 궤도 */
 @keyframes ahn-pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+  50% { transform: scale(1.08); }
 }
 
 @keyframes hp-bob {
@@ -2080,6 +2080,8 @@ html, body {
 .hp-blob .hp-img {
   width: 12.5vw;
   height: auto;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 /* ── 벽돌 + 시작하기: 1416,756 ── */
@@ -2629,7 +2631,6 @@ html, body {
   opacity: 1;
   visibility: visible;
   transform: none;
-  pointer-events: auto;
   transition: none;
 }
 
@@ -4912,12 +4913,30 @@ html, body {
     font-size: 13px;
     padding: 6px 10px;
   }
-  .home-page.hp-in {
-    /* 우측상단에 고정되지 않고 일반 흐름으로 변경되거나, 상단에 고정 */
+  /* ── 2. 세부 페이지 프로그레스바 — 비율 유지 ── */
+  /* 헤더 높이를 뷰포트 너비에 비례시켜 'd' 글자 비율 보존 (viewBox 1918.2×97.7 기준) */
+  .dm-header {
+    height: 40px !important;
+    padding: 0 !important;
+    pointer-events: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+  }
+  /* 홈 버튼 — 헤더 아래 고정 */
+  .dm-home-btn {
+    position: fixed !important;
+    top: 48px !important;
+    left: 16px !important;
+    font-size: 18px !important;
+    pointer-events: auto !important;
+  }
+  /* 스크롤 마스크 — 헤더 높이에 맞춰 줄이기 */
+  .song-scroll {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 60px) !important;
+    mask-image: linear-gradient(to bottom, transparent 0px, black 60px) !important;
   }
 
-  /* ── 2. 세부 페이지 (detail-main) 본문 및 여백 조정 ── */
-  .dm-header { padding: 10px 14px; }
+  /* ── 3. 세부 페이지 본문 및 여백 ── */
   .dm-section { padding: 30px 20px; }
   
   /* 오프닝 스토리 */
@@ -4931,8 +4950,23 @@ html, body {
   .dm-bigquote { font-size: 20px; padding: 20px 14px; border-width: 3px; }
 
   /* ── 3. 다단 레이아웃 1단(세로)으로 변경 ── */
-  .dm-hero { flex-direction: column; }
-  .dm-hero-img { width: 100%; }
+  .dm-section--hero {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+    justify-content: flex-start !important;
+    padding-top: 60px !important;
+  }
+  .dm-hero {
+    flex-direction: column !important;
+    overflow-x: hidden !important;
+    padding: 0 !important;
+    gap: 12px !important;
+  }
+  .dm-hero-img {
+    width: 100% !important;
+    height: auto !important;
+  }
   
   .dm-ap-grid { padding: 0 5%; flex-direction: column; }
   .dm-ap-thumb { width: 100%; height: auto; }
@@ -4942,8 +4976,69 @@ html, body {
   .dm-ref-row { flex-direction: column; align-items: flex-start; }
   .dm-ref-img { max-width: 100%; }
 
+  /* 과학동아 이미지 + 캡션 중앙 정렬 */
+  .dm-ref-big {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 90% !important;
+    margin: 0 auto 12px !important;
+    display: block !important;
+  }
+  .dm-ref-caption--float {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    text-align: center !important;
+    margin: 0 auto 20px !important;
+    display: block !important;
+  }
+
   .hm-charts-wrap { flex-direction: column; align-items: center; }
   .hm-chart { width: 80%; margin-bottom: 10px; }
+
+  /* 훈민정음 창제원리 섹션 — 간격 압축 */
+  .dm-section--hunmin {
+    height: auto !important;
+    min-height: 100vh !important;
+    padding: 70px 20px 40px !important;
+    justify-content: flex-start !important;
+    gap: 20px !important;
+  }
+  .hm-img-wrap { width: 100% !important; }
+  .hm-title { font-size: 22px !important; margin-bottom: 12px !important; }
+
+  /* 첫닿자·받침·홀자 세로 배열 */
+  .hm3-charts-wrap {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    align-items: center !important;
+  }
+  .hm3-chart {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    width: 80% !important;
+  }
+  .hm3-chart-img { width: 100% !important; }
+
+  /* 네모틀/탈네모틀 초록 원 — scale 제거하고 JS 위치 그대로 */
+  .ag-form-circles {
+    transform: none !important;
+  }
+
+  /* 캡션 작게 */
+  .dm-ref-caption--float {
+    font-size: 9px !important;
+  }
 
   /* ── 4. 밧줄 및 기타 크기 조정 ── */
   .dm-rope-wrap { right: 4%; }
@@ -4958,6 +5053,44 @@ html, body {
   #detail-anche3 { flex-direction: column; overflow-y: auto; }
   .ap3-ctrl-col { width: 100%; border-left: none; border-top: 1.5px solid var(--border); padding-bottom: 80px; }
   .ap3-main { min-height: 50vh; }
+
+  /* ── 6. 안체 프로젝트 상세 (#detail-anche) 모바일 레이아웃 ── */
+  #detail-anche .ap-stage {
+    flex-direction: column-reverse;
+    overflow-y: auto;
+    overflow-x: hidden;
+    align-items: flex-start;
+    padding: 70px 16px 100px;
+    gap: 32px;
+  }
+  #detail-anche .ap-text-wrap {
+    flex: none;
+    width: 100%;
+    overflow: visible;
+    margin-left: 0;
+  }
+  #detail-anche .ap-text-panel {
+    transform: none !important;
+    width: 100% !important;
+    pointer-events: auto !important;
+  }
+  #detail-anche .ap-grid-anim {
+    animation: none;
+    width: 100%;
+  }
+  #detail-anche .ap-grid {
+    grid-template-columns: 42vw 5vw 42vw 5vw;
+    grid-template-rows: 32vw 32vw;
+    width: 100%;
+  }
+  #detail-anche .ap-gogo {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    top: auto;
+  }
 }
 
 /* 송명선 자모 분리 애니메이션 */
@@ -4966,8 +5099,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 120px;
+  width: 360px;
+  height: 140px;
 }
 .hp-song-normal, .hp-song-jamo {
   position: absolute;
@@ -4975,7 +5108,7 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'agahnsangsoo2012', sans-serif;
-  font-size: 80px;
+  font-size: 96px;
   font-weight: 800;
   color: #000000;
   white-space: nowrap;
@@ -5007,8 +5140,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 120px;
+  width: 360px;
+  height: 140px;
 }
 .hp-yu-normal, .hp-yu-jamo {
   position: absolute;
@@ -5016,7 +5149,7 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'agahnsangsoo2012', sans-serif;
-  font-size: 80px;
+  font-size: 96px;
   font-weight: 800;
   color: #000000;
   white-space: nowrap;
@@ -5040,4 +5173,153 @@ html, body {
 #hp-yu:hover .hp-yu-jamo {
   opacity: 1;
   letter-spacing: 4px;
+}
+
+/* ========================================
+   MOBILE & RESPONSIVE OVERRIDES (Phase 1)
+   ======================================== */
+@media (max-width: 768px) {
+  /* 1. Use 100dvh for better mobile viewport handling */
+  .app-wrapper,
+  .dm-section,
+  .home-wrapper,
+  .legacy-page,
+  section {
+    min-height: 100dvh !important;
+  }
+
+  /* 2. Scroll Snap for full-page tactile feel */
+  .legacy-scroll-container,
+  html, body {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  .dm-section, section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* 3. Hide legacy navigational structures that clutter screen */
+  .home-indicator,
+  .drag-info,
+  .top-left-title,
+  .grid-bg {
+    display: none !important;
+  }
+
+  /* 4. Increase legibility and spacing for narrow screens */
+  .dm-title {
+    font-size: clamp(32px, 8vw, 48px) !important;
+    line-height: 1.2 !important;
+  }
+  
+  .dm-body {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    width: 90% !important;
+    padding: 0 5% !important;
+  }
+
+  /* 5. Disable hover effects and rely on touch */
+  .fn-card, .fn-overlay {
+    pointer-events: none; /* Let JS handle taps instead */
+  }
+
+  /* Global Container tweaks */
+  .detail-page {
+    width: 100vw !important;
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  /* ── 레거시 헤더 요소 숨김 (React 헤더로 대체) ── */
+  .hp-title { display: none !important; }
+  #hp-hanbun { display: none !important; }
+  .react-hanbun-btn { display: none !important; }
+  #hp-meotjieun { display: none !important; }
+
+  /* ── 모바일 전용 헤더 ── */
+  .mobile-home-header {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    z-index: 1001;
+    background: #fff;
+    padding: 10px 16px 8px;
+    box-sizing: border-box;
+  }
+  .mobile-home-header__title {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: AGahnsangsoo2012, sans-serif;
+    font-weight: 700;
+    font-size: clamp(24px, 7.8vw, 36px);
+    text-align: left;
+    cursor: pointer;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .mobile-home-header__nav {
+    display: flex;
+    gap: 20px;
+    margin-top: 4px;
+  }
+  .mobile-home-header__nav-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: AGahnsangsoo2012, sans-serif;
+    font-weight: 700;
+    font-size: clamp(12px, 3.4vw, 16px);
+    cursor: pointer;
+  }
+
+  /* ── 눈 스티커: scale로 실제 축소 + 송명선 자리로 이동 ── */
+  #hp-cute-eyes-mount {
+    width: 200px !important;
+    height: 200px !important;
+    left: 8% !important;
+    top: 59% !important;
+    transform: scale(0.35) !important;
+    transform-origin: center center !important;
+  }
+
+  /* 세벌식 타자기 — 살짝 위로 */
+  #hp-tajagi-home { left: 40% !important; top: 26% !important; }
+  .hp-tajagi { width: 15vw !important; height: 18vh !important; }
+  .hp-tajagi-base { width: 15vw !important; top: 3vh !important; }
+  .hp-tajagi-paper { width: 12vw !important; left: 8vw !important; }
+
+  .hp-hak .hp-img { width: 20vw !important; }
+  #hp-ahn { width: 42vw !important; }
+  .hp-proj-img { width: 20vw !important; }
+  #hp-blob-btn { left: 65% !important; top: 15% !important; }
+  #hp-blob-btn img { width: 18vw !important; }
+  .hp-project-wrap { left: 20% !important; top: 82% !important; }
+
+  /* 게임보이 — 유승현 위로, bob 움직임 축소 */
+  #hp-game-sticker { left: 62% !important; top: 86% !important; }
+  .hp-brick-wrap { width: 18vw !important; animation: hp-bob-mobile 2s ease-in-out infinite !important; }
+
+  @keyframes hp-bob-mobile {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* 송명선 — 눈 자리로 이동 */
+  #hp-song-wrap { left: 75% !important; top: 35% !important; }
+  .hp-song-inner { width: 130px !important; height: 56px !important; }
+  .hp-song-normal, .hp-song-jamo { font-size: 36px !important; }
+
+  /* 유승현 */
+  .hp-expand { top: 70% !important; }
+  .hp-yu-inner { width: 130px !important; height: 56px !important; }
+  .hp-yu-normal, .hp-yu-jamo { font-size: 36px !important; }
 }

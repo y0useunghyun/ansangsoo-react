@@ -13,15 +13,18 @@ export default function Song() {
     // Scroll restoration placeholder if needed
   }, [location.state]);
   const [scale, setScale] = useState(1);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [progress, setProgress] = useState(0);
   const [isAncheOpen, setIsAncheOpen] = useState(false);
 
   useEffect(() => {
-    // 1920x1080 컨테이너를 화면에 꽉 차게 비율 유지하며 축소/확대
     const handleResize = () => {
-      const scaleX = window.innerWidth / 1920;
+      const w = window.innerWidth;
+      const mob = w <= 768;
+      setIsMobile(mob);
+      const scaleX = w / 1920;
       const scaleY = window.innerHeight / 1080;
-      setScale(Math.min(scaleX, scaleY) * 0.9); // 약간의 여백(0.9)을 줌
+      setScale(Math.min(scaleX, scaleY) * 0.9);
     };
     window.addEventListener('resize', handleResize);
     handleResize();
@@ -69,9 +72,8 @@ export default function Song() {
     const isPage2  = scrollTop >= window.innerHeight / 2 && scrollTop < window.innerHeight * 1.5;
 
     if (isBottomHalf) {
-      if (isPage1 && step < 3) {
-        if (step === 0) setShowPopup(true);
-        if (step === 1) setShowPopup(false);
+      if (isPage1 && step < 6) {
+        setShowPopup(false);
         setStep(prev => prev + 1);
       } else if (isPage2 && step2 < 2) {
         setStep2(prev => prev + 1);
@@ -82,8 +84,7 @@ export default function Song() {
       if (isPage2 && step2 > 0) {
         setStep2(prev => prev - 1);
       } else if (isPage1 && step > 0) {
-        if (step === 1) setShowPopup(false);
-        if (step === 2) setShowPopup(true);
+        setShowPopup(false);
         setStep(prev => prev - 1);
       } else {
         scrollRef.current.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
@@ -105,7 +106,7 @@ export default function Song() {
       style={{ width: '100vw', height: '100vh', backgroundColor: '#fff', position: 'relative', overflow: 'hidden' }}
     >
       {/* 이식된 헤더 프로그레스바 + 홈버튼 */}
-      <div className="dm-header" id="dm-header" style={{ pointerEvents: 'auto', zIndex: 100 }}>
+      <div className="dm-header" id="dm-header" style={{ pointerEvents: 'auto', zIndex: 100, '--progress': `${progress * 100}%` }}>
         <Link to="/" className="dm-home-btn" id="dm-home-btn" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(e) => e.stopPropagation()}>&lt; 홈</Link>
         <svg id="dm-progress-svg" className="dm-progress-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1918.2 97.7" preserveAspectRatio="none" style={{ pointerEvents: 'none' }}>
           <defs>
@@ -155,15 +156,69 @@ export default function Song() {
       >
         {/* 1번 페이지: 안상수체 인용구 (클릭 인터랙션) */}
         <section style={{ width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {isMobile ? (
+            /* ── 모바일: 누적 텍스트, 큰 폰트 ── */
+            <div style={{ width: '100%', padding: '80px 24px 48px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '28px', fontSize: 'clamp(22px, 5.5vw, 30px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, color: '#000', lineHeight: 1.5, wordBreak: 'keep-all' }}>
+              {[
+                "좋아하는 서체를 한 글자 프린트해 오라는 과제가 있었다.",
+                "별다른 고민과 확신도 없이 안상수체를 고르고, 내 이름의 앞글자 '송'을 적어넣었다.",
+                "프린트된 종이를 보며 이유를 생각하기 시작했다.",
+                "늘 내 이름 석자가 쓰인 모습이 마음에 들지 않았던 것 같다.",
+                "직접 써도 어딘가 불안정해 보였고, 지정된 서체를 이용해도 답답해 보였다.",
+                "안상수체로 쓰인 내 이름은 지루함 없이 살아 있고 튼튼했다.",
+                "이 점을 깨닫고 나니 애정하지 않을 수가 없었다…",
+              ].map((text, i) => (
+                <motion.div
+                  key={i}
+                  animate={{ opacity: step >= i ? 1 : 0, y: step >= i ? 0 : 12 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {text}
+                </motion.div>
+              ))}
+              {/* 이름 비교 카드 — 인라인 */}
+              <motion.div
+                animate={{ opacity: showPopup ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+                style={{ pointerEvents: showPopup ? 'auto' : 'none', display: 'flex', gap: '20px', background: '#98FB98', padding: '16px 20px', borderRadius: '5px' }}
+              >
+                <div style={{ flex: 1, textAlign: 'center' }}>
+                  <div style={{ fontSize: '36px', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, lineHeight: 1 }}>송명선</div>
+                  <div style={{ fontSize: '11px', fontFamily: 'var(--font-onul)', fontWeight: 700, letterSpacing: '1px', color: '#555', marginTop: '6px' }}>안상수체</div>
+                </div>
+                <div style={{ width: '1px', background: 'rgba(0,0,0,0.2)' }} />
+                <div style={{ flex: 1, textAlign: 'center' }}>
+                  <div style={{ fontSize: '32px', fontFamily: 'Pretendard', fontWeight: 700, lineHeight: 1 }}>송명선</div>
+                  <div style={{ fontSize: '11px', fontFamily: 'var(--font-onul)', fontWeight: 700, letterSpacing: '1px', color: '#555', marginTop: '6px' }}>Pretendard</div>
+                </div>
+              </motion.div>
+            </div>
+          ) : (
           <div style={{ width: '1920px', height: '1080px', position: 'relative', transform: `scale(${scale})`, transformOrigin: 'center center' }}>
-            <div data-layer="인용구" style={{ position: 'absolute', left: '50px', top: '200px', width: '1567px', display: 'flex', flexDirection: 'column', gap: '50px', color: 'black', fontSize: '64px', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left', lineHeight: '1.4' }}>
+            <div data-layer="인용구" style={{ position: 'absolute', left: '50px', top: '150px', width: '1567px', display: 'flex', flexDirection: 'column', gap: '35px', color: 'black', fontSize: '50px', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left', lineHeight: '1.4' }}>
               <motion.div initial={{ opacity: 1 }} animate={{ opacity: 1 }}>
-                여러분들은 좋아하는 글자체가 있으신가요?
+                좋아하는 서체를 한 글자 프린트해 오라는 과제가 있었다.
               </motion.div>
               
               <motion.div 
                 initial={{ opacity: 0, y: 20 }} 
                 animate={{ opacity: step >= 1 ? 1 : 0, y: step >= 1 ? 0 : 20 }}
+                transition={{ duration: 0.5 }}
+              >
+                별다른 고민과 확신도 없이 안상수체를 고르고, 내 이름의 앞글자 '송'을 적어넣었다.
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }} 
+                animate={{ opacity: step >= 2 ? 1 : 0, y: step >= 2 ? 0 : 20 }}
+                transition={{ duration: 0.5 }}
+              >
+                프린트된 종이를 보며 이유를 생각하기 시작했다.
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }} 
+                animate={{ opacity: step >= 3 ? 1 : 0, y: step >= 3 ? 0 : 20 }}
                 transition={{ duration: 0.5 }}
                 style={{ position: 'relative' }}
               >
@@ -174,13 +229,13 @@ export default function Song() {
                   transition={{ duration: 0.4 }}
                   style={{ 
                     position: 'absolute', 
-                    top: '-160px', 
-                    left: '100px', 
+                    top: '-140px', 
+                    left: '-20px', 
                     display: 'flex', 
                     flexDirection: 'row', 
-                    gap: '60px', 
+                    gap: '40px', 
                     alignItems: 'center',
-                    padding: '30px 50px',
+                    padding: '20px 40px',
                     borderRadius: '5px',
                     boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
                     pointerEvents: showPopup ? 'auto' : 'none',
@@ -196,44 +251,52 @@ export default function Song() {
                   />
                   
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ color: 'black', fontSize: '56px', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, lineHeight: '1' }}>송명선</div>
-                    <div style={{ color: 'black', fontSize: '18px', fontFamily: 'var(--font-onul)', fontWeight: 700, letterSpacing: '1px' }}>안상수체</div>
+                    <div style={{ color: 'black', fontSize: '48px', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, lineHeight: '1' }}>송명선</div>
+                    <div style={{ color: 'black', fontSize: '15px', fontFamily: 'var(--font-onul)', fontWeight: 700, letterSpacing: '1px' }}>안상수체</div>
                   </div>
                   
                   {/* 구분선 */}
-                  <div style={{ width: '2px', height: '60px', background: 'rgba(0,0,0,0.2)' }} />
+                  <div style={{ width: '2px', height: '50px', background: 'rgba(0,0,0,0.2)' }} />
                   
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ color: 'black', fontSize: '46px', fontFamily: 'Pretendard', fontWeight: 700, lineHeight: '1', transform: 'translateY(5px)' }}>송명선</div>
-                    <div style={{ color: 'black', fontSize: '18px', fontFamily: 'var(--font-onul)', fontWeight: 700, letterSpacing: '1px' }}>Pretendard</div>
+                    <div style={{ color: 'black', fontSize: '40px', fontFamily: 'Pretendard', fontWeight: 700, lineHeight: '1', transform: 'translateY(5px)' }}>송명선</div>
+                    <div style={{ color: 'black', fontSize: '15px', fontFamily: 'var(--font-onul)', fontWeight: 700, letterSpacing: '1px' }}>Pretendard</div>
                   </div>
                 </motion.div>
 
-                저는 <span className="dm-u" style={{ textUnderlineOffset: '18px' }} onClick={handleNameClick}>제 이름을</span> 쓰다가 안상수체를 좋아하게 됐습니다.
+                늘 <span className="dm-u" style={{ textUnderlineOffset: '12px' }} onClick={handleNameClick}>내 이름 석자가</span> 쓰인 모습이 마음에 들지 않았던 것 같다.
               </motion.div>
 
               <motion.div 
                 initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: step >= 2 ? 1 : 0, y: step >= 2 ? 0 : 20 }}
+                animate={{ opacity: step >= 4 ? 1 : 0, y: step >= 4 ? 0 : 20 }}
                 transition={{ duration: 0.5 }}
               >
-                네모틀 글자들도 매력있는 글자체가 많지만,<br/>
-                제 이름을 귀엽게 써주는 글자체는 안상수체가 제일 좋았습니다.
+                직접 써도 어딘가 불안정해 보였고, 지정된 서체를 이용해도 답답해 보였다.
               </motion.div>
               
               <motion.div 
                 initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: step >= 3 ? 1 : 0, y: step >= 3 ? 0 : 20 }}
+                animate={{ opacity: step >= 5 ? 1 : 0, y: step >= 5 ? 0 : 20 }}
                 transition={{ duration: 0.5 }}
               >
-                그 후로 저는 안상수체가 제일 좋아하는 글자체가 되었습니다.
+                안상수체로 쓰인 내 이름은 지루함 없이 살아 있고 튼튼했다.
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }} 
+                animate={{ opacity: step >= 6 ? 1 : 0, y: step >= 6 ? 0 : 20 }}
+                transition={{ duration: 0.5 }}
+              >
+                이 점을 깨닫고 나니 애정하지 않을 수가 없었다…
               </motion.div>
             </div>
           </div>
+          )}
         </section>
 
         {/* 2번 페이지: 새로운 질문과 4단 탈네모틀 폰트 비교 */}
-        <section style={{ width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+        <section style={{ width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: isMobile ? 'flex-start' : 'center', overflow: 'hidden', paddingTop: isMobile ? '70px' : 0, boxSizing: 'border-box' }}>
           <style>
             {`
               @font-face {
@@ -246,8 +309,73 @@ export default function Song() {
               }
             `}
           </style>
+          {isMobile ? (
+            /* ── 모바일: 4폰트 → 안상수체 확대 → 자모 색 ── */
+            <div style={{ width: '100%', minHeight: 'calc(100vh - 70px)', position: 'relative' }}>
+              {/* Phase 0: 질문 + 4폰트 */}
+              <motion.div
+                animate={{ opacity: step2 >= 1 ? 0 : 1 }}
+                transition={{ duration: 0.5 }}
+                style={{ padding: '0 5vw 60px', display: 'flex', flexDirection: 'column', gap: '32px', pointerEvents: step2 >= 1 ? 'none' : 'auto' }}
+              >
+                <div style={{ fontSize: 'clamp(20px, 5.5vw, 32px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, color: '#000', lineHeight: 1.4 }}>
+                  근데 많은 탈네모틀 중에<br/>왜 안상수체였을까요?
+                </div>
+                {[
+                  { font: 'AGahnsangsoo2012', label: '안상수체' },
+                  { font: 'OnulHanChe', label: '오늘한체' },
+                  { font: '"공한체", "Gonghan", sans-serif', label: '공한체' },
+                  { font: '"동대문체", "Dongdaemun", sans-serif', label: '동대문체' },
+                ].map(({ font, label }) => (
+                  <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <div style={{ fontSize: 'clamp(48px, 15vw, 80px)', fontFamily: font, fontWeight: 500, lineHeight: 1 }}>송명선</div>
+                    <div style={{ fontSize: '11px', fontFamily: 'Pretendard', color: '#bbb', fontWeight: 500, letterSpacing: '2px' }}>{label}</div>
+                  </div>
+                ))}
+              </motion.div>
+
+              {/* Phase 1+: 안상수체만 크게 중앙 + 자모 색 */}
+              <motion.div
+                animate={{ opacity: step2 >= 1 ? 1 : 0 }}
+                transition={{ duration: 0.5 }}
+                style={{
+                  position: 'absolute', inset: 0,
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                  padding: '0 5vw 60px', gap: '20px', boxSizing: 'border-box',
+                  pointerEvents: step2 >= 1 ? 'auto' : 'none',
+                }}
+              >
+                {/* 송명선 + 카드 fit-content wrapper — 카드 너비를 글자 너비에 맞춤 */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', width: 'fit-content', gap: '16px' }}>
+                  <div style={{ fontSize: 'clamp(80px, 22vw, 140px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 500, lineHeight: 1, display: 'inline-flex', paddingBottom: '0.55em' }}>
+                    {[{ char: '송', jamo: 'ㅇ' }, { char: '명', jamo: 'ㅇ' }, { char: '선', jamo: 'ㄴ' }].map(({ char, jamo }, i) => (
+                      <span key={i} style={{ position: 'relative', display: 'inline-block' }}>
+                        {char}
+                        <motion.span
+                          animate={{ opacity: step2 >= 2 ? 1 : 0 }}
+                          transition={{ duration: 0.6 }}
+                          style={{ position: 'absolute', bottom: '-0.5em', left: '50%', transform: 'translateX(-50%)', fontSize: '0.85em', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, color: '#7aeb7a', lineHeight: 1, pointerEvents: 'none' }}
+                        >
+                          {jamo}
+                        </motion.span>
+                      </span>
+                    ))}
+                  </div>
+                  <motion.div
+                    animate={{ opacity: step2 >= 2 ? 1 : 0 }}
+                    transition={{ duration: 0.5 }}
+                    style={{ width: '100%', padding: '16px 20px', background: '#98FB98', borderRadius: '5px' }}
+                  >
+                    <p style={{ margin: 0, fontSize: '13px', fontFamily: 'OnulHanChe', fontWeight: 700, color: '#000', lineHeight: 1.7, wordBreak: 'keep-all' }}>
+                      다른 글자체와 달리 한눈에 보이는 차이점은 안체는 첫 닿자와 받침의 형태를 같이 쓰고, 홀자의 위치를 가운데로 맞추어 사용하는 아주 단순한 구조이다.<br/><br/>이 점이 이름 세글자를 살아 움직이게 하는 이유였다.
+                    </p>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          ) : (
           <div style={{ width: '1920px', height: '1080px', position: 'relative', transform: `scale(${scale})`, transformOrigin: 'center center' }}>
-            
+
             {/* 시네마틱 카메라 줌 컨테이너 */}
             <motion.div
               animate={{
@@ -354,11 +482,12 @@ export default function Song() {
               }}
             >
               <p style={{ width: '100%', fontSize: '19px', fontFamily: 'OnulHanChe', fontWeight: 700, color: 'black', lineHeight: '32.3px', margin: 0, wordBreak: 'keep-all' }}>
-                다른 탈네모틀 글자체와 달리 한눈에 보인 차이점은, 안상수체는 첫 닿자와 받침의 형태를 같이 쓰고, 홀자의 위치를 가운데로 맞추어 아주 단순한 구조라는 것이다.<br/><br/>이 부분이 송명선이라는 이름을 더 귀엽게 보여주는 이유였다.
+                다른 글자체와 달리 한눈에 보이는 차이점은 안체는 첫 닿자와 받침의 형태를 같이 쓰고, 홀자의 위치를 가운데로 맞추어 사용하는 아주 단순한 구조이다.<br/><br/>이 점이 이름 세글자를 살아 움직이게 하는 이유였다.
               </p>
             </motion.div>
 
           </div>
+          )}
         </section>
       </div>
 

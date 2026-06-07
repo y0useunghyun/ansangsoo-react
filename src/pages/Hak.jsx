@@ -69,6 +69,12 @@ export default function Hak() {
   };
 
   const [progress, setProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
@@ -118,7 +124,7 @@ export default function Hak() {
       transition={{ duration: 0.5 }}
       style={{ width: '100vw', height: '100vh', backgroundColor: '#fff', position: 'relative', overflow: 'hidden' }}
     >
-      <div className="dm-header" id="dm-header" style={{ pointerEvents: 'auto', zIndex: 100, position: 'absolute', top: 0, width: '100%' }}>
+      <div className="dm-header" id="dm-header" style={{ pointerEvents: 'auto', zIndex: 100, position: 'absolute', top: 0, width: '100%', '--progress': `${progress * 100}%` }}>
         <Link to="/" className="dm-home-btn" id="dm-home-btn" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&lt; 홈</Link>
         <svg id="dm-progress-svg" className="dm-progress-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1918.2 97.7" preserveAspectRatio="none" style={{ pointerEvents: 'none' }}>
           <defs>
@@ -178,39 +184,39 @@ export default function Hak() {
         </section>
 
         {/* 두 번째 섹션: 퍼즐 게임 */}
-        <section style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', backgroundColor: '#fafafa', alignItems: 'center', justifyContent: 'center' }}>
-          
-          <h2 style={{ fontFamily: 'AGahnsangsoo2012', textAlign: 'center', fontSize: '3rem', marginBottom: '20px', marginTop: '-40px' }}>
+        <section style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', backgroundColor: '#fafafa', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '60px 0 20px' : '0' }}>
+
+          <h2 style={{ fontFamily: 'AGahnsangsoo2012', textAlign: 'center', fontSize: isMobile ? '1.1rem' : '3rem', marginBottom: isMobile ? '12px' : '20px', marginTop: isMobile ? '0' : '-40px', padding: isMobile ? '0 16px' : '0' }}>
             안상수체 개발 과정에 맞게 순서를 조립해보세요
           </h2>
 
-          <div style={{ width: '90%', maxWidth: '1200px', position: 'relative' }}>
+          <div style={{ width: isMobile ? '96%' : '90%', maxWidth: '1200px', position: 'relative' }}>
             {/* 6개 슬롯 영역 (일자 배치) */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '10px', marginBottom: '60px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(6, 1fr)', gap: isMobile ? '8px' : '10px', marginBottom: '60px' }}>
               {slots.map((s, idx) => (
-                <motion.div 
-                  key={`slot-${idx}`} 
+                <motion.div
+                  key={`slot-${idx}`}
                   onClick={() => handleSlotClick(s, idx)}
                   whileHover={s ? { scale: 0.98 } : {}}
-                  style={{ 
-                    height: '140px', 
-                    border: '3px solid #000', 
+                  style={{
+                    height: isMobile ? '90px' : '140px',
+                    border: '3px solid #000',
                     backgroundColor: s ? '#fff' : 'transparent',
-                    display: 'flex', 
+                    display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center', 
+                    justifyContent: 'center',
                     alignItems: 'center',
-                    padding: '10px',
+                    padding: isMobile ? '6px' : '10px',
                     cursor: s && status !== 'correct' ? 'pointer' : 'default',
                     position: 'relative',
                     boxShadow: s ? '4px 4px 0px #000' : 'none'
                   }}
                 >
-                  {!s && <span style={{ fontSize: '40px', color: '#ccc', fontFamily: 'AGahnsangsoo2012' }}>{idx + 1}</span>}
+                  {!s && <span style={{ fontSize: isMobile ? '20px' : '40px', color: '#ccc', fontFamily: 'AGahnsangsoo2012' }}>{idx + 1}</span>}
                   {s && (
                     <>
-                      <div style={{ fontWeight: 'bold', fontSize: '24px', marginBottom: '8px', fontFamily: 'AGahnsangsoo2012' }}>{s.title}</div>
-                      <div style={{ fontSize: '18px', color: '#444', textAlign: 'center', lineHeight: '1.3', wordBreak: 'keep-all', fontFamily: 'AGahnsangsoo2012' }}>{s.body}</div>
+                      <div style={{ fontWeight: 'bold', fontSize: isMobile ? '11px' : '24px', marginBottom: '2px', fontFamily: 'AGahnsangsoo2012', textAlign: 'center' }}>{s.title}</div>
+                      <div style={{ fontSize: isMobile ? '9px' : '18px', color: '#444', textAlign: 'center', lineHeight: '1.3', wordBreak: 'keep-all', fontFamily: 'AGahnsangsoo2012' }}>{s.body}</div>
                     </>
                   )}
                 </motion.div>
@@ -219,27 +225,27 @@ export default function Hak() {
 
             {/* 덱 영역 (일자 배치) */}
             <div style={{ borderTop: '2px dashed #ccc', paddingTop: '40px', position: 'relative' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(6, 1fr)', gap: isMobile ? '8px' : '10px' }}>
                 {deck.map((s) => (
-                  <motion.div 
-                    key={s.id} 
+                  <motion.div
+                    key={s.id}
                     onClick={() => handleDeckClick(s)}
                     whileHover={{ scale: 1.05, y: -5 }}
-                    style={{ 
-                      height: '140px', 
-                      border: '1px solid #999', 
+                    style={{
+                      height: isMobile ? '90px' : '140px',
+                      border: '1px solid #999',
                       backgroundColor: '#fff',
-                      display: 'flex', 
+                      display: 'flex',
                       flexDirection: 'column',
-                      justifyContent: 'center', 
+                      justifyContent: 'center',
                       alignItems: 'center',
-                      padding: '10px',
+                      padding: isMobile ? '6px' : '10px',
                       cursor: 'pointer',
                       boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
                     }}
                   >
-                    <div style={{ fontWeight: 'bold', fontSize: '24px', marginBottom: '8px', fontFamily: 'AGahnsangsoo2012' }}>{s.title}</div>
-                    <div style={{ fontSize: '18px', color: '#444', textAlign: 'center', lineHeight: '1.3', wordBreak: 'keep-all', fontFamily: 'AGahnsangsoo2012' }}>{s.body}</div>
+                    <div style={{ fontWeight: 'bold', fontSize: isMobile ? '11px' : '24px', marginBottom: '2px', fontFamily: 'AGahnsangsoo2012', textAlign: 'center' }}>{s.title}</div>
+                    <div style={{ fontSize: isMobile ? '9px' : '18px', color: '#444', textAlign: 'center', lineHeight: '1.3', wordBreak: 'keep-all', fontFamily: 'AGahnsangsoo2012' }}>{s.body}</div>
                   </motion.div>
                 ))}
               </div>

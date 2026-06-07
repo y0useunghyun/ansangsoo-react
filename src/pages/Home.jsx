@@ -61,7 +61,7 @@ export default function Home() {
         </button>
       </div>
 
-      <div className="hp-blob">
+      <div className="hp-blob" style={{ cursor: 'pointer' }} onClick={() => navigate('/meotjieum')}>
         <img src="/image/멋지음안상수.png" alt="멋지음안상수" className="hp-img" />
       </div>
 
