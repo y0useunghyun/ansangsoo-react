@@ -1755,9 +1755,6 @@ document.getElementById('main-header')?.addEventListener('click', () => {
     /* ================================================================
        홈 타이틀 클릭 → 메인 세부 페이지 전환
     ================================================================ */
-    document.getElementById('hp-title')?.addEventListener('click', function () {
-      openDetailMain();
-    });
 
     /* ================================================================
        홈 → 메인 세부 페이지 전환
@@ -2564,22 +2561,21 @@ document.getElementById('main-header')?.addEventListener('click', () => {
 
     /* 초성 키 맵 (key → 초성 인덱스) */
     var SB_CHO = {
-      '!': 1, '1': 18, '2': 10, '#': 12, '3': 7,
-      'Q': 17, 'q': 9, 'W': 16, 'w': 5, 'e': 15,
-      'A': 3, 'a': 11, 's': 2, 'G': 7,
-      'Z': 14, 'z': 6, 'x': 0, '|': 8
+      '0': 15, ')': 15,
+      'y': 5, 'Y': 5, 'u': 3, 'U': 3, 'i': 6, 'I': 6, 'o': 14, 'O': 14, 'p': 17, 'P': 17,
+      'h': 2, 'H': 2, 'j': 11, 'J': 11, 'k': 0, 'K': 0, 'l': 12, 'L': 12, ';': 7, ':': 7, "'": 16, '"': 16,
+      'n': 9, 'N': 9, 'm': 18, 'M': 18
     };
     /* 중성 키 맵 (key → 중성 인덱스) */
     var SB_JUNG = {
-      '4': 12, '5': 17, '6': 2, '7': 7, '8': 4, '9': 13,
-      'r': 1, 't': 0, 'd': 20, 'f': 0, 'g': 18, 'c': 5, 'v': 8, 'b': 13, '/': 8
+      '4': 12, '$': 12, '5': 17, '%': 17, '6': 2, '^': 2, '7': 7, '&': 7, '8': 19, '*': 19, '9': 13, '(': 13,
+      'e': 6, 'E': 6, 'r': 1, 'R': 1, 't': 4, 'T': 4, 'd': 20, 'D': 20, 'f': 0, 'F': 0, 'g': 18, 'G': 18,
+      'c': 5, 'C': 5, 'v': 8, 'V': 8, 'b': 13, 'B': 13, '/': 8, '?': 8
     };
     /* 종성(받침) 키 맵 */
     var SB_JONG = {
-      '@': 9, '$': 14, '%': 13, '0': 24,
-      'E': 5, 'R': 15, 'T': 12, 'y': 8, 'u': 7, 'i': 16, 'o': 23, 'p': 26,
-      'S': 6, 'D': 11, 'F': 10, 'h': 4, 'j': 21, 'k': 1, 'l': 22, ';': 17, "'": 25,
-      'X': 18, 'C': 24, 'V': 2, 'n': 19, 'm': 27
+      '1': 27, '!': 27, '2': 20, '@': 20, '3': 17, '#': 17,
+      'q': 19, 'Q': 19, 'w': 8, 'W': 8, 'a': 21, 'A': 21, 's': 4, 'S': 4, 'z': 16, 'Z': 16, 'x': 1, 'X': 1
     };
     /* 겸용 키 없음 */
     var SB_DUAL_JONG = {};
@@ -2625,7 +2621,7 @@ document.getElementById('main-header')?.addEventListener('click', () => {
 
     function currentChar() {
       if (tj.mode === 'idle') return '';
-      if (tj.mode === 'cho')  return CHO_LIST[tj.cho];
+      if (tj.mode === 'cho')  return tj.cho >= 0 ? CHO_LIST[tj.cho] : '';
       /* 초성 없이 중성만 → ㅏ ㅑ 자모 그대로 (ㅇ 안 붙임) */
       if (tj.cho < 0 && tj.jong < 0) return JUNG_LIST[tj.jung];
       return makeChar(tj.cho, tj.jung, tj.jong);
@@ -2659,7 +2655,11 @@ document.getElementById('main-header')?.addEventListener('click', () => {
           tj.jung = JUNG_SPLIT[tj.jung][0]; /* 복합 중성 → 앞 모음만 */
         } else {
           tj.jung = -1;
-          tj.mode = 'cho';
+          if (tj.cho === -1) {
+            tj.mode = 'idle';
+          } else {
+            tj.mode = 'cho';
+          }
         }
       } else if (tj.mode === 'cho') {
         tj.cho = -1;
@@ -2822,6 +2822,14 @@ document.getElementById('main-header')?.addEventListener('click', () => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       var key = codeToKey(e.code, shiftDown);
       if (!key) return;
+      
+      var tjIntro = document.getElementById('tj-intro');
+      if (tjIntro && tjIntro.style.display !== 'none') {
+        tjIntro.style.display = 'none';
+        tj.committed = '';
+        if (tjTextEl) tjTextEl.innerHTML = '';
+      }
+
       e.preventDefault();
       highlightKey(e.code, true);
       processKey(key, shiftDown);

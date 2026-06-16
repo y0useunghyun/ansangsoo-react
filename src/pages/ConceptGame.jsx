@@ -2,6 +2,52 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const CHO_LIST  = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+const JUNG_LIST = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+const JONG_LIST = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+
+const SB_CHO = {
+  '0': 15, ')': 15,
+  'y': 5, 'Y': 5, 'u': 3, 'U': 3, 'i': 6, 'I': 6, 'o': 14, 'O': 14, 'p': 17, 'P': 17,
+  'h': 2, 'H': 2, 'j': 11, 'J': 11, 'k': 0, 'K': 0, 'l': 12, 'L': 12, ';': 7, ':': 7, "'": 16, '"': 16,
+  'n': 9, 'N': 9, 'm': 18, 'M': 18
+};
+const SB_JUNG = {
+  '4': 12, '$': 12, '5': 17, '%': 17, '6': 2, '^': 2, '7': 7, '&': 7, '8': 19, '*': 19, '9': 13, '(': 13,
+  'e': 6, 'E': 6, 'r': 1, 'R': 1, 't': 4, 'T': 4, 'd': 20, 'D': 20, 'f': 0, 'F': 0, 'g': 18, 'G': 18,
+  'c': 5, 'C': 5, 'v': 8, 'V': 8, 'b': 13, 'B': 13, '/': 8, '?': 8
+};
+const SB_JONG = {
+  '1': 27, '!': 27, '2': 20, '@': 20, '3': 17, '#': 17,
+  'q': 19, 'Q': 19, 'w': 8, 'W': 8, 'a': 21, 'A': 21, 's': 4, 'S': 4, 'z': 16, 'Z': 16, 'x': 1, 'X': 1
+};
+const JONG_TO_CHO = {
+  1:0, 2:1, 4:2, 7:3, 8:5, 16:6, 17:7, 19:9, 20:10,
+  21:11, 22:12, 23:14, 24:15, 25:16, 26:17, 27:18
+};
+const JUNG_CPD = {
+  '8,0':9,'8,1':10,'8,20':11,'13,4':14,'13,5':15,'13,20':16,'18,20':19
+};
+const JONG_CPD = {
+  '1,19':3,'4,22':5,'4,27':6,'8,1':9,'8,16':10,'8,17':11,'8,19':12,'8,25':13,'8,26':14,'8,27':15,'17,19':18
+};
+
+function makeChar(st) {
+  if (st.mode === 'cho') {
+    return st.cho >= 0 ? CHO_LIST[st.cho] : '';
+  } else if (st.mode === 'cho_jung' || st.mode === 'cho_jung_jong') {
+    if (st.cho === -1 && st.jong === -1) {
+      return JUNG_LIST[st.jung];
+    }
+    const cho = st.cho >= 0 ? st.cho : 11; // 11 is 'ㅇ'
+    const code = 0xAC00 + (cho * 21 * 28) + (st.jung * 28) + (st.jong === -1 ? 0 : st.jong);
+    return String.fromCharCode(code);
+  } else if (st.mode === 'idle') {
+    return '';
+  }
+  return '';
+}
+
 const WORDS = [
   { word: '탈네모틀', def: '네모 틀을 벗어난 글자꼴. 초·중·종성이 각자의 형태로 자유롭게 배치된다.' },
   { word: '훈민정음', def: '세종대왕이 창제한 한글의 원형. 안상수체는 이 창제 원리를 조형 언어로 삼았다.' },
@@ -31,7 +77,131 @@ export default function ConceptGame() {
   const [lives, setLives] = useState(5);
   const [pops, setPops] = useState([]);
   const [def, setDef] = useState(null);
+
+
+
   const [speedConfig, setSpeedConfig] = useState({ baseSpeed: 3.2, spawnInterval: 2800 });
+  const [activeKeys, setActiveKeys] = useState({});
+  const [st, setSt] = useState({ cho: -1, jung: -1, jong: -1, mode: 'idle' });
+  const [committedText, setCommittedText] = useState('');
+
+  const commit = (stObj) => {
+    if (stObj.mode === 'idle') return;
+    const char = makeChar(stObj);
+    if (!char) return;
+
+    setWords(prev => {
+      let matchedIdx = -1;
+      let newWords = prev.map((w, idx) => {
+        if (matchedIdx === -1 && w.word.startsWith(char)) {
+          if (w.word.length > 1) {
+            matchedIdx = idx;
+            return { ...w, word: w.word.substring(1) };
+          } else {
+            matchedIdx = idx;
+            setScore(s => s + 1);
+            setPops(p => [...p, { id: w.id, word: w.word, x: w.x, y: w.y }]);
+            setTimeout(() => setPops(curr => curr.filter(item => item.id !== w.id)), 700);
+            
+            clearTimeout(defTimerRef.current);
+            setDef({ word: w.word, def: w.def });
+            defTimerRef.current = setTimeout(() => setDef(null), 6000);
+            return null;
+          }
+        }
+        return w;
+      }).filter(Boolean);
+      return newWords;
+    });
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (phaseRef.current !== 'playing') return;
+      if (e.repeat) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      
+      const key = e.key;
+      setActiveKeys(prev => ({ ...prev, [key]: true }));
+
+      if (key === 'Backspace') {
+        if (st.mode === 'idle') {
+          setCommittedText(prev => prev.slice(0, -1));
+        } else {
+          setSt({ cho: -1, jung: -1, jong: -1, mode: 'idle' });
+        }
+        return;
+      }
+      
+      if (key === 'Enter' || key === ' ') {
+        commit(st);
+        setSt({ cho: -1, jung: -1, jong: -1, mode: 'idle' });
+        return;
+      }
+
+      if (key.length !== 1) return;
+
+      const choIdx = SB_CHO[key];
+      const jungIdx = SB_JUNG[key];
+      const jongIdx = SB_JONG[key];
+
+      if (choIdx !== undefined) {
+        commit(st);
+        setSt({ cho: choIdx, jung: -1, jong: -1, mode: 'cho' });
+      } else if (jungIdx !== undefined) {
+        if (st.mode === 'cho') {
+          setSt({ ...st, jung: jungIdx, mode: 'cho_jung' });
+        } else if (st.mode === 'cho_jung') {
+          const cpd = JUNG_CPD[`${st.jung},${jungIdx}`];
+          if (cpd !== undefined) {
+            setSt({ ...st, jung: cpd });
+          } else {
+            commit(st);
+            setSt({ cho: -1, jung: jungIdx, jong: -1, mode: 'cho_jung' });
+          }
+        } else if (st.mode === 'cho_jung_jong' || st.mode === 'idle') {
+          commit(st);
+          setSt({ cho: -1, jung: jungIdx, jong: -1, mode: 'cho_jung' });
+        }
+      } else if (jongIdx !== undefined) {
+        if (st.mode === 'cho_jung') {
+          setSt({ ...st, jong: jongIdx, mode: 'cho_jung_jong' });
+        } else if (st.mode === 'cho_jung_jong') {
+          const cpd2 = JONG_CPD[`${st.jong},${jongIdx}`];
+          if (cpd2 !== undefined) {
+            setSt({ ...st, jong: cpd2 });
+          } else {
+            commit(st);
+            const choIdx3 = JONG_TO_CHO[jongIdx];
+            if (choIdx3 !== undefined) {
+              setSt({ cho: choIdx3, jung: -1, jong: -1, mode: 'cho' });
+            }
+          }
+        } else {
+          commit(st);
+          const choIdx2 = JONG_TO_CHO[jongIdx];
+          if (choIdx2 !== undefined) {
+            setSt({ cho: choIdx2, jung: -1, jong: -1, mode: 'cho' });
+          }
+        }
+      }
+    };
+
+    const handleKeyUp = (e) => {
+      setActiveKeys(prev => {
+        const next = { ...prev };
+        delete next[e.key];
+        return next;
+      });
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [st, phase]);
 
   const wordsRef = useRef([]);
   const livesRef = useRef(5);
@@ -48,11 +218,12 @@ export default function ConceptGame() {
   const startGame = (diff = '중급') => {
     let bSpeed = 3.2;
     let sInterval = 2800;
-    if (diff === '초급') { bSpeed = 1.8; sInterval = 3500; }
+    if (diff === '초급') { bSpeed = 1.5; sInterval = 3800; }
     else if (diff === '중급') { bSpeed = 3.5; sInterval = 2400; }
     else if (diff === '고급') { bSpeed = 6.0; sInterval = 1500; }
-    
     setSpeedConfig({ baseSpeed: bSpeed, spawnInterval: sInterval });
+    setSt({ cho: -1, jung: -1, jong: -1, mode: 'idle' });
+    setCommittedText('');
 
     uid = 0;
     wordsRef.current = [];
@@ -75,7 +246,7 @@ export default function ConceptGame() {
     tickRef.current = setInterval(() => {
       if (phaseRef.current !== 'playing') return;
       const h = areaRef.current?.clientHeight ?? window.innerHeight;
-      const FLOOR = h - 100;
+      const FLOOR = h - 350;
 
       wordsRef.current = wordsRef.current.map(w => ({ ...w, y: w.y + w.speed }));
       const fallen = wordsRef.current.filter(w => w.y >= FLOOR);
@@ -124,26 +295,7 @@ export default function ConceptGame() {
     };
   }, [phase]);
 
-  const handleInput = (e) => {
-    const val = e.target.value;
-    setInput(val);
-
-    const matched = wordsRef.current.find(w => w.word === val);
-    if (!matched) return;
-
-    // 맞췄을 때
-    setPops(prev => [...prev, { id: matched.id, word: matched.word, x: matched.x, y: matched.y }]);
-    wordsRef.current = wordsRef.current.filter(w => w.id !== matched.id);
-    setWords([...wordsRef.current]);
-    setScore(s => s + 1);
-    setInput('');
-
-    clearTimeout(defTimerRef.current);
-    setDef({ word: matched.word, def: matched.def });
-    defTimerRef.current = setTimeout(() => setDef(null), 6000);
-
-    setTimeout(() => setPops(prev => prev.filter(p => p.id !== matched.id)), 700);
-  };
+  
 
   const heartStr = '♥'.repeat(lives) + '♡'.repeat(Math.max(0, 5 - lives));
 
@@ -161,7 +313,7 @@ export default function ConceptGame() {
       {/* 홈 */}
       <button
         onClick={() => navigate('/')}
-        style={{ position: 'absolute', top: 20, left: 24, zIndex: 200, background: 'none', border: '1px solid #333', color: '#666', padding: '8px 18px', borderRadius: '20px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012', fontSize: '14px' }}
+        style={{ position: 'absolute', top: 20, left: 24, zIndex: 200, background: 'none', border: '1px solid #333', color: '#666', padding: '8px 18px', borderRadius: '0', cursor: 'pointer', fontFamily: 'agahnsangsoo2012', fontSize: '14px' }}
       >
         ← 홈
       </button>
@@ -186,21 +338,21 @@ export default function ConceptGame() {
             <motion.button
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
               onClick={() => startGame('초급')}
-              style={{ padding: '16px 40px', background: '#555', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
+              style={{ padding: '16px 40px', background: '#555', color: '#fff', border: 'none', borderRadius: '0', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
             >
               초급
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
               onClick={() => startGame('중급')}
-              style={{ padding: '16px 40px', background: '#111', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
+              style={{ padding: '16px 40px', background: '#111', color: '#fff', border: 'none', borderRadius: '0', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
             >
               중급
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
               onClick={() => startGame('고급')}
-              style={{ padding: '16px 40px', background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
+              style={{ padding: '16px 40px', background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '0', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
             >
               고급
             </motion.button>
@@ -238,11 +390,11 @@ export default function ConceptGame() {
             style={{ display: 'flex', gap: 16 }}
           >
             <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={startGame}
-              style={{ padding: '16px 52px', background: '#111', color: '#fff', border: 'none', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
+              style={{ padding: '16px 52px', background: '#111', color: '#fff', border: 'none', borderRadius: '0', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
               다시하기
             </motion.button>
             <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => navigate('/')}
-              style={{ padding: '16px 52px', background: 'none', color: '#111', border: '2px solid #111', borderRadius: '40px', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
+              style={{ padding: '16px 52px', background: 'none', color: '#111', border: '2px solid #111', borderRadius: '0', fontSize: '24px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}>
               홈으로
             </motion.button>
           </motion.div>
@@ -303,7 +455,7 @@ export default function ConceptGame() {
                   transition={{ duration: 0.2 }}
                   style={{
                     background: '#fff', color: '#111',
-                    padding: '32px 36px', borderRadius: '20px',
+                    padding: '32px 36px', borderRadius: '0',
                     textAlign: 'center', zIndex: 50,
                     boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
                     border: '1px solid #eee',
@@ -314,21 +466,110 @@ export default function ConceptGame() {
                 </motion.div>
               )}
             </AnimatePresence>
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={handleInput}
-              placeholder="여기에 입력하세요"
-              autoComplete="off" autoCorrect="off" autoCapitalize="none" spellCheck="false"
-              style={{
-                width: '100%', padding: '15px 24px',
-                background: '#f5f5f5', color: '#111',
-                border: '1.5px solid #ddd', borderRadius: '40px',
-                fontSize: '22px', fontFamily: 'agahnsangsoo2012',
-                outline: 'none', textAlign: 'center', boxSizing: 'border-box',
-                caretColor: '#e67e00',
-              }}
-            />
+            
+            {/* 세벌식 입력 UI */}
+            <div style={{ position: 'relative', width: '100%', maxWidth: '800px', transform: 'scale(0.85)', transformOrigin: 'bottom center' }}>
+              <div style={{ position: 'absolute', top: -60, left: 0, right: 0, textAlign: 'center', fontSize: '40px', fontWeight: 'bold', color: '#111' }}>
+                <span style={{ color: '#ccc' }}>{committedText}</span>
+                <span style={{ color: '#e67e00' }}>{makeChar(st)}</span>
+                <span style={{ display: 'inline-block', width: 2, height: 40, background: '#e67e00', animation: 'blink 1s step-end infinite', verticalAlign: 'bottom', marginLeft: 4 }}></span>
+              </div>
+              <style dangerouslySetInnerHTML={{__html: `
+                .tj-keyboard { display: flex; flex-direction: column; gap: 6px; background: #ddd; padding: 12px; border-radius: 12px; font-family: agahnsangsoo2012, sans-serif; }
+                .tj-kb-row { display: flex; gap: 6px; justify-content: center; }
+                .tj-key { flex: 1; height: 50px; background: #fff; border-radius: 0px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 2px 0 #bbb; font-size: 16px; color: #333; position: relative; transition: all 0.1s; }
+                .tj-key.active { background: #eee; transform: translateY(2px); box-shadow: 0 0 0 #bbb; }
+                .tj-key--space { flex: 6; }
+                .tj-key--wider { flex: 1.5; font-size: 14px; background: #ccc; }
+                .tj-key-shift { position: absolute; top: 4px; left: 6px; font-size: 11px; color: #888; }
+                .tj-key-jamo { font-size: 20px; font-weight: bold; }
+                .tj-key[data-type="cho"] { color: #FF3366; border-bottom: 3px solid #FF3366; }
+                .tj-key[data-type="jung"] { color: #00C49A; border-bottom: 3px solid #00C49A; }
+                .tj-key[data-type="jong"] { color: #3B82F6; border-bottom: 3px solid #3B82F6; }
+              `}}/>
+                              <div className="tj-keyboard" id="tj-keyboard-inner">
+                  <div className="tj-legend">
+                    <div className="tj-legend-item"><div className="tj-legend-dot tj-legend-dot--cho"></div>초성</div>
+                    <div className="tj-legend-item"><div className="tj-legend-dot tj-legend-dot--jung"></div>중성</div>
+                    <div className="tj-legend-item"><div className="tj-legend-dot tj-legend-dot--jong"></div>종성(받침)</div>
+                  </div>
+
+                  {/* Row 1 */}
+                  <div className="tj-kb-row">
+                    <div className={"tj-key tj-key--sym" + (activeKeys['`'] ? ' active' : '')}><span className="tj-key-shift">~</span><span className="tj-key-jamo">₩</span></div>
+                    <div className={"tj-key" + (activeKeys['1'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift">!</span><span className="tj-key-jamo">ㅎ</span></div>
+                    <div className={"tj-key" + (activeKeys['2'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift">@</span><span className="tj-key-jamo">ㅆ</span></div>
+                    <div className={"tj-key" + (activeKeys['3'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift">#</span><span className="tj-key-jamo">ㅂ</span></div>
+                    <div className={"tj-key" + (activeKeys['4'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift">$</span><span className="tj-key-jamo">ㅛ</span></div>
+                    <div className={"tj-key" + (activeKeys['5'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift">%</span><span className="tj-key-jamo">ㅠ</span></div>
+                    <div className={"tj-key" + (activeKeys['6'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift">^</span><span className="tj-key-jamo">ㅑ</span></div>
+                    <div className={"tj-key" + (activeKeys['7'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift">&amp;</span><span className="tj-key-jamo">ㅖ</span></div>
+                    <div className={"tj-key" + (activeKeys['8'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift">*</span><span className="tj-key-jamo">ㅢ</span></div>
+                    <div className={"tj-key" + (activeKeys['9'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift">(</span><span className="tj-key-jamo">ㅜ</span></div>
+                    <div className={"tj-key" + (activeKeys['0'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift">)</span><span className="tj-key-jamo">ㅋ</span></div>
+                    <div className={"tj-key tj-key--sym" + (activeKeys['-'] ? ' active' : '')}><span className="tj-key-shift">_</span><span className="tj-key-jamo">-</span></div>
+                    <div className={"tj-key tj-key--sym" + (activeKeys['='] ? ' active' : '')}><span className="tj-key-shift">+</span><span className="tj-key-jamo">=</span></div>
+                    <div className={"tj-key tj-key--wide tj-key--sym" + (activeKeys['Backspace'] ? ' active' : '')}><span className="tj-key-jamo">⌫</span></div>
+                  </div>
+
+                  {/* Row 2 */}
+                  <div className="tj-kb-row">
+                    <div className={"tj-key tj-key--wide tj-key--sym" + (activeKeys['Tab'] ? ' active' : '')}><span className="tj-key-jamo">Tab</span></div>
+                    <div className={"tj-key" + (activeKeys['q'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅅ</span></div>
+                    <div className={"tj-key" + (activeKeys['w'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄹ</span></div>
+                    <div className={"tj-key" + (activeKeys['e'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅕ</span></div>
+                    <div className={"tj-key" + (activeKeys['r'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅐ</span></div>
+                    <div className={"tj-key" + (activeKeys['t'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅓ</span></div>
+                    <div className={"tj-key" + (activeKeys['y'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄹ</span></div>
+                    <div className={"tj-key" + (activeKeys['u'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄷ</span></div>
+                    <div className={"tj-key" + (activeKeys['i'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅁ</span></div>
+                    <div className={"tj-key" + (activeKeys['o'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅊ</span></div>
+                    <div className={"tj-key" + (activeKeys['p'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅍ</span></div>
+                    <div className={"tj-key tj-key--sym" + (activeKeys['['] ? ' active' : '')}><span className="tj-key-shift">{'{'}</span><span className="tj-key-jamo">[</span></div>
+                    <div className={"tj-key tj-key--sym" + (activeKeys[']'] ? ' active' : '')}><span className="tj-key-shift">{'}'}</span><span className="tj-key-jamo">]</span></div>
+                    <div className={"tj-key tj-key--sym" + (activeKeys['\\'] ? ' active' : '')}><span className="tj-key-shift">|</span><span className="tj-key-jamo">\</span></div>
+                  </div>
+
+                  {/* Row 3 */}
+                  <div className="tj-kb-row">
+                    <div className="tj-key tj-key--wider tj-key--sym"><span className="tj-key-jamo">Caps</span></div>
+                    <div className={"tj-key" + (activeKeys['a'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅇ</span></div>
+                    <div className={"tj-key" + (activeKeys['s'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄴ</span></div>
+                    <div className={"tj-key" + (activeKeys['d'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅣ</span></div>
+                    <div className={"tj-key" + (activeKeys['f'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅏ</span></div>
+                    <div className={"tj-key" + (activeKeys['g'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅡ</span></div>
+                    <div className={"tj-key" + (activeKeys['h'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄴ</span></div>
+                    <div className={"tj-key" + (activeKeys['j'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅇ</span></div>
+                    <div className={"tj-key" + (activeKeys['k'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄱ</span></div>
+                    <div className={"tj-key" + (activeKeys['l'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅈ</span></div>
+                    <div className={"tj-key" + (activeKeys[';'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift">:</span><span className="tj-key-jamo">ㅂ</span></div>
+                    <div className={"tj-key" + (activeKeys['\''] ? ' active' : '')} data-type="cho"><span className="tj-key-shift">"</span><span className="tj-key-jamo">ㅌ</span></div>
+                    <div className={"tj-key tj-key--wider tj-key--sym" + (activeKeys['Enter'] ? ' active' : '')}><span className="tj-key-jamo">↵</span></div>
+                  </div>
+
+                  {/* Row 4 */}
+                  <div className="tj-kb-row">
+                    <div className={"tj-key tj-key--wider tj-key--sym" + (activeKeys['Shift'] ? ' active' : '')}><span className="tj-key-jamo">⇧</span></div>
+                    <div className={"tj-key" + (activeKeys['z'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅁ</span></div>
+                    <div className={"tj-key" + (activeKeys['x'] ? ' active' : '')} data-type="jong"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㄱ</span></div>
+                    <div className={"tj-key" + (activeKeys['c'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅔ</span></div>
+                    <div className={"tj-key" + (activeKeys['v'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅗ</span></div>
+                    <div className={"tj-key" + (activeKeys['b'] ? ' active' : '')} data-type="jung"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅜ</span></div>
+                    <div className={"tj-key" + (activeKeys['n'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅅ</span></div>
+                    <div className={"tj-key" + (activeKeys['m'] ? ' active' : '')} data-type="cho"><span className="tj-key-shift"></span><span className="tj-key-jamo">ㅎ</span></div>
+                    <div className={"tj-key tj-key--sym" + (activeKeys[','] ? ' active' : '')}><span className="tj-key-shift">&lt;</span><span className="tj-key-jamo">,</span></div>
+                    <div className={"tj-key tj-key--sym" + (activeKeys['.'] ? ' active' : '')}><span className="tj-key-shift">&gt;</span><span className="tj-key-jamo">.</span></div>
+                    <div className={"tj-key tj-key--sym" + (activeKeys['/'] ? ' active' : '')}><span className="tj-key-shift">?</span><span className="tj-key-jamo">ㅗ</span></div>
+                    <div className={"tj-key tj-key--wider tj-key--sym" + (activeKeys['Shift'] ? ' active' : '')}><span className="tj-key-jamo">⇧</span></div>
+                  </div>
+
+                  {/* 스페이스 */}
+                  <div className="tj-kb-row">
+                    <div className={"tj-key tj-key--space tj-key--sym" + (activeKeys[' '] ? ' active' : '')}><span className="tj-key-jamo"> </span></div>
+                  </div>
+                </div>
+            </div>
+
           </div>
         </>
       )}

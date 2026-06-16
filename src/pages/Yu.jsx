@@ -5,6 +5,8 @@ import AncheProjectModal from '../components/AncheProjectModal';
 
 export default function Yu() {
   const scrollRef = useRef(null);
+  const dragRef = useRef({ isDragging: false, startX: 0, startHPx: 0, moved: false });
+  const [isDragging, setIsDragging] = useState(false);
   const [scale, setScale] = useState(1);
   const [progress, setProgress] = useState(0);
 
@@ -14,11 +16,13 @@ export default function Yu() {
   // 타임라인 가로 패닝
   const [hPx, setHPx] = useState(0);
   const H_STEP = window.innerWidth <= 768 ? 250 : 1400;
-  const H_MAX = 6500;
+  const H_MAX = Math.max(0, Math.round(6650 - window.innerWidth / (2 * scale)));
 
   const [isAncheOpen, setIsAncheOpen] = useState(false);
   const [showNohText, setShowNohText] = useState(false);
   const [activePopup, setActivePopup] = useState(null);
+  const [navHint, setNavHint] = useState(null);
+  const [sectionIndex, setSectionIndex] = useState(0);
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
@@ -39,6 +43,19 @@ export default function Yu() {
     const max = el.scrollHeight - el.clientHeight;
     const p = max > 0 ? Math.min(1, Math.max(0, el.scrollTop / max)) : 0;
     setProgress(p);
+
+    const sections = el.querySelectorAll('section');
+    let idx = 0;
+    sections.forEach((s, i) => { if (s.offsetTop <= el.scrollTop + 50) idx = i; });
+    setSectionIndex(idx);
+  };
+
+  const handleMouseMove = (e) => {
+    if (sectionIndex === 1) {
+      setNavHint(e.clientX < window.innerWidth / 2 ? 'left' : 'right');
+    } else {
+      setNavHint(e.clientY < window.innerHeight / 2 ? 'top' : 'bot');
+    }
   };
 
   const handleViewportClick = (e) => {
@@ -52,13 +69,42 @@ export default function Yu() {
     
     if (isPage1) {
       if (isBottomHalf) {
-        if (step < 3) setStep(prev => prev + 1);
-        else scrollRef.current.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-      } else if (isTopHalf) {
-        if (step > 0) setStep(prev => prev - 1);
+        scrollRef.current.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
       }
     }
   };
+
+  const handleTimelineMouseDown = (e) => {
+    dragRef.current = { isDragging: true, startX: e.clientX, startHPx: hPx, moved: false };
+    setIsDragging(true);
+  };
+  const handleTimelineMouseMove = (e) => {
+    if (!dragRef.current.isDragging) return;
+    const delta = (dragRef.current.startX - e.clientX) / scale;
+    if (Math.abs(delta) > 4) dragRef.current.moved = true;
+    setHPx(Math.max(0, Math.min(H_MAX, dragRef.current.startHPx + delta)));
+  };
+  const handleTimelineMouseUp = (e) => {
+    if (!dragRef.current.isDragging) return;
+    dragRef.current.isDragging = false;
+    setIsDragging(false);
+    if (!dragRef.current.moved) {
+      if (e.clientX < window.innerWidth / 2) {
+        setHPx(p => Math.max(0, p - H_STEP));
+      } else {
+        setHPx(p => Math.min(H_MAX, p + H_STEP));
+      }
+    }
+  };
+  const handleTimelineTouchStart = (e) => {
+    dragRef.current = { isDragging: true, startX: e.touches[0].clientX, startHPx: hPx, moved: false };
+  };
+  const handleTimelineTouchMove = (e) => {
+    if (!dragRef.current.isDragging) return;
+    const delta = (dragRef.current.startX - e.touches[0].clientX) / scale;
+    setHPx(Math.max(0, Math.min(H_MAX, dragRef.current.startHPx + delta)));
+  };
+  const handleTimelineTouchEnd = () => { dragRef.current.isDragging = false; };
 
   const clipWidth = 1843 * progress;
   const rightDTranslateX = 1843 * (progress - 1);
@@ -80,33 +126,57 @@ export default function Yu() {
               <rect id="dm-clip-rect" x="0" y="0" width={clipWidth} height="97.7"/>
             </clipPath>
           </defs>
-          <path d="M56.8,31c-4-3.1-8.8-4.7-14-4.7-12.6,0-22.6,10.1-22.6,22.6s10.1,22.6,22.6,22.6,10.1-1.8,14-4.8v9.9h8.8V21.1h-8.8v9.9ZM42.8,62.6c-7.5,0-13.7-6.1-13.7-13.7s6.1-13.5,13.7-13.5,13.8,5.9,13.8,13.5-6.3,13.7-13.8,13.7Z"/>
+          <polygon points="94.1 23.4 94.1 74 94.1 74.3 112.6 74.3 112.6 74 112.6 23.4 112.6 23.2 94.1 23.2 94.1 23.4"/>
+          <path d="M67.2,15.6c-3.6-1.1-7.3-1.7-11.1-1.7-20.2,0-36.5,15.7-36.5,35.1s16.3,34.9,36.5,34.9,7.5-.7,11.1-1.7v5.2h21.3V10.4h-21.3v5.2ZM56.1,59.4c-6.4,0-11.1-4.6-11.1-10.5s4.8-10.7,11.1-10.7,10.9,4.6,10.9,10.7-4.8,10.5-10.9,10.5Z"/>
           <g clipPath="url(#dm-clip)">
             <g id="dm-bars">
-              <rect x="75.1" y="32.6" width="8.8" height="32.9"/><rect x="93.4" y="32.6" width="8.8" height="32.9"/><rect x="111.8" y="32.6" width="8.8" height="32.9"/><rect x="130.1" y="32.6" width="8.8" height="32.9"/><rect x="148.4" y="32.6" width="8.8" height="32.9"/><rect x="166.7" y="32.6" width="8.8" height="32.9"/><rect x="185.1" y="32.6" width="8.8" height="32.9"/><rect x="203.4" y="32.6" width="8.8" height="32.9"/><rect x="221.7" y="32.6" width="8.8" height="32.9"/><rect x="240" y="32.6" width="8.8" height="32.9"/>
-              <rect x="258.4" y="32.6" width="8.8" height="32.9"/><rect x="276.7" y="32.6" width="8.8" height="32.9"/><rect x="295" y="32.6" width="8.8" height="32.9"/><rect x="313.3" y="32.6" width="8.8" height="32.9"/><rect x="331.7" y="32.6" width="8.8" height="32.9"/><rect x="350" y="32.6" width="8.8" height="32.9"/><rect x="368.3" y="32.6" width="8.8" height="32.9"/><rect x="386.6" y="32.6" width="8.8" height="32.9"/><rect x="405" y="32.6" width="8.8" height="32.9"/><rect x="423.3" y="32.6" width="8.8" height="32.9"/>
-              <rect x="441.6" y="32.6" width="8.8" height="32.9"/><rect x="459.9" y="32.6" width="8.8" height="32.9"/><rect x="478.3" y="32.6" width="8.8" height="32.9"/><rect x="496.6" y="32.6" width="8.8" height="32.9"/><rect x="514.9" y="32.6" width="8.8" height="32.9"/><rect x="533.2" y="32.6" width="8.8" height="32.9"/><rect x="551.6" y="32.6" width="8.8" height="32.9"/><rect x="569.9" y="32.6" width="8.8" height="32.9"/><rect x="588.2" y="32.6" width="8.8" height="32.9"/><rect x="606.5" y="32.6" width="8.8" height="32.9"/>
-              <rect x="624.8" y="32.6" width="8.8" height="32.9"/><rect x="643.2" y="32.6" width="8.8" height="32.9"/><rect x="661.5" y="32.6" width="8.8" height="32.9"/><rect x="679.8" y="32.6" width="8.8" height="32.9"/><rect x="698.1" y="32.6" width="8.8" height="32.9"/><rect x="716.5" y="32.6" width="8.8" height="32.9"/><rect x="734.8" y="32.6" width="8.8" height="32.9"/><rect x="753.1" y="32.6" width="8.8" height="32.9"/><rect x="771.4" y="32.6" width="8.8" height="32.9"/><rect x="789.8" y="32.6" width="8.8" height="32.9"/>
-              <rect x="808.1" y="32.6" width="8.8" height="32.9"/><rect x="826.4" y="32.6" width="8.8" height="32.9"/><rect x="844.7" y="32.6" width="8.8" height="32.9"/><rect x="863.1" y="32.6" width="8.8" height="32.9"/><rect x="881.4" y="32.6" width="8.8" height="32.9"/><rect x="899.7" y="32.6" width="8.8" height="32.9"/><rect x="918" y="32.6" width="8.8" height="32.9"/><rect x="936.4" y="32.6" width="8.8" height="32.9"/><rect x="954.7" y="32.6" width="8.8" height="32.9"/><rect x="973" y="32.6" width="8.8" height="32.9"/>
-              <rect x="991.3" y="32.6" width="8.8" height="32.9"/><rect x="1009.7" y="32.6" width="8.8" height="32.9"/><rect x="1028" y="32.6" width="8.8" height="32.9"/><rect x="1046.3" y="32.6" width="8.8" height="32.9"/><rect x="1064.6" y="32.6" width="8.8" height="32.9"/><rect x="1083" y="32.6" width="8.8" height="32.9"/><rect x="1101.3" y="32.6" width="8.8" height="32.9"/><rect x="1119.6" y="32.6" width="8.8" height="32.9"/><rect x="1137.9" y="32.6" width="8.8" height="32.9"/><rect x="1156.2" y="32.6" width="8.8" height="32.9"/>
-              <rect x="1174.6" y="32.6" width="8.8" height="32.9"/><rect x="1192.9" y="32.6" width="8.8" height="32.9"/><rect x="1211.2" y="32.6" width="8.8" height="32.9"/><rect x="1229.5" y="32.6" width="8.8" height="32.9"/><rect x="1247.9" y="32.6" width="8.8" height="32.9"/><rect x="1266.2" y="32.6" width="8.8" height="32.9"/><rect x="1284.5" y="32.6" width="8.8" height="32.9"/><rect x="1302.8" y="32.6" width="8.8" height="32.9"/><rect x="1321.2" y="32.6" width="8.8" height="32.9"/><rect x="1339.5" y="32.6" width="8.8" height="32.9"/>
-              <rect x="1357.8" y="32.6" width="8.8" height="32.9"/><rect x="1376.1" y="32.6" width="8.8" height="32.9"/><rect x="1394.5" y="32.6" width="8.8" height="32.9"/><rect x="1412.8" y="32.6" width="8.8" height="32.9"/><rect x="1431.1" y="32.6" width="8.8" height="32.9"/><rect x="1449.4" y="32.6" width="8.8" height="32.9"/><rect x="1467.8" y="32.6" width="8.8" height="32.9"/><rect x="1486.1" y="32.6" width="8.8" height="32.9"/><rect x="1504.4" y="32.6" width="8.8" height="32.9"/><rect x="1522.7" y="32.6" width="8.8" height="32.9"/>
-              <rect x="1541.1" y="32.6" width="8.8" height="32.9"/><rect x="1559.4" y="32.6" width="8.8" height="32.9"/><rect x="1577.7" y="32.6" width="8.8" height="32.9"/><rect x="1596" y="32.6" width="8.8" height="32.9"/><rect x="1614.4" y="32.6" width="8.8" height="32.9"/><rect x="1632.7" y="32.6" width="8.8" height="32.9"/><rect x="1651" y="32.6" width="8.8" height="32.9"/><rect x="1669.3" y="32.6" width="8.8" height="32.9"/><rect x="1687.7" y="32.6" width="8.8" height="32.9"/><rect x="1706" y="32.6" width="8.8" height="32.9"/>
-              <rect x="1724.3" y="32.6" width="8.8" height="32.9"/><rect x="1742.6" y="32.6" width="8.8" height="32.9"/><rect x="1760.9" y="32.6" width="8.8" height="32.9"/><rect x="1779.3" y="32.6" width="8.8" height="32.9"/><rect x="1797.6" y="32.6" width="8.8" height="32.9"/><rect x="1815.9" y="32.6" width="8.8" height="32.9"/><rect x="1834.2" y="32.6" width="8.8" height="32.9"/>
+              <rect x="117.5" y="23.4" width="18.5" height="50.8"/><rect x="141" y="23.4" width="18.5" height="50.8"/><rect x="164.4" y="23.4" width="18.5" height="50.8"/><rect x="187.9" y="23.4" width="18.5" height="50.8"/><rect x="211.3" y="23.4" width="18.5" height="50.8"/><rect x="234.7" y="23.4" width="18.5" height="50.8"/><rect x="258.2" y="23.4" width="18.5" height="50.8"/><rect x="281.6" y="23.4" width="18.5" height="50.8"/><rect x="305.1" y="23.4" width="18.5" height="50.8"/><rect x="328.5" y="23.4" width="18.5" height="50.8"/>
+              <rect x="352" y="23.4" width="18.5" height="50.8"/><rect x="375.4" y="23.4" width="18.5" height="50.8"/><rect x="398.9" y="23.4" width="18.5" height="50.8"/><rect x="422.3" y="23.4" width="18.5" height="50.8"/><rect x="445.8" y="23.4" width="18.5" height="50.8"/><rect x="469.2" y="23.4" width="18.5" height="50.8"/><rect x="492.6" y="23.4" width="18.5" height="50.8"/><rect x="516.1" y="23.4" width="18.5" height="50.8"/><rect x="539.5" y="23.4" width="18.5" height="50.8"/><rect x="563" y="23.4" width="18.5" height="50.8"/>
+              <rect x="586.4" y="23.4" width="18.5" height="50.8"/><rect x="609.9" y="23.4" width="18.5" height="50.8"/><rect x="633.3" y="23.4" width="18.5" height="50.8"/><rect x="656.8" y="23.4" width="18.5" height="50.8"/><rect x="680.2" y="23.4" width="18.5" height="50.8"/><rect x="703.7" y="23.4" width="18.5" height="50.8"/><rect x="727.1" y="23.4" width="18.5" height="50.8"/><rect x="750.5" y="23.4" width="18.5" height="50.8"/><rect x="774" y="23.4" width="18.5" height="50.8"/><rect x="797.4" y="23.4" width="18.5" height="50.8"/>
+              <rect x="820.9" y="23.4" width="18.5" height="50.8"/><rect x="844.3" y="23.4" width="18.5" height="50.8"/><rect x="867.8" y="23.4" width="18.5" height="50.8"/><rect x="891.2" y="23.4" width="18.5" height="50.8"/><rect x="914.7" y="23.4" width="18.5" height="50.8"/><rect x="938.1" y="23.4" width="18.5" height="50.8"/><rect x="961.6" y="23.4" width="18.5" height="50.8"/><rect x="985" y="23.4" width="18.5" height="50.8"/><rect x="1008.4" y="23.4" width="18.5" height="50.8"/><rect x="1031.9" y="23.4" width="18.5" height="50.8"/>
+              <rect x="1055.3" y="23.4" width="18.5" height="50.8"/><rect x="1078.8" y="23.4" width="18.5" height="50.8"/><rect x="1102.2" y="23.4" width="18.5" height="50.8"/><rect x="1125.7" y="23.4" width="18.5" height="50.8"/><rect x="1149.1" y="23.4" width="18.5" height="50.8"/><rect x="1172.6" y="23.4" width="18.5" height="50.8"/><rect x="1196" y="23.4" width="18.5" height="50.8"/><rect x="1219.5" y="23.4" width="18.5" height="50.8"/><rect x="1242.9" y="23.4" width="18.5" height="50.8"/><rect x="1266.3" y="23.4" width="18.5" height="50.8"/>
+              <rect x="1289.8" y="23.4" width="18.5" height="50.8"/><rect x="1313.2" y="23.4" width="18.5" height="50.8"/><rect x="1336.7" y="23.4" width="18.5" height="50.8"/><rect x="1360.1" y="23.4" width="18.5" height="50.8"/><rect x="1383.6" y="23.4" width="18.5" height="50.8"/><rect x="1407" y="23.4" width="18.5" height="50.8"/><rect x="1430.5" y="23.4" width="18.5" height="50.8"/><rect x="1453.9" y="23.4" width="18.5" height="50.8"/><rect x="1477.4" y="23.4" width="18.5" height="50.8"/><rect x="1500.8" y="23.4" width="18.5" height="50.8"/>
+              <rect x="1524.2" y="23.4" width="18.5" height="50.8"/><rect x="1547.7" y="23.4" width="18.5" height="50.8"/><rect x="1571.1" y="23.4" width="18.5" height="50.8"/><rect x="1594.6" y="23.4" width="18.5" height="50.8"/><rect x="1618" y="23.4" width="18.5" height="50.8"/><rect x="1641.5" y="23.4" width="18.5" height="50.8"/><rect x="1664.9" y="23.4" width="18.5" height="50.8"/><rect x="1688.4" y="23.4" width="18.5" height="50.8"/><rect x="1711.8" y="23.4" width="18.5" height="50.8"/><rect x="1735.2" y="23.4" width="18.5" height="50.8"/>
+              <rect x="1758.7" y="23.4" width="18.5" height="50.8"/><rect x="1782.1" y="23.4" width="18.5" height="50.8"/>
             </g>
           </g>
           <g id="dm-right-d" transform={`translate(${rightDTranslateX},0)`} style={{ opacity: rightDOpacity }}>
-            <path d="M1861.4,21.1h-8.8s0,55.5,0,55.5h8.8s0-9.9,0-9.9c4,3.1,8.8,4.8,14,4.8,12.6,0,22.6-10.1,22.6-22.6,0-12.6-10.1-22.6-22.6-22.6s-10.1,1.6-14,4.7v-9.9ZM1861.6,49c0-7.5,6.3-13.5,13.8-13.5s13.7,5.9,13.7,13.5c0,7.5-6.1,13.7-13.7,13.7s-13.8-6.1-13.8-13.7Z"/>
+            <polygon points="1805.6 23.4 1805.6 74 1805.6 74.3 1824.1 74.3 1824.1 74 1824.1 23.4 1824.1 23.2 1805.6 23.2 1805.6 23.4"/>
+            <path d="M1862.1,13.8c-3.9,0-7.5.7-11.1,1.7v-5.2h-21.3v77h21.3v-5.2c3.6,1.1,7.3,1.7,11.1,1.7,20.2,0,36.5-15.7,36.5-34.9s-16.3-35.1-36.5-35.1ZM1862.1,59.4c-6.1,0-10.9-4.6-10.9-10.5s4.8-10.7,10.9-10.7,11.1,4.6,11.1,10.7-4.8,10.5-11.1,10.5Z"/>
           </g>
         </svg>
       </div>
 
       <style>{`.song-scroll > section { scroll-snap-align: start; min-height: 100vh; }`}</style>
 
-      <div 
+      <div
+        className="dm-nav-hint dm-nav-hint--bot"
+        style={{ opacity: sectionIndex !== 0 ? 0 : navHint === 'bot' ? 1 : 0.35, transition: 'opacity 0.4s ease-in-out' }}
+      >
+        <span className="dm-nav-hint-label">다음</span>
+        <span className="dm-nav-hint-arrow">↓</span>
+      </div>
+      <div
+        className="dm-nav-hint dm-nav-hint--left"
+        style={{ opacity: sectionIndex !== 1 || hPx <= 0 ? 0 : navHint === 'left' ? 1 : 0.35, transition: 'opacity 0.4s ease-in-out' }}
+      >
+        <span className="dm-nav-hint-arrow">←</span>
+        <span className="dm-nav-hint-label">이전</span>
+      </div>
+      <div
+        className="dm-nav-hint dm-nav-hint--right"
+        style={{ opacity: sectionIndex !== 1 || hPx >= H_MAX ? 0 : navHint === 'right' ? 1 : 0.35, transition: 'opacity 0.4s ease-in-out' }}
+      >
+        <span className="dm-nav-hint-label">다음</span>
+        <span className="dm-nav-hint-arrow">→</span>
+      </div>
+
+      <div
         ref={scrollRef}
         onScroll={handleScroll}
         onClick={handleViewportClick}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setNavHint(null)}
         className="song-scroll"
         style={{
           width: '100%',
@@ -120,25 +190,25 @@ export default function Yu() {
         }}
       >
         <section style={{ width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
-          <div style={{ width: '100%', padding: '15vh 5vw', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '50px', color: 'black', fontSize: 'clamp(18px, 2.8vw, 52px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, lineHeight: '1.5', wordBreak: 'keep-all' }}>
+          <div style={{ width: '100%', padding: '15vh 5vw', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '30px', color: 'black', fontSize: 'clamp(18px, 2.8vw, 52px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, lineHeight: '1.5', wordBreak: 'keep-all' }}>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: step >= 0 ? 1 : 0, y: step >= 0 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
               >
                 글자체에 대해서 무지했던 나는 안상수체가 처음 나왔을 때부터 3종이 다 나왔을 거라고 생각했다.
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: step >= 1 ? 1 : 0, y: step >= 1 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
               >
                 하지만 지금까지 꾸준히 변화했다는 것을 알게 됐고,
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: step >= 2 ? 1 : 0, y: step >= 2 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
               >
                 이렇게 꾸준히 변화하는 점이 대단하게 느껴졌다. 그래서 어떻게 변화해왔는지 정리해 보려고 한다.
               </motion.div>
@@ -146,26 +216,18 @@ export default function Yu() {
         </section>
 
         <section
-          onClick={(e) => {
-            e.stopPropagation();
-            if (e.clientX < window.innerWidth / 2) {
-              setHPx(p => Math.max(0, p - H_STEP));
-            } else {
-              setHPx(p => {
-                const next = p + H_STEP;
-                if (next > H_MAX && scrollRef.current) {
-                  scrollRef.current.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-                  return p;
-                }
-                return Math.min(H_MAX, next);
-              });
-            }
-          }}
-          style={{ width: '100%', height: '100vh', overflow: 'hidden', position: 'relative', cursor: 'pointer', background: '#fff' }}
+          onMouseDown={handleTimelineMouseDown}
+          onMouseMove={handleTimelineMouseMove}
+          onMouseUp={handleTimelineMouseUp}
+          onMouseLeave={handleTimelineMouseUp}
+          onTouchStart={handleTimelineTouchStart}
+          onTouchMove={handleTimelineTouchMove}
+          onTouchEnd={handleTimelineTouchEnd}
+          style={{ width: '100%', height: '100vh', overflow: 'hidden', position: 'relative', cursor: isDragging ? 'grabbing' : 'grab', background: '#fff', userSelect: 'none' }}
         >
           <motion.div
             animate={{ x: -(hPx * scale) }}
-            transition={{ duration: 0.85, ease: [0.4, 0, 0.15, 1] }}
+            transition={isDragging ? { duration: 0 } : { duration: 0.85, ease: [0.4, 0, 0.15, 1] }}
             style={{ position: 'absolute', top: '50%', left: 0, marginTop: `${-(1080 * scale) / 2}px`, width: `${9700 * scale}px`, height: `${1080 * scale}px` }}
           >
           <div style={{ width: '9700px', height: '1080px', position: 'absolute', top: 0, left: 0, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
@@ -323,11 +385,11 @@ export default function Yu() {
                     <h3 style={{ margin: 0, fontSize: '28px', fontFamily: 'AGahnsangsoo2012', fontWeight: 700 }}>{activePopup.title}</h3>
                     <button onClick={() => setActivePopup(null)} style={{ background: 'none', border: 'none', fontSize: '22px', cursor: 'pointer', color: '#000' }}>✕</button>
                   </div>
-                  <p style={{ margin: 0, fontSize: '16px', fontFamily: 'Pretendard', lineHeight: 1.6, wordBreak: 'keep-all', fontWeight: 500 }}>
+                  <p style={{ margin: 0, fontSize: '24px', fontFamily: 'AGahnsangsoo2012', lineHeight: 1.6, wordBreak: 'keep-all', fontWeight: 500 }}>
                     {activePopup.desc}
                   </p>
                   {activePopup.note && (
-                    <p style={{ margin: '15px 0 0 0', fontSize: '14px', fontFamily: 'Pretendard', lineHeight: 1.5, wordBreak: 'keep-all', color: '#555' }}>
+                    <p style={{ margin: '15px 0 0 0', fontSize: '20px', fontFamily: 'AGahnsangsoo2012', lineHeight: 1.5, wordBreak: 'keep-all', color: '#555' }}>
                       {activePopup.note}
                     </p>
                   )}
@@ -336,7 +398,7 @@ export default function Yu() {
             </AnimatePresence>
             {/* 확장 이미지와 노민지 텍스트 팝업 (1985 안상수체 탄생 좌측 하단 대각선) */}
             <motion.img
-              src="/image/확장.png"
+              src="/image/asset_img_44.png"
               alt="확장"
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}

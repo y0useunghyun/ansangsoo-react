@@ -16,6 +16,9 @@ export default function Song() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [progress, setProgress] = useState(0);
   const [isAncheOpen, setIsAncheOpen] = useState(false);
+  const [navHint, setNavHint] = useState(null);
+  const [sectionIndex, setSectionIndex] = useState(0);
+  const [totalSections, setTotalSections] = useState(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,6 +34,12 @@ export default function Song() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      setTotalSections(scrollRef.current.querySelectorAll('section').length);
+    }
+  }, []);
+
   // 내부 스크롤 컨테이너의 스크롤 프로그레스 계산 로직
   const handleScroll = () => {
     if (!scrollRef.current) return;
@@ -39,8 +48,11 @@ export default function Song() {
     const p = max > 0 ? Math.min(1, Math.max(0, el.scrollTop / max)) : 0;
     setProgress(p);
 
-
-
+    const sections = el.querySelectorAll('section');
+    setTotalSections(sections.length);
+    let idx = 0;
+    sections.forEach((s, i) => { if (s.offsetTop <= el.scrollTop + 50) idx = i; });
+    setSectionIndex(idx);
   };
 
   // 프로그레스 SVG 로직
@@ -72,9 +84,9 @@ export default function Song() {
     const isPage2  = scrollTop >= window.innerHeight / 2 && scrollTop < window.innerHeight * 1.5;
 
     if (isBottomHalf) {
-      if (isPage1 && step < 6) {
+      if (isPage1) {
         setShowPopup(false);
-        setStep(prev => prev + 1);
+        scrollRef.current.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
       } else if (isPage2 && step2 < 2) {
         setStep2(prev => prev + 1);
       } else {
@@ -83,9 +95,9 @@ export default function Song() {
     } else if (isTopHalf) {
       if (isPage2 && step2 > 0) {
         setStep2(prev => prev - 1);
-      } else if (isPage1 && step > 0) {
+      } else if (isPage1) {
         setShowPopup(false);
-        setStep(prev => prev - 1);
+        scrollRef.current.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
       } else {
         scrollRef.current.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
       }
@@ -95,6 +107,10 @@ export default function Song() {
   const handleNameClick = (e) => {
     e.stopPropagation(); // 배경 클릭(스크롤/step 증가) 방지
     setShowPopup(prev => !prev);
+  };
+
+  const handleMouseMove = (e) => {
+    setNavHint(e.clientY < window.innerHeight / 2 ? 'top' : 'bot');
   };
 
   return (
@@ -114,34 +130,51 @@ export default function Song() {
               <rect id="dm-clip-rect" x="0" y="0" width={clipWidth} height="97.7"/>
             </clipPath>
           </defs>
-          <path d="M56.8,31c-4-3.1-8.8-4.7-14-4.7-12.6,0-22.6,10.1-22.6,22.6s10.1,22.6,22.6,22.6,10.1-1.8,14-4.8v9.9h8.8V21.1h-8.8v9.9ZM42.8,62.6c-7.5,0-13.7-6.1-13.7-13.7s6.1-13.5,13.7-13.5,13.8,5.9,13.8,13.5-6.3,13.7-13.8,13.7Z"/>
+          <polygon points="94.1 23.4 94.1 74 94.1 74.3 112.6 74.3 112.6 74 112.6 23.4 112.6 23.2 94.1 23.2 94.1 23.4"/>
+          <path d="M67.2,15.6c-3.6-1.1-7.3-1.7-11.1-1.7-20.2,0-36.5,15.7-36.5,35.1s16.3,34.9,36.5,34.9,7.5-.7,11.1-1.7v5.2h21.3V10.4h-21.3v5.2ZM56.1,59.4c-6.4,0-11.1-4.6-11.1-10.5s4.8-10.7,11.1-10.7,10.9,4.6,10.9,10.7-4.8,10.5-10.9,10.5Z"/>
           <g clipPath="url(#dm-clip)">
             <g id="dm-bars">
-              <rect x="75.1" y="32.6" width="8.8" height="32.9"/><rect x="93.4" y="32.6" width="8.8" height="32.9"/><rect x="111.8" y="32.6" width="8.8" height="32.9"/><rect x="130.1" y="32.6" width="8.8" height="32.9"/><rect x="148.4" y="32.6" width="8.8" height="32.9"/><rect x="166.7" y="32.6" width="8.8" height="32.9"/><rect x="185.1" y="32.6" width="8.8" height="32.9"/><rect x="203.4" y="32.6" width="8.8" height="32.9"/><rect x="221.7" y="32.6" width="8.8" height="32.9"/><rect x="240" y="32.6" width="8.8" height="32.9"/>
-              <rect x="258.4" y="32.6" width="8.8" height="32.9"/><rect x="276.7" y="32.6" width="8.8" height="32.9"/><rect x="295" y="32.6" width="8.8" height="32.9"/><rect x="313.3" y="32.6" width="8.8" height="32.9"/><rect x="331.7" y="32.6" width="8.8" height="32.9"/><rect x="350" y="32.6" width="8.8" height="32.9"/><rect x="368.3" y="32.6" width="8.8" height="32.9"/><rect x="386.6" y="32.6" width="8.8" height="32.9"/><rect x="405" y="32.6" width="8.8" height="32.9"/><rect x="423.3" y="32.6" width="8.8" height="32.9"/>
-              <rect x="441.6" y="32.6" width="8.8" height="32.9"/><rect x="459.9" y="32.6" width="8.8" height="32.9"/><rect x="478.3" y="32.6" width="8.8" height="32.9"/><rect x="496.6" y="32.6" width="8.8" height="32.9"/><rect x="514.9" y="32.6" width="8.8" height="32.9"/><rect x="533.2" y="32.6" width="8.8" height="32.9"/><rect x="551.6" y="32.6" width="8.8" height="32.9"/><rect x="569.9" y="32.6" width="8.8" height="32.9"/><rect x="588.2" y="32.6" width="8.8" height="32.9"/><rect x="606.5" y="32.6" width="8.8" height="32.9"/>
-              <rect x="624.8" y="32.6" width="8.8" height="32.9"/><rect x="643.2" y="32.6" width="8.8" height="32.9"/><rect x="661.5" y="32.6" width="8.8" height="32.9"/><rect x="679.8" y="32.6" width="8.8" height="32.9"/><rect x="698.1" y="32.6" width="8.8" height="32.9"/><rect x="716.5" y="32.6" width="8.8" height="32.9"/><rect x="734.8" y="32.6" width="8.8" height="32.9"/><rect x="753.1" y="32.6" width="8.8" height="32.9"/><rect x="771.4" y="32.6" width="8.8" height="32.9"/><rect x="789.8" y="32.6" width="8.8" height="32.9"/>
-              <rect x="808.1" y="32.6" width="8.8" height="32.9"/><rect x="826.4" y="32.6" width="8.8" height="32.9"/><rect x="844.7" y="32.6" width="8.8" height="32.9"/><rect x="863.1" y="32.6" width="8.8" height="32.9"/><rect x="881.4" y="32.6" width="8.8" height="32.9"/><rect x="899.7" y="32.6" width="8.8" height="32.9"/><rect x="918" y="32.6" width="8.8" height="32.9"/><rect x="936.4" y="32.6" width="8.8" height="32.9"/><rect x="954.7" y="32.6" width="8.8" height="32.9"/><rect x="973" y="32.6" width="8.8" height="32.9"/>
-              <rect x="991.3" y="32.6" width="8.8" height="32.9"/><rect x="1009.7" y="32.6" width="8.8" height="32.9"/><rect x="1028" y="32.6" width="8.8" height="32.9"/><rect x="1046.3" y="32.6" width="8.8" height="32.9"/><rect x="1064.6" y="32.6" width="8.8" height="32.9"/><rect x="1083" y="32.6" width="8.8" height="32.9"/><rect x="1101.3" y="32.6" width="8.8" height="32.9"/><rect x="1119.6" y="32.6" width="8.8" height="32.9"/><rect x="1137.9" y="32.6" width="8.8" height="32.9"/><rect x="1156.2" y="32.6" width="8.8" height="32.9"/>
-              <rect x="1174.6" y="32.6" width="8.8" height="32.9"/><rect x="1192.9" y="32.6" width="8.8" height="32.9"/><rect x="1211.2" y="32.6" width="8.8" height="32.9"/><rect x="1229.5" y="32.6" width="8.8" height="32.9"/><rect x="1247.9" y="32.6" width="8.8" height="32.9"/><rect x="1266.2" y="32.6" width="8.8" height="32.9"/><rect x="1284.5" y="32.6" width="8.8" height="32.9"/><rect x="1302.8" y="32.6" width="8.8" height="32.9"/><rect x="1321.2" y="32.6" width="8.8" height="32.9"/><rect x="1339.5" y="32.6" width="8.8" height="32.9"/>
-              <rect x="1357.8" y="32.6" width="8.8" height="32.9"/><rect x="1376.1" y="32.6" width="8.8" height="32.9"/><rect x="1394.5" y="32.6" width="8.8" height="32.9"/><rect x="1412.8" y="32.6" width="8.8" height="32.9"/><rect x="1431.1" y="32.6" width="8.8" height="32.9"/><rect x="1449.4" y="32.6" width="8.8" height="32.9"/><rect x="1467.8" y="32.6" width="8.8" height="32.9"/><rect x="1486.1" y="32.6" width="8.8" height="32.9"/><rect x="1504.4" y="32.6" width="8.8" height="32.9"/><rect x="1522.7" y="32.6" width="8.8" height="32.9"/>
-              <rect x="1541.1" y="32.6" width="8.8" height="32.9"/><rect x="1559.4" y="32.6" width="8.8" height="32.9"/><rect x="1577.7" y="32.6" width="8.8" height="32.9"/><rect x="1596" y="32.6" width="8.8" height="32.9"/><rect x="1614.4" y="32.6" width="8.8" height="32.9"/><rect x="1632.7" y="32.6" width="8.8" height="32.9"/><rect x="1651" y="32.6" width="8.8" height="32.9"/><rect x="1669.3" y="32.6" width="8.8" height="32.9"/><rect x="1687.7" y="32.6" width="8.8" height="32.9"/><rect x="1706" y="32.6" width="8.8" height="32.9"/>
-              <rect x="1724.3" y="32.6" width="8.8" height="32.9"/><rect x="1742.6" y="32.6" width="8.8" height="32.9"/><rect x="1760.9" y="32.6" width="8.8" height="32.9"/><rect x="1779.3" y="32.6" width="8.8" height="32.9"/><rect x="1797.6" y="32.6" width="8.8" height="32.9"/><rect x="1815.9" y="32.6" width="8.8" height="32.9"/><rect x="1834.2" y="32.6" width="8.8" height="32.9"/>
+              <rect x="117.5" y="23.4" width="18.5" height="50.8"/><rect x="141" y="23.4" width="18.5" height="50.8"/><rect x="164.4" y="23.4" width="18.5" height="50.8"/><rect x="187.9" y="23.4" width="18.5" height="50.8"/><rect x="211.3" y="23.4" width="18.5" height="50.8"/><rect x="234.7" y="23.4" width="18.5" height="50.8"/><rect x="258.2" y="23.4" width="18.5" height="50.8"/><rect x="281.6" y="23.4" width="18.5" height="50.8"/><rect x="305.1" y="23.4" width="18.5" height="50.8"/><rect x="328.5" y="23.4" width="18.5" height="50.8"/>
+              <rect x="352" y="23.4" width="18.5" height="50.8"/><rect x="375.4" y="23.4" width="18.5" height="50.8"/><rect x="398.9" y="23.4" width="18.5" height="50.8"/><rect x="422.3" y="23.4" width="18.5" height="50.8"/><rect x="445.8" y="23.4" width="18.5" height="50.8"/><rect x="469.2" y="23.4" width="18.5" height="50.8"/><rect x="492.6" y="23.4" width="18.5" height="50.8"/><rect x="516.1" y="23.4" width="18.5" height="50.8"/><rect x="539.5" y="23.4" width="18.5" height="50.8"/><rect x="563" y="23.4" width="18.5" height="50.8"/>
+              <rect x="586.4" y="23.4" width="18.5" height="50.8"/><rect x="609.9" y="23.4" width="18.5" height="50.8"/><rect x="633.3" y="23.4" width="18.5" height="50.8"/><rect x="656.8" y="23.4" width="18.5" height="50.8"/><rect x="680.2" y="23.4" width="18.5" height="50.8"/><rect x="703.7" y="23.4" width="18.5" height="50.8"/><rect x="727.1" y="23.4" width="18.5" height="50.8"/><rect x="750.5" y="23.4" width="18.5" height="50.8"/><rect x="774" y="23.4" width="18.5" height="50.8"/><rect x="797.4" y="23.4" width="18.5" height="50.8"/>
+              <rect x="820.9" y="23.4" width="18.5" height="50.8"/><rect x="844.3" y="23.4" width="18.5" height="50.8"/><rect x="867.8" y="23.4" width="18.5" height="50.8"/><rect x="891.2" y="23.4" width="18.5" height="50.8"/><rect x="914.7" y="23.4" width="18.5" height="50.8"/><rect x="938.1" y="23.4" width="18.5" height="50.8"/><rect x="961.6" y="23.4" width="18.5" height="50.8"/><rect x="985" y="23.4" width="18.5" height="50.8"/><rect x="1008.4" y="23.4" width="18.5" height="50.8"/><rect x="1031.9" y="23.4" width="18.5" height="50.8"/>
+              <rect x="1055.3" y="23.4" width="18.5" height="50.8"/><rect x="1078.8" y="23.4" width="18.5" height="50.8"/><rect x="1102.2" y="23.4" width="18.5" height="50.8"/><rect x="1125.7" y="23.4" width="18.5" height="50.8"/><rect x="1149.1" y="23.4" width="18.5" height="50.8"/><rect x="1172.6" y="23.4" width="18.5" height="50.8"/><rect x="1196" y="23.4" width="18.5" height="50.8"/><rect x="1219.5" y="23.4" width="18.5" height="50.8"/><rect x="1242.9" y="23.4" width="18.5" height="50.8"/><rect x="1266.3" y="23.4" width="18.5" height="50.8"/>
+              <rect x="1289.8" y="23.4" width="18.5" height="50.8"/><rect x="1313.2" y="23.4" width="18.5" height="50.8"/><rect x="1336.7" y="23.4" width="18.5" height="50.8"/><rect x="1360.1" y="23.4" width="18.5" height="50.8"/><rect x="1383.6" y="23.4" width="18.5" height="50.8"/><rect x="1407" y="23.4" width="18.5" height="50.8"/><rect x="1430.5" y="23.4" width="18.5" height="50.8"/><rect x="1453.9" y="23.4" width="18.5" height="50.8"/><rect x="1477.4" y="23.4" width="18.5" height="50.8"/><rect x="1500.8" y="23.4" width="18.5" height="50.8"/>
+              <rect x="1524.2" y="23.4" width="18.5" height="50.8"/><rect x="1547.7" y="23.4" width="18.5" height="50.8"/><rect x="1571.1" y="23.4" width="18.5" height="50.8"/><rect x="1594.6" y="23.4" width="18.5" height="50.8"/><rect x="1618" y="23.4" width="18.5" height="50.8"/><rect x="1641.5" y="23.4" width="18.5" height="50.8"/><rect x="1664.9" y="23.4" width="18.5" height="50.8"/><rect x="1688.4" y="23.4" width="18.5" height="50.8"/><rect x="1711.8" y="23.4" width="18.5" height="50.8"/><rect x="1735.2" y="23.4" width="18.5" height="50.8"/>
+              <rect x="1758.7" y="23.4" width="18.5" height="50.8"/><rect x="1782.1" y="23.4" width="18.5" height="50.8"/>
             </g>
           </g>
           <g id="dm-right-d" transform={`translate(${rightDTranslateX},0)`} style={{ opacity: rightDOpacity }}>
-            <path d="M1861.4,21.1h-8.8s0,55.5,0,55.5h8.8s0-9.9,0-9.9c4,3.1,8.8,4.8,14,4.8,12.6,0,22.6-10.1,22.6-22.6,0-12.6-10.1-22.6-22.6-22.6s-10.1,1.6-14,4.7v-9.9ZM1861.6,49c0-7.5,6.3-13.5,13.8-13.5s13.7,5.9,13.7,13.5c0,7.5-6.1,13.7-13.7,13.7s-13.8-6.1-13.8-13.7Z"/>
+            <polygon points="1805.6 23.4 1805.6 74 1805.6 74.3 1824.1 74.3 1824.1 74 1824.1 23.4 1824.1 23.2 1805.6 23.2 1805.6 23.4"/>
+            <path d="M1862.1,13.8c-3.9,0-7.5.7-11.1,1.7v-5.2h-21.3v77h21.3v-5.2c3.6,1.1,7.3,1.7,11.1,1.7,20.2,0,36.5-15.7,36.5-34.9s-16.3-35.1-36.5-35.1ZM1862.1,59.4c-6.1,0-10.9-4.6-10.9-10.5s4.8-10.7,10.9-10.7,11.1,4.6,11.1,10.7-4.8,10.5-11.1,10.5Z"/>
           </g>
         </svg>
       </div>
 
       <style>{`.song-scroll > section { scroll-snap-align: start; min-height: 100vh; }`}</style>
 
+      <div
+        className="dm-nav-hint dm-nav-hint--top"
+        style={{ opacity: sectionIndex <= 0 ? 0 : navHint === 'top' ? 1 : 0.35, transition: 'opacity 0.4s ease-in-out' }}
+      >
+        <span className="dm-nav-hint-arrow">↑</span>
+        <span className="dm-nav-hint-label">이전</span>
+      </div>
+      <div
+        className="dm-nav-hint dm-nav-hint--bot"
+        style={{ opacity: sectionIndex >= totalSections - 1 ? 0 : navHint === 'bot' ? 1 : 0.35, transition: 'opacity 0.4s ease-in-out' }}
+      >
+        <span className="dm-nav-hint-label">다음</span>
+        <span className="dm-nav-hint-arrow">↓</span>
+      </div>
+
       {/* 내부 스크롤 영역 */}
-      <div 
+      <div
         ref={scrollRef}
         onScroll={handleScroll}
         onClick={handleViewportClick}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={() => setNavHint(null)}
         className="song-scroll"
         style={{
           width: '100%',
@@ -158,7 +191,7 @@ export default function Song() {
         <section style={{ width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           {isMobile ? (
             /* ── 모바일: 누적 텍스트, 큰 폰트 ── */
-            <div style={{ width: '100%', padding: '80px 24px 48px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '28px', fontSize: 'clamp(22px, 5.5vw, 30px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, color: '#000', lineHeight: 1.5, wordBreak: 'keep-all' }}>
+            <div style={{ width: '100%', padding: '80px 24px 48px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '16px', fontSize: 'clamp(22px, 5.5vw, 30px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, color: '#000', lineHeight: 1.4, wordBreak: 'keep-all' }}>
               {[
                 "좋아하는 서체를 한 글자 프린트해 오라는 과제가 있었다.",
                 "별다른 고민과 확신도 없이 안상수체를 고르고, 내 이름의 앞글자 '송'을 적어넣었다.",
@@ -166,12 +199,13 @@ export default function Song() {
                 "늘 내 이름 석자가 쓰인 모습이 마음에 들지 않았던 것 같다.",
                 "직접 써도 어딘가 불안정해 보였고, 지정된 서체를 이용해도 답답해 보였다.",
                 "안상수체로 쓰인 내 이름은 지루함 없이 살아 있고 튼튼했다.",
-                "이 점을 깨닫고 나니 애정하지 않을 수가 없었다…",
+                "이 점을 깨닫고 나니 애정하지 않을 수가 없었다…"
               ].map((text, i) => (
                 <motion.div
                   key={i}
-                  animate={{ opacity: step >= i ? 1 : 0, y: step >= i ? 0 : 12 }}
-                  transition={{ duration: 0.4 }}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.2, delay: 0.2 }}
                 >
                   {text}
                 </motion.div>
@@ -195,31 +229,31 @@ export default function Song() {
             </div>
           ) : (
           <div style={{ width: '1920px', height: '1080px', position: 'relative', transform: `scale(${scale})`, transformOrigin: 'center center' }}>
-            <div data-layer="인용구" style={{ position: 'absolute', left: '50px', top: '150px', width: '1567px', display: 'flex', flexDirection: 'column', gap: '35px', color: 'black', fontSize: '50px', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left', lineHeight: '1.4' }}>
-              <motion.div initial={{ opacity: 1 }} animate={{ opacity: 1 }}>
+            <div data-layer="인용구" style={{ position: 'absolute', left: '50px', top: '45%', transform: 'translateY(-50%)', width: '1567px', display: 'flex', flexDirection: 'column', gap: '20px', color: 'black', fontSize: '50px', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left', lineHeight: '1.35' }}>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: 0.2 }}>
                 좋아하는 서체를 한 글자 프린트해 오라는 과제가 있었다.
               </motion.div>
               
               <motion.div 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: step >= 1 ? 1 : 0, y: step >= 1 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
               >
                 별다른 고민과 확신도 없이 안상수체를 고르고, 내 이름의 앞글자 '송'을 적어넣었다.
               </motion.div>
 
               <motion.div 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: step >= 2 ? 1 : 0, y: step >= 2 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
               >
                 프린트된 종이를 보며 이유를 생각하기 시작했다.
               </motion.div>
 
               <motion.div 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: step >= 3 ? 1 : 0, y: step >= 3 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
                 style={{ position: 'relative' }}
               >
                 {/* 각주 팝업 (fn-card 스타일) & 천천히 깜빡이는 효과 */}
@@ -268,25 +302,25 @@ export default function Song() {
               </motion.div>
 
               <motion.div 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: step >= 4 ? 1 : 0, y: step >= 4 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
               >
                 직접 써도 어딘가 불안정해 보였고, 지정된 서체를 이용해도 답답해 보였다.
               </motion.div>
               
               <motion.div 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: step >= 5 ? 1 : 0, y: step >= 5 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
               >
                 안상수체로 쓰인 내 이름은 지루함 없이 살아 있고 튼튼했다.
               </motion.div>
 
               <motion.div 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: step >= 6 ? 1 : 0, y: step >= 6 ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.2 }}
               >
                 이 점을 깨닫고 나니 애정하지 않을 수가 없었다…
               </motion.div>
@@ -345,16 +379,20 @@ export default function Song() {
                   pointerEvents: step2 >= 1 ? 'auto' : 'none',
                 }}
               >
-                {/* 송명선 + 카드 fit-content wrapper — 카드 너비를 글자 너비에 맞춤 */}
+                {/* 송명선 + 카드 wrapper */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', width: 'fit-content', gap: '16px' }}>
-                  <div style={{ fontSize: 'clamp(80px, 22vw, 140px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 500, lineHeight: 1, display: 'inline-flex', paddingBottom: '0.55em' }}>
-                    {[{ char: '송', jamo: 'ㅇ' }, { char: '명', jamo: 'ㅇ' }, { char: '선', jamo: 'ㄴ' }].map(({ char, jamo }, i) => (
+                  <div style={{ fontSize: 'clamp(110px, 30vw, 180px)', fontFamily: 'AGahnsangsoo2012', fontWeight: 500, lineHeight: 1, display: 'flex', justifyContent: 'center', paddingBottom: '0.55em' }}>
+                    {[
+                      { char: '송', jamo: 'ㅇ', left: '50%' },
+                      { char: '명', jamo: 'ㅇ', left: '74%' },
+                      { char: '선', jamo: 'ㄴ', left: '73.5%' }
+                    ].map(({ char, jamo, left }, i) => (
                       <span key={i} style={{ position: 'relative', display: 'inline-block' }}>
                         {char}
                         <motion.span
                           animate={{ opacity: step2 >= 2 ? 1 : 0 }}
                           transition={{ duration: 0.6 }}
-                          style={{ position: 'absolute', bottom: '-0.5em', left: '50%', transform: 'translateX(-50%)', fontSize: '0.85em', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, color: '#7aeb7a', lineHeight: 1, pointerEvents: 'none' }}
+                          style={{ position: 'absolute', bottom: '-0.42em', left, transform: 'translateX(-50%)', fontSize: '0.85em', fontFamily: 'AGahnsangsoo2012', fontWeight: 700, color: '#7aeb7a', lineHeight: 1, pointerEvents: 'none' }}
                         >
                           {jamo}
                         </motion.span>
@@ -364,9 +402,9 @@ export default function Song() {
                   <motion.div
                     animate={{ opacity: step2 >= 2 ? 1 : 0 }}
                     transition={{ duration: 0.5 }}
-                    style={{ width: '100%', padding: '16px 20px', background: '#98FB98', borderRadius: '5px' }}
+                    style={{ width: '100%', padding: '12px 14px', background: '#98FB98', borderRadius: '5px' }}
                   >
-                    <p style={{ margin: 0, fontSize: '13px', fontFamily: 'OnulHanChe', fontWeight: 700, color: '#000', lineHeight: 1.7, wordBreak: 'keep-all' }}>
+                    <p style={{ margin: 0, fontSize: '12px', fontFamily: 'OnulHanChe', fontWeight: 700, color: '#000', lineHeight: 1.6, wordBreak: 'keep-all', textAlign: 'center' }}>
                       다른 글자체와 달리 한눈에 보이는 차이점은 안체는 첫 닿자와 받침의 형태를 같이 쓰고, 홀자의 위치를 가운데로 맞추어 사용하는 아주 단순한 구조이다.<br/><br/>이 점이 이름 세글자를 살아 움직이게 하는 이유였다.
                     </p>
                   </motion.div>
@@ -379,12 +417,12 @@ export default function Song() {
             {/* 시네마틱 카메라 줌 컨테이너 */}
             <motion.div
               animate={{
-                x: step2 >= 1 ? 710 : 0,
+                x: step2 >= 1 ? 665 : 0,
                 y: step2 >= 1 ? -75 : 0,
                 scale: step2 >= 1 ? 4.5 : 1
               }}
               transition={{ duration: 1.2, ease: [0.25, 1, 0.3, 1] }}
-              style={{ width: '100%', height: '100%', position: 'absolute', left: 0, top: 0, transformOrigin: '250px 615px' }}
+              style={{ width: '100%', height: '100%', position: 'absolute', left: 0, top: 0, transformOrigin: '295px 615px' }}
             >
               {/* 타이틀 */}
               <motion.div 

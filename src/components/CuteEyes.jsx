@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function CuteEyes({ onClick }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -15,11 +16,19 @@ export default function CuteEyes({ onClick }) {
   }, []);
 
   // 눈알을 그리기 위한 공통 로직
-  const renderEye = (centerX, centerY) => {
-    // 화면 중앙 기준 좌표 계산
-    const cx = window.innerWidth / 2 + centerX;
-    const cy = window.innerHeight / 2 + centerY;
+  const renderEye = (centerXOffset) => {
+    let cx = window.innerWidth / 2;
+    let cy = window.innerHeight / 2;
+
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      cx = rect.left + rect.width / 2;
+      cy = rect.top + rect.height / 2;
+    }
     
+    // 왼쪽 오른쪽 오프셋 반영
+    cx += centerXOffset;
+
     // 마우스와 눈 중심 사이의 거리 및 각도
     const dx = mousePos.x - cx;
     const dy = mousePos.y - cy;
@@ -27,7 +36,9 @@ export default function CuteEyes({ onClick }) {
     
     // 동공이 움직일 수 있는 최대 반경
     const maxRadius = 15;
-    const distance = Math.min(Math.sqrt(dx * dx + dy * dy) * 0.05, maxRadius);
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    // 거리가 가까울 때도 기민하게 반응하도록 배율을 높이거나 바로 거리를 적용
+    const distance = Math.min(dist * 0.8, maxRadius);
     
     // 동공 위치
     const pupilX = Math.cos(angle) * distance;
@@ -87,6 +98,7 @@ export default function CuteEyes({ onClick }) {
 
   return (
     <div 
+      ref={containerRef}
       onClick={onClick}
       style={{
       display: 'flex',
@@ -107,10 +119,10 @@ export default function CuteEyes({ onClick }) {
       `}</style>
       
       {/* 왼쪽 눈 */}
-      {renderEye(-40, 0)}
+      {renderEye(-40)}
       
       {/* 오른쪽 눈 */}
-      {renderEye(40, 0)}
+      {renderEye(40)}
     </div>
   );
 }

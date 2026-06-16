@@ -71,7 +71,7 @@ export default function MainApp() {
           </p>
         </div>
       </div>
-      <img src="/image/안상수.webp" class="dp-portrait-img" alt="안상수" />
+      <img src="/image/asset_img_17.webp" class="dp-portrait-img" alt="안상수" />
     </div>
 
     <div class="dp-scroll">
@@ -95,46 +95,12 @@ export default function MainApp() {
     <!-- 과학동아: 왼쪽 하단 고정 -->
     <div class="dp-card dp-card--pinned" id="dp-card-1">
       <div class="dp-card-img-wrap">
-        <img src="/image/안체프로젝트.webp" class="dp-img-s1" alt="과학동아" />
-        <img src="/image/안체프로젝트.webp" class="dp-img-s2" alt="과학동아" />
+        <img src="/image/asset_img_26.webp" class="dp-img-s1" alt="과학동아" />
+        <img src="/image/asset_img_26.webp" class="dp-img-s2" alt="과학동아" />
       </div>
       <div class="dp-card-body">
         <p class="dp-birth-text">
-          [안상수체의 탄생] 1985년 12월 제3회 〈홍익 시각디자이너협회 회원전〉 포스터에 처음 사용되었으며, 이듬해 1986년 1월 창간된 《과학동아》의 제호 작업에도 쓰였다. 탈네모꼴 형태의 이 제호는 16비트 컴퓨터로 구현되어 과학적이고 현대적인 인상을 주었다. 한편 안상수는 1984년 벡터 방식의 캐드 프로그램(오토캐드 2.1)을 활용해 훈민정음의 창제원리에 기반해 닿소리·홀소리의 자소를 독립된 단위로 조합하는 방식으로 글자체의 모듈 골격을 체계화하고, 최소한의 자소로 가장 많은 글자를 구성할 수 있는 한글 본래의 조합 논리를 디지털 환경에 적용했다.
-        </p>
-      </div>
-    </div>
-
-  </div><!-- /detail-ag -->
-
-  <!-- 스 세부 페이지 -->
-  <div id="detail-su" class="detail-page">
-    <button class="dp-back" id="dp-su-back">← 홈</button>
-    <div class="su-stage" id="su-stage">
-      <div class="su-char" id="su-char">스</div>
-      <div class="su-text" id="su-text">
-        <div class="su-text-inner">
-          <div class="su-specimen-row"><span class="su-weight-label">300 Light</span><p class="su-note" style="font-weight:300">어도비 폰트에서 글꼴을 웹폰트로 끌고오면<br>안상수체에서 ‘스’라는 단어만<br>글씨체 지원이 안된다.</p></div>
-          <div class="su-specimen-row"><span class="su-weight-label">500 Medium</span><p class="su-note" style="font-weight:500">어도비 폰트에서 글꼴을 웹폰트로 끌고오면<br>안상수체에서 ‘스’라는 단어만<br>글씨체 지원이 안된다.</p></div>
-          <div class="su-specimen-row"><span class="su-weight-label">700 Bold</span><p class="su-note" style="font-weight:700">어도비 폰트에서 글꼴을 웹폰트로 끌고오면<br>안상수체에서 ‘스’라는 단어만<br>글씨체 지원이 안된다.</p></div>
-        </div>
-      </div>
-    </div>
-  </div><!-- /detail-su -->
-
-  <!-- 안체프로젝트 세부 페이지 -->
-  <div id="detail-anche" class="detail-page">
-    <button class="dp-back" id="dp-anche-back">← 홈</button>
-
-    <div class="ap-stage" id="ap-stage">
-
-      <!-- 클릭 유도 이미지 그리드 -->
-      <div class="ap-grid-anim">
-      <div class="ap-grid-wrap" id="ap-grid-wrap">
-        <div class="ap-grid">
-          <!-- 이미지 1: 하라 겐야 -->
-          <div class="ap-cell">
-            <img src="/image/하라 겐야.png" class="ap-img" alt="하라 겐야" />
+          [안상수체의 탄생] 1985년 12월 제3회 〈홍익 시각디자이너협회 회원전〉 포스터에 처음 사용되었으며, 이듬해 1986년 1월 창간된 《과�  <!-- /detail-su -->          <img src="/image/asset_img_38.png" class="ap-img" alt="하라 겐야" />
           </div>
           <div class="ap-label-col">
             <span class="ap-label-marker">[*]</span>
@@ -142,7 +108,7 @@ export default function MainApp() {
           </div>
           <!-- 이미지 2: 엠엠파리 -->
           <div class="ap-cell">
-            <img src="/image/엠엠파리.png" class="ap-img" alt="엠엠파리" />
+            <img src="/image/asset_img_27.png" class="ap-img" alt="엠엠파리" />
           </div>
           <div class="ap-label-col">
             <span class="ap-label-marker">[*]</span>
@@ -150,7 +116,7 @@ export default function MainApp() {
           </div>
           <!-- 이미지 3: 사랑 쿨카르니 -->
           <div class="ap-cell">
-            <img src="/image/사랑 쿨카르니.png" class="ap-img" alt="사랑 쿨카르니" />
+            <img src="/image/asset_img_12.png" class="ap-img" alt="사랑 쿨카르니" />
           </div>
           <div class="ap-label-col">
             <span class="ap-label-marker">[*]</span>
@@ -158,7 +124,7 @@ export default function MainApp() {
           </div>
           <!-- 이미지 4: 네빌 브로디 -->
           <div class="ap-cell">
-            <img src="/image/네빌 브로디.png" class="ap-img" alt="네빌 브로디" />
+            <img src="/image/asset_img_6.png" class="ap-img" alt="네빌 브로디" />
           </div>
           <div class="ap-label-col">
             <span class="ap-label-marker">[*]</span>
@@ -303,10 +269,10 @@ export default function MainApp() {
     <div class="hb-slider" id="hb-slider">
       <div class="hb-track" id="hb-track">
         <div class="hb-slide">
-          <img src="/image/8주차_1조_송명선.jpg" class="hb-img" alt="송명선" />
+          <img src="/image/asset_img_1.jpg" class="hb-img" alt="송명선" />
         </div>
         <div class="hb-slide">
-          <img src="/image/8주차_1조_유승현.png" class="hb-img" alt="유승현" />
+          <img src="/image/asset_img_2.png" class="hb-img" alt="유승현" />
         </div>
       </div>
       <button class="hb-arrow hb-arrow--left" id="hb-prev">＜</button>
@@ -317,7 +283,15 @@ export default function MainApp() {
   <!-- 메인 세부 페이지 — 긴 스크롤 콘텐츠 -->
   <div id="detail-main" class="detail-page">
 
-
+    <!-- 클릭 네비게이션 힌트 (상단/하단) -->
+    <div class="dm-nav-hint dm-nav-hint--top" id="dm-nav-top" style="position:absolute;opacity:0;transition:opacity 0.4s ease-in-out;z-index:200">
+      <span class="dm-nav-hint-arrow">↑</span>
+      <span class="dm-nav-hint-label">이전</span>
+    </div>
+    <div class="dm-nav-hint dm-nav-hint--bot" id="dm-nav-bot" style="position:absolute;opacity:0.35;transition:opacity 0.4s ease-in-out;z-index:200">
+      <span class="dm-nav-hint-label">다음</span>
+      <span class="dm-nav-hint-arrow">↓</span>
+    </div>
 
     <!-- 고정 헤더 -->
     <div class="dm-header" id="dm-header">
@@ -360,24 +334,24 @@ export default function MainApp() {
         <div class="dm-story-text" id="dm-story-text">
           <p class="story-paragraph">안상수체를 알고 있나요? 정확한 이름은 몰랐어도, 본 적은 있을 거에요. 간판에서, 안내판에서, 컴퓨터 화면 어딘가에서. 40년 동안 우리 곁에 있었으니까요.</p>
           <p class="story-paragraph">긴 시간 동안, 안상수체는 끊임없이 변화하고, 확장하고, 쌓여왔습니다. 막내 돼지의 벽돌집처럼, 바람이 불어도 무너지지 않을 집을 지었습니다. 정형화 되지 않은 형태의 구옥이 어느날 눈에 들어오듯, 고유의 멋과 견고함을 지니고 있죠.</p>
-          <p class="story-paragraph">이 웹페이지는 기리고 싶은 마음에 제작된 것입니다.<br>우리는 안체가 쌓아온 벽돌들을 하나하나 이야기 해보고 싶습니다...<img src="/image/벽돌.png" class="story-brick-dot" alt="벽돌"></p>
+          <p class="story-paragraph">이 웹페이지는 기리고 싶은 마음에 제작된 것입니다.<br>우리는 안체가 쌓아온 벽돌들을 하나하나 이야기 해보고 싶습니다...<img src="/image/asset_img_11.png" class="story-brick-dot" alt="벽돌"></p>
         </div>
       </div>
 
       <!-- 섹션 1: 안체 이미지 + 라벨 -->
       <div class="dm-section dm-section--hero">
         <div class="dm-hero" id="dm-hero">
-          <img src="/image/안체1.jpg" class="dm-hero-img" alt="안체1" />
-          <img src="/image/안체2.jpg" class="dm-hero-img" alt="안체2" />
-          <img src="/image/안체3.jpg" class="dm-hero-img" alt="안체3" />
-          <img src="/image/안체4.jpg" class="dm-hero-img" alt="안체4" />
+          <img src="/image/asset_img_20.jpg" class="dm-hero-img" alt="안체1" />
+          <img src="/image/asset_img_21.jpg" class="dm-hero-img" alt="안체2" />
+          <img src="/image/asset_img_22.jpg" class="dm-hero-img" alt="안체3" />
+          <img src="/image/asset_img_24.jpg" class="dm-hero-img" alt="안체4" />
         </div>
         <p class="dm-label">AG 안상수체 2012</p>
       </div>
 
       <!-- 섹션 2: 협회전+과학동아 이미지 + 타이틀 + 본문 -->
       <div class="dm-section dm-section--intro">
-        <img src="/image/협회전.png" class="dm-ref-big" alt="과학동아 제호 및 협회전 포스터" />
+        <img src="/image/asset_img_41.png" class="dm-ref-big" alt="과학동아 제호 및 협회전 포스터" />
         <h1 class="dm-intro-title"><span class="dm-hl-line">AG 안상수체 2012</span></h1>
         <p class="dm-body dm-intro-body">
           <span class="dm-hl-line"><span class="dm-u dm-hl" data-fn="1">'안상수'체</span>는 1985년 <span class="dm-u dm-hl" data-fn="2">디자이너 안상수</span>가 설계한 글자체로, 같은 해 12월 제3회 ‹홍익시각디자이너협회 회원전› 포스터에 처음 등장한다. 이후 1986년 1월 «과학동아» 창간호에서 많은 사람에게 알려지게 되는데, 이 글꼴은 당시 다소 파격적인 형태로 인식된 듯하다. 처음 만들었을 때는 <span class="dm-u dm-hl" data-fn="3">"이런 것도 글자냐"</span>고 핀잔을 받기도 했다는데, 이는 한글 글자체는 당연히 네모틀에 잘 맞춰서 설계해야 한다는 개념을 탈피한 시도였기 때문이다.</span>
@@ -402,8 +376,8 @@ export default function MainApp() {
       <div class="dm-section dm-section--bigquote">
         <p class="dm-bigquote">기역은 똑같은 기역이라는 게 한글의 개념이다.<br>이걸 그대로 따르면 탈네모틀이 될 수밖에 없다고 상상했다.<br>단순하고 쉽다는 한글의 정신에도 어울린다.</p>
         <div class="bq-bricks">
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
         </div>
       </div>
 
@@ -411,7 +385,7 @@ export default function MainApp() {
       <div class="dm-section dm-section--hunmin" id="sec-hunmin">
         <h2 class="dm-title hm-title">훈민정음의 창제 원리를 따르다</h2>
         <div class="hm-img-wrap">
-          <img src="/image/창제원리.jpg" class="hm-img" id="hm-img" alt="훈민정음 창제원리" />
+          <img src="/image/asset_img_32.jpg" class="hm-img" id="hm-img" alt="훈민정음 창제원리" />
           <p class="hm-img-caption">『훈민정음 해례본』 자모음의 원리도</p>
         </div>
         <p class="dm-body">안상수체의 간결함은 훈민정음 창제 원리에 근거한다. 훈민정음은 닿자와 홀자 24개만 설계해 형태를 변형하지 않고 모든 경우에 사용하는 가장 간결하고 기하학적인 형태이다. 수직선, 수평선, 사선, 정원으로 구성된 24자의 낱자를 기본 형태로 삼아 쌍닿자, 이중홀자 등을 조합했다.</p>
@@ -424,7 +398,7 @@ export default function MainApp() {
         
         <div class="dev1984-img-wrap">
           <!-- '학' 도면 이미지 -->
-          <img src="/image/학.svg" alt="학 도면" class="dev1984-img" />
+          <img src="/image/asset_img_40.svg" alt="학 도면" class="dev1984-img" />
           
           <!-- 녹색 형광펜 박스 (회전) -->
           <div class="dev1984-highlight">
@@ -434,7 +408,7 @@ export default function MainApp() {
       </div>
 
       <div class="dm-section dm-section--hunmin2-new">
-        <img src="/image/조형특징1.svg" alt="조형특징1" class="hm2-new-img" />
+        <img src="/image/asset_img_29.svg" alt="조형특징1" class="hm2-new-img" />
         <p class="dm-body hm2-new-text">안상수체는 첫 닿자와 받침의 형태를 같이 쓰고, 홀자의 위치를 가운데로 맞추어 아주 단순한 구조로 글자체를 설계했고,</p>
       </div>
 
@@ -442,17 +416,17 @@ export default function MainApp() {
         <div class="hm3-charts-wrap">
           <div class="hm3-chart hm3-chart--chot">
             <div class="hm3-chart-box">
-              <img src="/image/첫닿자.svg" alt="첫닿자 19자" class="hm3-chart-img" />
+              <img src="/image/asset_img_33.svg" alt="첫닿자 19자" class="hm3-chart-img" />
             </div>
           </div>
           <div class="hm3-chart hm3-chart--bat">
             <div class="hm3-chart-box">
-              <img src="/image/받침.svg" alt="받침 21자" class="hm3-chart-img" />
+              <img src="/image/asset_img_9.svg" alt="받침 21자" class="hm3-chart-img" />
             </div>
           </div>
           <div class="hm3-chart hm3-chart--hol">
             <div class="hm3-chart-box">
-              <img src="/image/홀자.svg" alt="홀자 21자" class="hm3-chart-img" />
+              <img src="/image/asset_img_43.svg" alt="홀자 21자" class="hm3-chart-img" />
             </div>
           </div>
         </div>
@@ -470,9 +444,9 @@ export default function MainApp() {
           <p class="story-paragraph is-visible">안상수체의 확장성 - 노민지</p>
         </div>
         <div class="bq-bricks">
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
         </div>
       </div>
 
@@ -496,7 +470,7 @@ export default function MainApp() {
       <div class="dm-section dm-section--hunmin">
         <h2 class="dm-title hm-title">4. 기술의 발달</h2>
         <div class="hm-img-wrap">
-          <img src="/image/조형특징2.svg" class="hm-img" alt="조형특징" style="width: auto; height: 35vh; max-height: 400px; object-fit: contain;" />
+          <img src="/image/asset_img_30.svg" class="hm-img" alt="조형특징" style="width: auto; height: 35vh; max-height: 400px; object-fit: contain;" />
         </div>
         <p class="dm-body">1985년 처음 만들어진 안상수체는 건축 설계용 프로그램 '오토캐드'로 설계되었다. 1991년에는 '폰토그라퍼'를 통해 영문과 기호를 추가해 한 벌의 폰트로 완성했고, 2012년 판올림에서는 '폰트랩'을 사용해 국내 최초로 '한글 그룹 커닝' 기술을 적용했다.</p>
       </div>
@@ -507,10 +481,10 @@ export default function MainApp() {
           <p class="story-paragraph is-visible">1985년 안상수에 의해 한글꼴이 완전히 재해석되면서,<br>기하학적 형태를 실험할 수 있는 가능성이 열렸다.</p>
         </div>
         <div class="bq-bricks">
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
-          <img src="/image/벽돌.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
+          <img src="/image/asset_img_11.png" class="bq-brick" alt="벽돌" />
         </div>
       </div>
 
@@ -521,24 +495,24 @@ export default function MainApp() {
         <h2 class="dm-title">&lt;안체 프로젝트 A-Project&gt;</h2>
         <div class="dm-ap-grid">
           <figure class="dm-ap-thumb" data-fn="ap1">
-            <img src="/image/네빌 브로디.png" alt="네빌 브로디" class="dm-ap-img" />
+            <img src="/image/asset_img_6.png" alt="네빌 브로디" class="dm-ap-img" />
             <figcaption class="dm-ref-caption">네빌 브로디</figcaption>
           </figure>
           <figure class="dm-ap-thumb" data-fn="ap2">
-            <img src="/image/사랑 쿨카르니.png" alt="사랑 쿨카르니" class="dm-ap-img" />
+            <img src="/image/asset_img_12.png" alt="사랑 쿨카르니" class="dm-ap-img" />
             <figcaption class="dm-ref-caption">사랑 쿨카르니</figcaption>
           </figure>
           <figure class="dm-ap-thumb" data-fn="ap3">
-            <img src="/image/엠엠파리.png" alt="엠엠 파리" class="dm-ap-img" />
+            <img src="/image/asset_img_27.png" alt="엠엠 파리" class="dm-ap-img" />
             <figcaption class="dm-ref-caption">엠엠 파리</figcaption>
           </figure>
           <figure class="dm-ap-thumb" data-fn="ap4">
-            <img src="/image/하라 겐야.png" alt="하라 겐야" class="dm-ap-img" />
+            <img src="/image/asset_img_38.png" alt="하라 겐야" class="dm-ap-img" />
             <figcaption class="dm-ref-caption">하라 겐야</figcaption>
           </figure>
         </div>
         <p class="dm-body">안체 프로젝트는 AG 안상수체 탄생 40주년을 기념해 진행된 프로젝트로, 참여 디자이너들이 AG 안상수체의 모듈을 활용해 새로운 탈네모틀 한글꼴을 제작하고 안상수와 한글에 대한 각자의 생각을 담아내는 연구 프로젝트다. 연구소는 디자이너들이 11,172자의 한글 완성형 글자를 완성할 수 있도록 제작 전 과정을 지원한다.</p>
-        <img src="/image/안체프로젝트.png" class="ap-sticker" id="ap-sticker-btn" alt="안체프로젝트 바로가기" />
+        <img src="/image/asset_img_25.png" class="ap-sticker" id="ap-sticker-btn" alt="안체프로젝트 바로가기" onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate('/aproject'); }} style="cursor: pointer;" />
       </div>
 
       <!-- 섹션 6.5: 엔딩 스토리 (한 문장씩 등장) -->
@@ -555,9 +529,9 @@ export default function MainApp() {
       <!-- 섹션: 큰 집 이미지 -->
       <div class="dm-section dm-section--house">
         <div class="dm-house-wrap">
-          <img src="/image/집.png" alt="집" class="dm-house-img" />
+          <img src="/image/asset_img_31.png" alt="집" class="dm-house-img" />
           <div class="dm-house-window">
-             <img src="/image/안상수선생님친모아정사각형.png" alt="안상수" class="dm-house-person" />
+             <img src="/image/asset_img_19.png" alt="안상수" class="dm-house-person" />
           </div>
         </div>
       </div>
@@ -574,12 +548,12 @@ export default function MainApp() {
       <svg class="ag-overlay-svg" id="ag-overlay-svg" xmlns="http://www.w3.org/2000/svg"></svg>
 
       <div class="ag-caption-panel ag-caption-panel--left" id="ag-caption-left">
-        <img src="/image/탈네모틀.svg" class="ag-caption-img" alt="탈네모틀" />
+        <img src="/image/asset_img_37.svg" class="ag-caption-img" alt="탈네모틀" />
         <p class="ag-caption-text">(1) 탈네모틀<br><br>낱자를 조합하여 소리를 이루는 한글의 구조적 특징을 반영하여 네모틀을 벗어난 형태의 틀로, 네모틀의 상대적 개념.<br><br>초기에는 비네모틀, 탈사각틀이라는 표현이 혼재했으나 1990년대 이후 '탈네모틀'로 일반화되었다. 한글은 하나의 소리를 이루는 낱자의 종류가 적고, 조합 구조가 단순할수록 탈네모틀에 가까워진다. 음절 단위로 만드는 네모틀한글글자꼴은 낱자의 형태가 각기 수십여 가지로 달라진다. 그러나 탈네모틀한글글자꼴은 그 변화폭이 현저히 작으며, 세벌체가 되면 각 낱자가 오직 한 가지 형태만을 갖게 된다. 디자이너의 의도에 따라 첫닿자 윗선 정렬, 보선 정렬, 받침 밑선 정렬 등 다양한 기준선을 가질 수 있는 점도 탈네모틀 한글 활자체의 특징이다.</p>
       </div>
 
       <div class="ag-caption-panel ag-caption-panel--right" id="ag-caption-right">
-        <img src="/image/네모틀.svg" class="ag-caption-img" alt="네모틀" />
+        <img src="/image/asset_img_5.svg" class="ag-caption-img" alt="네모틀" />
         <p class="ag-caption-text">(2) 네모틀<br><br>전통 서법의 영향과 활자 조판의 편의성에서 비롯된 일정한 크기의 사각 모양 틀.<br><br>한글 창제 이후 1980년대까지 대부분의 한글 글자꼴은 일정한 네모의 틀 안에서 제작되었다. 지금까지도 네모틀은 전통적이며 전형적인 한글의 외형을 유지하는 대표적인 체계 요소이다.</p>
       </div>
     </div>
@@ -588,13 +562,13 @@ export default function MainApp() {
 
   <!-- 밧줄 — 홈 + detail-main 공용 (body 직속) -->
   <div class="dm-rope-wrap" id="dm-rope-wrap">
-    <img src="/image/밧줄.png" alt="밧줄" class="dm-rope" id="dm-rope" />
+    <img src="/image/asset_img_10.png" alt="밧줄" class="dm-rope" id="dm-rope" />
   </div>
 
   <!-- 밧줄 오버레이 — 위에서 내려오는 패널 (body 직속, 항상 최상위) -->
   <div class="rope-overlay" id="rope-overlay">
     <!-- 벽돌 배경 -->
-    <img src="/image/벽돌.png" class="rope-bg-brick" alt="" />
+    <img src="/image/asset_img_11.png" class="rope-bg-brick" alt="" />
     <!-- 반투명 흰 화면 워시 -->
     <div class="rope-screen-wash"></div>
 
@@ -602,8 +576,8 @@ export default function MainApp() {
     <div class="rope-tajagi" id="hp-tajagi-rope" style="cursor: pointer;">
       <div class="rope-tajagi-ribbon"></div>
       <span class="rope-tajagi-text">세벌식 타자기</span>
-      <img src="/image/타자기2.png" alt="종이" class="rope-tajagi-paper" />
-      <img src="/image/타자기.png" alt="타자기" class="rope-tajagi-base" />
+      <img src="/image/asset_img_35.png" alt="종이" class="rope-tajagi-paper" />
+      <img src="/image/asset_img_34.png" alt="타자기" class="rope-tajagi-base" />
     </div>
 
     <!-- 콘텐츠 박스 -->
@@ -635,7 +609,7 @@ export default function MainApp() {
       <h2 class="dev1984-overlay-title">어떻게.만들었는가.</h2>
       
       <div class="dev1984-overlay-img-wrap">
-        <img src="/image/학.svg" alt="학 도면" class="dev1984-overlay-img" />
+        <img src="/image/asset_img_40.svg" alt="학 도면" class="dev1984-overlay-img" />
       </div>
 
       <div class="dev1984-overlay-text-box">
@@ -1135,6 +1109,7 @@ export default function MainApp() {
               scroll.scrollTop = target.offsetTop;
             }
           }
+          if (window._dmUpdateNav) window._dmUpdateNav();
         });
       });
 
@@ -1184,10 +1159,42 @@ export default function MainApp() {
     });
 
     /* ================================================================
-       dm-scroll 클릭 → 다음 섹션 이동
+       dm-scroll 클릭 → 다음 섹션 이동 + 네비 힌트
     ================================================================ */
     (function () {
-      var dmScroll = document.querySelector('.dm-scroll');
+      var dmScroll   = document.querySelector('.dm-scroll');
+      var navTop     = document.getElementById('dm-nav-top');
+      var navBot     = document.getElementById('dm-nav-bot');
+      var detailMain = document.getElementById('detail-main');
+      var hoverHint  = null;
+
+      function updateNavOpacity() {
+        var sections  = dmScroll.querySelectorAll('.dm-section');
+        var scrollTop = dmScroll.scrollTop;
+        var isFirst   = sections.length === 0 || scrollTop < sections[0].offsetTop + 50;
+        var isLast    = scrollTop >= dmScroll.scrollHeight - dmScroll.clientHeight - 50;
+
+        var topBase = isFirst ? 0 : 0.35;
+        var botBase = isLast  ? 0 : 0.35;
+        navTop.style.opacity = hoverHint === 'top' && !isFirst ? 1 : topBase;
+        navBot.style.opacity = hoverHint === 'bot' && !isLast  ? 1 : botBase;
+      }
+
+      dmScroll.addEventListener('scroll', updateNavOpacity, { passive: true });
+
+      dmScroll.addEventListener('mousemove', function (e) {
+        if (!detailMain.classList.contains('dp-in')) return;
+        hoverHint = e.clientY < window.innerHeight / 2 ? 'top' : 'bot';
+        updateNavOpacity();
+      });
+
+      dmScroll.addEventListener('mouseleave', function () {
+        hoverHint = null;
+        updateNavOpacity();
+      });
+
+      window._dmUpdateNav = updateNavOpacity;
+
       dmScroll.addEventListener('click', function (e) {
         if (e.target.closest('button, a, .dm-u, .dm-hero')) return;
         var sections = dmScroll.querySelectorAll('.dm-section');

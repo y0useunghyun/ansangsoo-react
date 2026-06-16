@@ -35,3 +35,4 @@ migrate.*
 !eslint.config.js
 !src/**/*.js
 !inline_script.js
+.vercel

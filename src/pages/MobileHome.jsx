@@ -7,27 +7,27 @@ import TypewriterIntro from './Typewriter';
 const ITEMS = [
   {
     id: 'project',
-    image: '/image/안체프로젝트.png',
+    image: '/image/asset_img_25.png',
     action: 'anche',
   },
   {
     id: 'ahn',
-    image: '/image/안체1.jpg',
+    image: '/image/asset_img_20.jpg',
     path: '/ahn',
   },
   {
     id: 'hak',
-    image: '/image/학.png',
+    image: '/image/asset_img_39.png',
     path: '/hak',
   },
   {
     id: 'meotjieum',
-    image: '/image/멋지음안상수.png',
+    image: '/image/asset_img_8.png',
     path: '/meotjieum',
   },
   {
     id: 'typewriter',
-    image: '/image/타자기.png',
+    image: '/image/asset_img_34.png',
     action: 'typewriter',
   },
   {

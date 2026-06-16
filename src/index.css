@@ -1887,7 +1887,6 @@ html, body {
   max-width: 100%;
   height: auto;
   user-select: none;
-  pointer-events: none;
   -webkit-user-drag: none;
 }
 
@@ -1908,7 +1907,7 @@ html, body {
   padding: 0;
   cursor: pointer;
 }
-.hp-title:hover { opacity: 0.7; }
+.hp-title { cursor: default; }
 
 /* ── AG (히든 클릭 트리거) ── */
 .hp-ag {
@@ -2090,8 +2089,14 @@ html, body {
   left: 82%;
   top: 70%;
   width: 13vw;
+  aspect-ratio: 3 / 4;
   user-select: none;
   animation: hp-bob 2s ease-in-out infinite;
+}
+.hp-brick-wrap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .hp-brick-img {
   display: block;
@@ -2150,6 +2155,7 @@ html, body {
 }
 #hp-meotjieun { left: 89.1%; top: 0.9%; }
 .hp-nav-btn:hover { opacity: 0.6; }
+.react-hanbun-btn:hover { opacity: 0.6; }
 
 /* ══════════════════════════════════════
    스 세부 페이지
@@ -2573,7 +2579,7 @@ html, body {
 
 .ag-caption-panel {
   position: absolute;
-  width: 300px;
+  width: 360px;
   max-height: 88vh;
   overflow-y: auto;
   background: #98FB98;
@@ -2584,6 +2590,7 @@ html, body {
   transform: translateY(-50%);
 }
 .ag-caption-panel--left  { left: 8%; }
+
 .ag-caption-panel--right { right: 8%; }
 
 .ag-caption-specimen {
@@ -2599,7 +2606,7 @@ html, body {
 
 .ag-caption-text {
   font-family: var(--font-onul);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.7;
   color: black;
@@ -3453,7 +3460,7 @@ html, body {
   display: flex;
   width: 200%;
   height: 100%;
-  transition: transform 0.45s cubic-bezier(.22,1,.36,1);
+  transition: transform 1.2s cubic-bezier(.22,1,.36,1);
 }
 .hb-slide {
   width: 50%;
@@ -3747,6 +3754,29 @@ html, body {
   animation: paper-pull 3.5s ease-in-out infinite;
 }
 
+/* ── dm-scroll 클릭 네비게이션 힌트 ── */
+.dm-nav-hint {
+  position: fixed;
+  left: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  z-index: 95;
+  pointer-events: none;
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+  font-family: var(--font-ahn);
+  color: #000;
+}
+.dm-nav-hint--top { top: 160px; }
+.dm-nav-hint--bot { bottom: 24px; }
+.dm-nav-hint--left { left: 22px; top: 50%; transform: translateY(-50%); flex-direction: row; align-items: center; }
+.dm-nav-hint--right { left: auto; right: 22px; top: 50%; transform: translateY(-50%); flex-direction: row; align-items: center; }
+.dm-nav-hint.is-active { opacity: 1; }
+.dm-nav-hint-label { font-size: 38px; font-weight: 700; }
+.dm-nav-hint-arrow { font-size: 56px; line-height: 1; }
+
 .dm-header {
   position: fixed;
   top: 0;
@@ -3787,6 +3817,12 @@ html, body {
   height: 100%;
   pointer-events: all;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .dm-progress-svg {
+    /* height: 35%; top: 32.5%; removed */
+  }
 }
 
 
@@ -4172,7 +4208,7 @@ html, body {
   transform: translate(-50%, -50%) rotate(-12deg);
   background: #98FB98;
   width: 879px;
-  max-width: 140vw; /* 모바일 대응 */
+  max-width: 90vw; /* 모바일 대응 */
   padding: 20px;
   box-sizing: border-box;
   text-align: center;
@@ -4380,8 +4416,8 @@ html, body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   padding: 40px 6vw;
   background: transparent; /* 갇혀있는 네모 지우기 */
   gap: 32px;
@@ -4472,7 +4508,7 @@ html, body {
   white-space: pre-wrap;
   word-break: break-all;
   min-height: 1.35em;
-  text-align: center;
+  text-align: left;
 }
 
 .tj-cursor {
@@ -4916,7 +4952,7 @@ html, body {
   /* ── 2. 세부 페이지 프로그레스바 — 비율 유지 ── */
   /* 헤더 높이를 뷰포트 너비에 비례시켜 'd' 글자 비율 보존 (viewBox 1918.2×97.7 기준) */
   .dm-header {
-    height: 40px !important;
+    height: 55px !important;
     padding: 0 !important;
     pointer-events: none !important;
     -webkit-tap-highlight-color: transparent !important;
@@ -5297,7 +5333,13 @@ html, body {
   .hp-tajagi-paper { width: 12vw !important; left: 8vw !important; }
 
   .hp-hak .hp-img { width: 20vw !important; }
-  #hp-ahn { width: 42vw !important; }
+  #hp-ahn { 
+    width: 42vw !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  #hp-ahn .hp-img { width: 100% !important; }
   .hp-proj-img { width: 20vw !important; }
   #hp-blob-btn { left: 65% !important; top: 15% !important; }
   #hp-blob-btn img { width: 18vw !important; }
@@ -5322,4 +5364,85 @@ html, body {
   .hp-expand { top: 70% !important; }
   .hp-yu-inner { width: 130px !important; height: 56px !important; }
   .hp-yu-normal, .hp-yu-jamo { font-size: 36px !important; }
+
+  /* 안체프로젝트 스티커 하단 이동 */
+  .ap-sticker {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin-top: 30px !important;
+  }
+  .ap-sticker:hover {
+    transform: scale(1.06) !important;
+  }
+
+  /* 안체프로젝트 만져보기 패널 하단 이동 */
+  .anche-style-panel {
+    top: auto !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) scale(0.82) !important;
+    transform-origin: bottom center !important;
+    right: auto !important;
+    width: 95% !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+    padding: 15px !important;
+    border-radius: 12px !important;
+  }
+  .anche-style-box {
+    width: 100% !important;
+    align-items: center !important;
+  }
+  .anche-dash-btns, .anche-colors {
+    justify-content: center !important;
+  }
+
+  /* 안체프로젝트 모바일 스타일 강제 적용 */
+  .anche-top-left {
+    top: 20px !important;
+    left: 20px !important;
+    gap: 8px !important;
+  }
+  .anche-btn {
+    padding: 4px 12px !important;
+    font-size: 18px !important;
+  }
+  .anche-title {
+    font-size: 24px !important;
+  }
+  .anche-input-wrap {
+    top: 100px !important;
+  }
+  .anche-input-wrap input {
+    font-size: 26px !important;
+    width: 250px !important;
+  }
+  .anche-random-btn {
+    position: absolute !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    padding: 10px 20px !important;
+    font-size: 20px !important;
+  }
+  .anche-pads-wrap {
+    gap: 20px !important;
+    bottom: 0px !important;
+    padding: 20px !important;
+    height: 35vh !important;
+    overflow-y: auto !important;
+    align-items: flex-start !important;
+  }
+  .anche-save-btn {
+    padding: 6px 16px !important;
+    font-size: 20px !important;
+  }
+}
+
+/* Force hit areas for mobile touch */
+.hp-song-inner, .hp-yu-inner, .hp-hak, .hp-ahn, #hp-song, #hp-yu, #hp-blob-btn, .hp-project-wrap {
+  cursor: pointer !important;
+  background-color: rgba(0, 0, 0, 0.001) !important;
+  -webkit-tap-highlight-color: transparent;
 }

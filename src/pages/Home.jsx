@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 const HANBUN_IMAGES = [
-  { src: '/image/8주차_1조_송명선.jpg', alt: '송명선' },
-  { src: '/image/8주차_1조_유승현.png', alt: '유승현' },
+  { src: '/image/asset_img_1.jpg', alt: '송명선' },
+  { src: '/image/asset_img_2.png', alt: '유승현' },
 ];
 
 export default function Home() {
@@ -31,38 +31,38 @@ export default function Home() {
       <button className="hp-title" id="hp-title">안상수체에.대해.얼마나.알고.있니</button>
 
       <div className="hp-kerning">
-        <img src="/image/그룹커닝.png" alt="그룹커닝" className="hp-img" />
+        <img src="/image/asset_img_3.png" alt="그룹커닝" className="hp-img" />
       </div>
 
       <div className="hp-tajagi" id="hp-tajagi-home" style={{ cursor: 'pointer' }}>
-        <img src="/image/타자기2.png" alt="종이" className="hp-tajagi-paper" />
-        <img src="/image/타자기.png" alt="타자기" className="hp-tajagi-base" />
+        <img src="/image/asset_img_35.png" alt="종이" className="hp-tajagi-paper" />
+        <img src="/image/asset_img_34.png" alt="타자기" className="hp-tajagi-base" />
       </div>
 
       <div className="hp-hak" style={{ cursor: 'pointer' }} onClick={() => navigate('/hak')}>
-        <img src="/image/학.png" alt="학" className="hp-img" />
+        <img src="/image/asset_img_39.png" alt="학" className="hp-img" />
       </div>
 
       <div className="hp-expand" style={{ cursor: 'pointer' }} onClick={() => navigate('/expand')}>
-        <img src="/image/확장.png" alt="확장" className="hp-img" />
+        <img src="/image/asset_img_44.png" alt="확장" className="hp-img" />
       </div>
 
       <div className="hp-ahn" style={{ cursor: 'pointer', position: 'absolute', left: '120px', top: '150px', width: '200px' }} onClick={() => navigate('/ahn')}>
-        <img src="/image/안체1.jpg" alt="안상수체" className="hp-img" style={{ borderRadius: '10px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }} />
+        <img src="/image/asset_img_20.jpg" alt="안상수체" className="hp-img" style={{ borderRadius: '10px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }} />
       </div>
 
       <div className="hp-joyoungjae">
-        <img src="/image/조영제.png" alt="조영제" className="hp-img" />
+        <img src="/image/asset_img_28.png" alt="조영제" className="hp-img" />
       </div>
 
       <div className="hp-project-wrap">
         <button className="hp-project-obj" id="hp-project">
-          <img src="/image/안체프로젝트.png" alt="안체프로젝트" className="hp-proj-img" />
+          <img src="/image/asset_img_25.png" alt="안체프로젝트" className="hp-proj-img" />
         </button>
       </div>
 
       <div className="hp-blob" style={{ cursor: 'pointer' }} onClick={() => navigate('/meotjieum')}>
-        <img src="/image/멋지음안상수.png" alt="멋지음안상수" className="hp-img" />
+        <img src="/image/asset_img_8.png" alt="멋지음안상수" className="hp-img" />
       </div>
 
       <div className="hp-brick-wrap" style={{ cursor: 'pointer', width: '22vw', minWidth: 160 }} onClick={() => navigate('/game')}>

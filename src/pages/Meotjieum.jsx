@@ -7,7 +7,7 @@ const WIKI_DATA = [
   { label: '출생', value: '1952년 충청북도 충주' },
   { label: '직업', value: '시각디자이너, 타이포그래퍼, 교육자' },
   { label: '학력', value: '홍익대학교 미술대학 및 동 대학원' },
-  { label: '주요 약력', value: '홍익대 시각디자인과 교수, 파주타이포그래피학교(PaTI) 날개(교장)' }
+  { label: '주요 약력', value: '홍익대 시각디자인과 교수, 파주타이포그래피학교(PaTI) 날개' }
 ];
 
 export default function Meotjieum() {
@@ -30,15 +30,16 @@ export default function Meotjieum() {
         fontFamily: 'AGahnsangsoo2012, sans-serif',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
       }}
     >
       {/* 홈 버튼 */}
       <button 
         onClick={() => navigate('/')}
         style={{
-          position: 'absolute', top: '20px', left: '20px',
-          background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer',
+          position: 'absolute', top: '30px', left: '30px',
+          background: 'none', border: 'none', fontSize: '32px', cursor: 'pointer',
           fontFamily: 'AGahnsangsoo2012, sans-serif', fontWeight: 700, color: '#000', zIndex: 100
         }}
       >
@@ -46,18 +47,18 @@ export default function Meotjieum() {
       </button>
 
       {/* 인물 사진 및 헤더 */}
-      <div style={{ marginTop: '8vh', marginBottom: '40px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
+      <div style={{ marginBottom: '60px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px' }}>
         <img 
-          src="/image/안상수.webp" 
+          src="/image/asset_img_17.webp" 
           alt="안상수 선생님" 
-          onError={(e) => { e.target.src = '/image/안상수.jpeg' }} // webp 로드 실패시 jpeg로 폴백
+          onError={(e) => { e.target.src = '/image/asset_img_16.jpeg' }} // webp 로드 실패시 jpeg로 폴백
           style={{ 
-            width: '220px', 
+            width: '250px', 
             height: 'auto',
             objectFit: 'cover'
           }} 
         />
-        <h1 style={{ fontSize: '64px', margin: 0, fontWeight: 700 }}>안상수</h1>
+        <h1 style={{ fontSize: '72px', margin: 0, fontWeight: 700 }}>안상수</h1>
       </div>
 
       {/* 전체 테이블 컨테이너 (여기에 마우스를 올리면 전체가 한 번에 뜸) */}
@@ -65,16 +66,16 @@ export default function Meotjieum() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{ 
-          width: '1000px', 
+          width: '900px', 
           maxWidth: '95vw', 
           position: 'relative', 
           display: 'flex', 
           overflow: 'hidden',
-          paddingBottom: '20px' // 여백 살짝 추가
+          paddingBottom: '30px' // 여백 살짝 추가
         }}
       >
         {/* 왼쪽 절반: 라벨들 (좌측 정렬) */}
-        <div style={{ width: '50%', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ width: '50%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {WIKI_DATA.map((item, i) => (
             <div key={i} style={{ height: '60px', display: 'flex', alignItems: 'center', paddingLeft: '60px' }}>
               <span style={{ fontSize: '32px', fontWeight: 700 }}>{item.label}</span>
@@ -93,14 +94,14 @@ export default function Meotjieum() {
           color: '#fff',
           display: 'flex', 
           flexDirection: 'column', 
-          gap: '16px',
+          gap: '20px',
           transform: isHovered ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)',
           zIndex: 10
         }}>
           {WIKI_DATA.map((item, i) => (
             <div key={i} style={{ height: '60px', display: 'flex', alignItems: 'center', paddingLeft: '40px' }}>
-              <span style={{ fontSize: '24px', fontWeight: 400, wordBreak: 'keep-all', lineHeight: '1.4' }}>
+              <span style={{ fontSize: '28px', fontWeight: 400, wordBreak: 'keep-all', lineHeight: '1.4' }}>
                 {item.value}
               </span>
             </div>
@@ -113,7 +114,7 @@ export default function Meotjieum() {
         marginTop: '60px', 
         display: 'flex', 
         gap: '40px',
-        fontSize: '18px',
+        fontSize: '22px',
         fontWeight: 500
       }}>
         <a href="https://agfont.com/" target="_blank" rel="noreferrer" style={{ color: '#000', textDecoration: 'none', borderBottom: '1.5px solid #000', paddingBottom: '4px' }}>

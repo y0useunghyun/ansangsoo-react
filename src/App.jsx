@@ -11,6 +11,8 @@ import Expand from './pages/Expand';
 import Yu from './pages/Yu';
 import SocietyGallery from './pages/SocietyGallery';
 import Meotjieum from './pages/Meotjieum';
+import AProject from './pages/AProject';
+import Makers from './pages/Makers';
 import { AnimatePresence } from 'framer-motion';
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
           <Route path="/game" element={<ConceptGame />} />
           <Route path="/hanbun" element={<Hanbun />} />
           <Route path="/meotjieum" element={<Meotjieum />} />
+          <Route path="/aproject" element={<AProject />} />
+          <Route path="/makers" element={<Makers />} />
         </Routes>
       </div>
     </BrowserRouter>

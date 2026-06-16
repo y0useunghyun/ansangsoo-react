@@ -4,47 +4,47 @@ const LEGACY_HTML = `
   <div id="home-page" class="home-page hp-in">
 
     <!-- 상단 타이틀 -->
-    <button class="hp-title" id="hp-title">안상수체에.대해.얼마나.알고.있니</button>
+    <div class="hp-title" id="hp-title">안상수체에.대해.얼마나.알고.있니</div>
 
     <!-- 그룹커닝 자리에 귀여운 눈동자 마운트 -->
     <div class="hp-kerning" id="hp-cute-eyes-mount" style="display: flex; justify-content: center; align-items: center; width: 200px; height: 200px; position: absolute; left: 75%; top: 35%; transform: translate(-30px, -30px) rotate(-12deg); z-index: 50;">
     </div>
 
     <!-- 타자기 (홈) -->
-    <div class="hp-tajagi" id="hp-tajagi-home" style="cursor: pointer; position: absolute; left: 33%; top: 17%; transform: rotate(8deg);">
-      <img src="/image/타자기2.png" alt="종이" class="hp-tajagi-paper" />
-      <img src="/image/타자기.png" alt="타자기" class="hp-tajagi-base" />
+    <div class="hp-tajagi" id="hp-tajagi-home" style="cursor: pointer; position: absolute; left: 33%; top: 17%; transform: rotate(8deg);" onclick="">
+      <img src="/image/asset_img_35.png" alt="종이" class="hp-tajagi-paper" />
+      <img src="/image/asset_img_34.png" alt="타자기" class="hp-tajagi-base" />
     </div>
     <!-- 학 (교체된 이미지): 1500,234 -->
-    <div class="hp-hak" id="hp-hak" style="cursor: pointer; position: absolute; left: 10%; top: 22%; transform: rotate(-15deg);">
-      <img src="/image/학.png" alt="학" class="hp-img" />
+    <div class="hp-hak" id="hp-hak" style="cursor: pointer; position: absolute; left: 10%; top: 22%; transform: rotate(-15deg);" onclick="">
+      <img src="/image/asset_img_39.png" alt="학" class="hp-img" />
     </div>
 
     <!-- 확장 자리 제거됨 (유승현 텍스트 버튼으로 교체됨) -->
 
-    <!-- 안체1 스티커: 정중앙 배치 (회전 제거, 크기 펄스 애니메이션) -->
-    <div class="hp-ahn" id="hp-ahn" style="cursor: pointer; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 360px;">
+    <!-- 안체1 스티커: 정중앙 배치 (회전 없음, 크기 펄스 애니메이션 추가) -->
+    <a href="/ahn" class="hp-ahn" id="hp-ahn" style="cursor: pointer; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 9999999; display: block; text-decoration: none; pointer-events: auto;">
       <div style="animation: ahn-pulse 6s ease-in-out infinite; transform-origin: center center;">
-        <img src="/image/안체1.jpg" alt="안상수체" class="hp-img" />
+        <img src="/image/asset_img_20.jpg" alt="안상수체" class="hp-img" style="width: 18vw; transition: transform 0.2s ease; transform-origin: center center; pointer-events: auto; display: block;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
       </div>
-    </div>
+    </a>
 
     <!-- 조영제/한글그리드 삭제됨 -->
 
     <!-- 안체프로젝트: 1118,475 / 352×306 -->
     <div class="hp-project-wrap" style="position: absolute; left: 65%; top: 15%; transform: rotate(5deg);">
       <button class="hp-project-obj" id="hp-project">
-        <img src="/image/안체프로젝트.png" alt="안체프로젝트" class="hp-proj-img" />
+        <img src="/image/asset_img_25.png" alt="안체프로젝트" class="hp-proj-img" />
       </button>
     </div>
 
     <!-- 멋지음안상수: 좌측 하단 (클래스 제거, 인라인 스타일 강제) -->
-    <div id="hp-blob-btn" style="cursor: pointer; position: absolute; left: 20%; top: 75%; transform: rotate(-8deg); z-index: 9999999; animation: hp-drift-1 14s ease-in-out infinite; pointer-events: auto;" onclick="window.location.href='/meotjieum'; return false;" onpointerdown="window.location.href='/meotjieum'; return false;">
-      <img src="/image/멋지음안상수.png" alt="멋지음안상수" style="width: 12.5vw; height: auto; pointer-events: auto; cursor: pointer; display: block;" />
+    <div id="hp-blob-btn" style="cursor: pointer; position: absolute; left: 20%; top: 75%; transform: rotate(-8deg); z-index: 9999999; animation: hp-drift-1 14s ease-in-out infinite; pointer-events: auto;" onclick="">
+      <img src="/image/asset_img_8.png" alt="멋지음안상수" style="width: 12.5vw; height: auto; pointer-events: auto; cursor: pointer; display: block;" />
     </div>
 
     <!-- 게임기: 벽돌 자리 -->
-    <div class="hp-brick-wrap" id="hp-game-sticker" style="cursor: pointer; position: absolute; left: 85%; top: 65%; transform: rotate(12deg);">
+    <div class="hp-brick-wrap" id="hp-game-sticker" style="cursor: pointer; position: absolute; left: 85%; top: 65%; transform: rotate(12deg);" onclick="">
       <svg width="100%" viewBox="0 0 24 32" style="image-rendering: pixelated; display: block;" xmlns="http://www.w3.org/2000/svg">
         <rect x="3" y="2" width="18" height="24" rx="2" fill="#111"/>
         <rect x="4" y="3" width="16" height="22" rx="1" fill="#222"/>
@@ -52,7 +52,7 @@ const LEGACY_HTML = `
         <rect x="7" y="6" width="10" height="8" fill="#5f8a5f"/>
         <rect x="7" y="6" width="3" height="2" fill="#7aaa7a" opacity="0.6"/>
         <rect x="6" y="19" width="2" height="6" fill="#444"/>
-        <rect x="5" y="21" width="4" height="2" fill="#444"/>
+        <rect x="4" y="21" width="6" height="2" fill="#444"/>
         <circle cx="16" cy="21" r="1.5" fill="#c0392b"/>
         <circle cx="19" cy="20" r="1.5" fill="#2980b9"/>
         <rect x="10" y="18" width="3" height="1" rx="0.5" fill="#555"/>
@@ -71,7 +71,7 @@ const LEGACY_HTML = `
     <button class="hp-nav-btn" id="hp-meotjieun" style="position: absolute; left: 1711px; top: 10px; z-index: 100; pointer-events: auto;">멋지은 이들</button>
 
     <!-- 송명선 상세 페이지로 이동하는 버튼 -->
-    <div id="hp-song-wrap" style="position: absolute; left: 22%; top: 58%; transform: translate(-50%, -50%) rotate(6deg); z-index: 100; pointer-events: none;">
+    <div id="hp-song-wrap" style="position: absolute; left: 22%; top: 58%; transform: translate(-50%, -50%) rotate(6deg); z-index: 100;">
       <div style="animation: hp-drift-2 11s ease-in-out infinite;">
         <a href="/song" id="hp-song" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(-3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
           <div class="hp-song-inner">
@@ -83,7 +83,7 @@ const LEGACY_HTML = `
     </div>
 
     <!-- 유승현 섹션으로 이동하는 버튼 (구 확장 자리) -->
-    <div class="hp-expand" style="position: absolute; left: 60%; top: 70%; transform: rotate(-5deg); z-index: 100; pointer-events: none; display: flex; justify-content: center; align-items: center;">
+    <div class="hp-expand" style="position: absolute; left: 60%; top: 70%; transform: rotate(-5deg); z-index: 100; display: flex; justify-content: center; align-items: center;">
       <div style="animation: hp-drift-3 13s ease-in-out infinite;">
         <a href="/yu" id="hp-yu" style="display: block; pointer-events: auto; text-decoration: none; transition: transform 0.2s ease; transform-origin: center center;" onmouseover="this.style.transform='scale(1.1) rotate(3deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
           <div class="hp-yu-inner">
@@ -124,7 +124,7 @@ const LEGACY_HTML = `
           </p>
         </div>
       </div>
-      <img src="/image/안상수.webp" class="dp-portrait-img" alt="안상수" />
+      <img src="/image/asset_img_17.webp" class="dp-portrait-img" alt="안상수" />
     </div>
 
     <div class="dp-scroll">
@@ -148,8 +148,8 @@ const LEGACY_HTML = `
     <!-- 과학동아: 왼쪽 하단 고정 -->
     <div class="dp-card dp-card--pinned" id="dp-card-1">
       <div class="dp-card-img-wrap">
-        <img src="/image/안체프로젝트.webp" class="dp-img-s1" alt="과학동아" />
-        <img src="/image/안체프로젝트.webp" class="dp-img-s2" alt="과학동아" />
+        <img src="/image/asset_img_26.webp" class="dp-img-s1" alt="과학동아" />
+        <img src="/image/asset_img_26.webp" class="dp-img-s2" alt="과학동아" />
       </div>
       <div class="dp-card-body">
         <p class="dp-birth-text">
@@ -175,8 +175,9 @@ const LEGACY_HTML = `
     </div>
   </div><!-- /detail-su -->
 
-  <!-- 안체프로젝트 세부 페이지 -->
-  <div id="detail-anche" class="detail-page">
+  <!-- 안체프로젝트: /aproject 라우트로 분리됨 -->
+  <!-- <div id="detail-anche" class="detail-page"> (removed) -->
+  <div id="detail-anche" class="detail-page" style="display:none">
     <button class="dp-back" id="dp-anche-back">← 홈</button>
 
     <div class="ap-stage" id="ap-stage">
@@ -187,7 +188,7 @@ const LEGACY_HTML = `
         <div class="ap-grid">
           <!-- 이미지 1: 하라 겐야 -->
           <div class="ap-cell">
-            <img src="/image/하라 겐야.png" class="ap-img" alt="하라 겐야" />
+            <img src="/image/asset_img_38.png" class="ap-img" alt="하라 겐야" />
           </div>
           <div class="ap-label-col">
             <span class="ap-label-marker">[*]</span>
@@ -195,7 +196,7 @@ const LEGACY_HTML = `
           </div>
           <!-- 이미지 2: 엠엠파리 -->
           <div class="ap-cell">
-            <img src="/image/엠엠파리.png" class="ap-img" alt="엠엠파리" />
+            <img src="/image/asset_img_27.png" class="ap-img" alt="엠엠파리" />
           </div>
           <div class="ap-label-col">
             <span class="ap-label-marker">[*]</span>
@@ -203,7 +204,7 @@ const LEGACY_HTML = `
           </div>
           <!-- 이미지 3: 사랑 쿨카르니 -->
           <div class="ap-cell">
-            <img src="/image/사랑 쿨카르니.png" class="ap-img" alt="사랑 쿨카르니" />
+            <img src="/image/asset_img_12.png" class="ap-img" alt="사랑 쿨카르니" />
           </div>
           <div class="ap-label-col">
             <span class="ap-label-marker">[*]</span>
@@ -211,7 +212,7 @@ const LEGACY_HTML = `
           </div>
           <!-- 이미지 4: 네빌 브로디 -->
           <div class="ap-cell">
-            <img src="/image/네빌 브로디.png" class="ap-img" alt="네빌 브로디" />
+            <img src="/image/asset_img_6.png" class="ap-img" alt="네빌 브로디" />
           </div>
           <div class="ap-label-col">
             <span class="ap-label-marker">[*]</span>
@@ -241,8 +242,8 @@ const LEGACY_HTML = `
     <!-- 세벌식 타자기 연습 페이지 -->
   
 
-  <!-- 메인 세부 페이지 — 긴 스크롤 콘텐츠 -->
-  <div id="detail-main" class="detail-page">
+  <!-- 메인 세부 페이지 — /aproject 라우트로 분리됨 -->
+  <div id="detail-main" class="detail-page" style="display:none">
 
 
 
@@ -286,19 +287,19 @@ const LEGACY_HTML = `
       <div class="dm-section dm-section--aproject-images" id="sec-aproject" style="width: 100%; min-height: 100vh; display: flex; justify-content: center; align-items: center;">
         <div class="dm-ap-grid">
           <figure class="dm-ap-thumb" data-fn="ap1">
-            <img src="/image/네빌 브로디.png" alt="네빌 브로디" class="dm-ap-img" />
+            <img src="/image/asset_img_6.png" alt="네빌 브로디" class="dm-ap-img" />
             <figcaption class="dm-ref-caption">네빌 브로디</figcaption>
           </figure>
           <figure class="dm-ap-thumb" data-fn="ap2">
-            <img src="/image/사랑 쿨카르니.png" alt="사랑 쿨카르니" class="dm-ap-img" />
+            <img src="/image/asset_img_12.png" alt="사랑 쿨카르니" class="dm-ap-img" />
             <figcaption class="dm-ref-caption">사랑 쿨카르니</figcaption>
           </figure>
           <figure class="dm-ap-thumb" data-fn="ap3">
-            <img src="/image/엠엠파리.png" alt="엠엠 파리" class="dm-ap-img" />
+            <img src="/image/asset_img_27.png" alt="엠엠 파리" class="dm-ap-img" />
             <figcaption class="dm-ref-caption">엠엠 파리</figcaption>
           </figure>
           <figure class="dm-ap-thumb" data-fn="ap4">
-            <img src="/image/하라 겐야.png" alt="하라 겐야" class="dm-ap-img" />
+            <img src="/image/asset_img_38.png" alt="하라 겐야" class="dm-ap-img" />
             <figcaption class="dm-ref-caption">하라 겐야</figcaption>
           </figure>
         </div>
@@ -308,7 +309,7 @@ const LEGACY_HTML = `
       <div class="dm-section dm-section--aproject-info" id="sec-aproject-info" style="width: 100%; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <h2 class="dm-title">&lt;안체 프로젝트 A-Project&gt;</h2>
         <p class="dm-body">안체 프로젝트는 AG 안상수체 탄생 40주년을 기념해 진행된 프로젝트로, 참여 디자이너들이 AG 안상수체의 모듈을 활용해 새로운 탈네모틀 한글꼴을 제작하고 안상수와 한글에 대한 각자의 생각을 담아내는 연구 프로젝트다. 연구소는 디자이너들이 11,172자의 한글 완성형 글자를 완성할 수 있도록 제작 전 과정을 지원한다.</p>
-        <img src="/image/안체프로젝트.png" class="ap-sticker" id="ap-sticker-btn" alt="안체프로젝트 바로가기" />
+        <img src="/image/asset_img_25.png" class="ap-sticker" id="ap-sticker-btn" alt="안체프로젝트 바로가기" />
       </div>
 
 
@@ -327,7 +328,7 @@ const LEGACY_HTML = `
   <!-- 밧줄 오버레이 — 위에서 내려오는 패널 (body 직속, 항상 최상위) -->
   <div class="rope-overlay" id="rope-overlay">
     <!-- 벽돌 배경 -->
-    <img src="/image/벽돌.png" class="rope-bg-brick" alt="" />
+    <img src="/image/asset_img_11.png" class="rope-bg-brick" alt="" />
     <!-- 반투명 흰 화면 워시 -->
     <div class="rope-screen-wash"></div>
 
@@ -335,8 +336,8 @@ const LEGACY_HTML = `
     <div class="rope-tajagi" id="hp-tajagi-rope" style="cursor: pointer;">
       <div class="rope-tajagi-ribbon"></div>
       <span class="rope-tajagi-text">세벌식 타자기</span>
-      <img src="/image/타자기2.png" alt="종이" class="rope-tajagi-paper" />
-      <img src="/image/타자기.png" alt="타자기" class="rope-tajagi-base" />
+      <img src="/image/asset_img_35.png" alt="종이" class="rope-tajagi-paper" />
+      <img src="/image/asset_img_34.png" alt="타자기" class="rope-tajagi-base" />
     </div>
 
     <!-- 콘텐츠 박스 -->
@@ -368,7 +369,7 @@ const LEGACY_HTML = `
       <h2 class="dev1984-overlay-title">어떻게.만들었는가.</h2>
       
       <div class="dev1984-overlay-img-wrap">
-        <img src="/image/학.svg" alt="학 도면" class="dev1984-overlay-img" />
+        <img src="/image/asset_img_40.svg" alt="학 도면" class="dev1984-overlay-img" />
       </div>
 
       <div class="dev1984-overlay-text-box">
@@ -382,8 +383,8 @@ const LEGACY_HTML = `
 
   </div><!-- /detail-anche -->
 
-  <!-- 안체프로젝트 세부 페이지 2 — 나만의 안체 만들기 -->
-  <div id="detail-anche3" class="detail-page">
+  <!-- 나만의 안체: AncheProjectModal(React)로 대체됨 -->
+  <div id="detail-anche3" class="detail-page" style="display:none">
     <button class="dp-back" id="dp-anche3-back">← 뒤로</button>
 
     <!-- 좌측: 캔버스 영역 -->

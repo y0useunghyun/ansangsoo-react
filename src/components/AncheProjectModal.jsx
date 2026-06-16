@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const K_CHO  = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 const K_JUNG = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
@@ -16,13 +17,14 @@ function decomposeKo(ch) {
 }
 
 export default function AncheProjectModal({ isOpen, onClose }) {
+  const navigate = useNavigate();
   const canvasRef = useRef(null);
   const inputRef = useRef(null);
   
   const [text, setText] = useState('안상수체');
   const [lineDash, setLineDash] = useState([]);
   const [lineWidth, setLineWidth] = useState(1.5);
-  const [fontSize, setFontSize] = useState(180);
+  const [fontSize, setFontSize] = useState(window.innerWidth <= 768 ? 80 : 180);
   const [lineHeight, setLineHeight] = useState(1.6);
   const [strokeColor, setStrokeColor] = useState('#000000');
   const [fillColor, setFillColor] = useState('#ffffff');
@@ -165,9 +167,9 @@ export default function AncheProjectModal({ isOpen, onClose }) {
   };
 
   const Slider = ({ label, min = -40, max = 40, step = 1, value, onChange }) => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'flex-end' }}>
-      <span style={{ fontSize: '24px', color: '#000', whiteSpace: 'nowrap' }}>{label}</span>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={onChange} style={{ width: '140px', accentColor: '#000' }} />
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'flex-end' }}>
+      <span style={{ fontSize: '20px', color: '#000', whiteSpace: 'nowrap' }}>{label}</span>
+      <input type="range" min={min} max={max} step={step} value={value} onChange={onChange} style={{ width: '120px', accentColor: '#000' }} />
     </div>
   );
 
@@ -190,27 +192,29 @@ export default function AncheProjectModal({ isOpen, onClose }) {
       ></canvas>
 
       {/* 좌측 상단: 닫기 버튼, UI 토글 및 타이틀 */}
-      <div style={{ position: 'absolute', top: '30px', left: '40px', zIndex: 10, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div className="anche-top-left" style={{ position: 'absolute', top: '30px', left: '40px', zIndex: 10, display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <div style={{ display: 'flex', gap: '12px' }}>
           <button 
-            onClick={onClose} 
+            className="anche-btn"
+            onClick={() => { onClose(); navigate('/'); window.scrollTo(0, 0); }} 
             style={{ background: 'transparent', color: '#000', border: '2px solid #000', padding: '6px 16px', fontSize: '22px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
           >
             닫기
           </button>
           <button 
+            className="anche-btn"
             onClick={() => setShowUI(!showUI)} 
             style={{ background: '#000', color: '#fff', border: '2px solid #000', padding: '6px 16px', fontSize: '22px', cursor: 'pointer', fontFamily: 'agahnsangsoo2012' }}
           >
             {showUI ? 'UI 가리기' : 'UI 켜기'}
           </button>
         </div>
-        {showUI && <h2 style={{ margin: 0, fontSize: '36px', fontWeight: 'normal', color: '#000' }}>나만의 안체 만들기</h2>}
+        {showUI && <h2 className="anche-title" style={{ margin: 0, fontSize: '36px', fontWeight: 'normal', color: '#000' }}>나만의 안체 만들기</h2>}
       </div>
 
       {/* 중앙 상단: 텍스트 입력창 (플로팅) */}
       {showUI && (
-        <div style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+        <div className="anche-input-wrap" style={{ position: 'absolute', top: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '20px', color: '#000', fontFamily: 'agahnsangsoo2012' }}>입력창</span>
           <input 
             type="text" 
@@ -227,14 +231,14 @@ export default function AncheProjectModal({ isOpen, onClose }) {
       )}
 
       {/* 우측 상단: 스타일 조작부 (플로팅) */}
-      <div style={{ position: 'absolute', top: '30px', right: '40px', zIndex: 10, display: showUI ? 'flex' : 'none', flexDirection: 'column', gap: '20px', alignItems: 'flex-end' }}>
-        <button onClick={handleSave} style={{ padding: '8px 24px', background: 'transparent', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '26px', fontFamily: 'agahnsangsoo2012' }}>저장하기</button>
+      <div className="anche-style-panel" style={{ position: 'absolute', top: '30px', right: '40px', zIndex: 10, display: showUI ? 'flex' : 'none', flexDirection: 'column', gap: '20px', alignItems: 'flex-end' }}>
+        <button className="anche-save-btn" onClick={handleSave} style={{ padding: '8px 24px', background: 'transparent', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '26px', fontFamily: 'agahnsangsoo2012' }}>저장하기</button>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-end', background: 'rgba(255,255,255,0.85)', padding: '30px', border: '2px solid #000' }}>
+        <div className="anche-style-box" style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-end', background: 'rgba(255,255,255,0.85)', padding: '30px', border: '2px solid #000' }}>
           <Slider label="글자 크기" min={30} max={400} step={4} value={fontSize} onChange={e => setFontSize(Number(e.target.value))} />
           <Slider label="선 굵기" min={0.5} max={10} step={0.5} value={lineWidth} onChange={e => setLineWidth(Number(e.target.value))} />
           <Slider label="면 투명도" min={0} max={100} step={1} value={fillAlpha} onChange={e => setFillAlpha(Number(e.target.value))} />
-          <div style={{ display: 'flex', gap: '8px', marginTop: '8px', flexWrap: 'wrap', justifyContent: 'flex-end', width: '300px' }}>
+          <div className="anche-dash-btns" style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap', justifyContent: 'flex-end', width: '300px' }}>
             {[
               {l:'실선', d:[]}, 
               {l:'파선(긴)', d:[20,10]}, 
@@ -244,18 +248,18 @@ export default function AncheProjectModal({ isOpen, onClose }) {
               {l:'이중쇄선', d:[15,4,3,4,3,4]},
               {l:'불규칙', d:[20,5,5,5,10,15]}
             ].map(btn => (
-              <button key={btn.l} onClick={() => { setLineDash(btn.d); setCustomDashStr(''); }} style={{ padding: '4px 10px', border: '1px solid #000', background: lineDash.join(',') === btn.d.join(',') && customDashStr === '' ? '#000' : 'transparent', color: lineDash.join(',') === btn.d.join(',') && customDashStr === '' ? '#fff' : '#000', cursor: 'pointer', fontSize: '20px', fontFamily: 'agahnsangsoo2012' }}>{btn.l}</button>
+              <button key={btn.l} onClick={() => { setLineDash(btn.d); setCustomDashStr(''); }} style={{ padding: '2px 8px', border: '1px solid #000', background: lineDash.join(',') === btn.d.join(',') && customDashStr === '' ? '#000' : 'transparent', color: lineDash.join(',') === btn.d.join(',') && customDashStr === '' ? '#fff' : '#000', cursor: 'pointer', fontSize: '16px', fontFamily: 'agahnsangsoo2012' }}>{btn.l}</button>
             ))}
           </div>
           
-          <div style={{ display: 'flex', gap: '8px', marginTop: '4px', alignItems: 'center', justifyContent: 'flex-end', width: '100%' }}>
+          <div className="anche-custom-dash" style={{ display: 'flex', gap: '8px', marginTop: '4px', alignItems: 'center', justifyContent: 'flex-end', width: '100%' }}>
             <div 
               style={{ position: 'relative' }} 
               onMouseEnter={() => setShowTooltip(true)} 
               onMouseLeave={() => setShowTooltip(false)}
             >
               <span 
-                style={{ fontSize: '20px', color: '#000', fontFamily: 'agahnsangsoo2012', cursor: 'help', borderBottom: '1px dashed #000' }}
+                style={{ fontSize: '16px', color: '#000', fontFamily: 'agahnsangsoo2012', cursor: 'help', borderBottom: '1px dashed #000' }}
               >
                 나만의 커스텀 점선(?) :
               </span>
@@ -281,21 +285,24 @@ export default function AncheProjectModal({ isOpen, onClose }) {
               value={customDashStr} 
               onChange={handleCustomDash}
               placeholder="숫자 입력 (예: 10 5 2 5)"
-              style={{ width: '150px', fontSize: '18px', padding: '4px 8px', fontFamily: 'agahnsangsoo2012', border: '1px solid #000', outline: 'none' }}
+              style={{ width: '130px', fontSize: '14px', padding: '2px 6px', fontFamily: 'agahnsangsoo2012', border: '1px solid #000', outline: 'none' }}
             />
           </div>
-          <div style={{ display: 'flex', gap: '24px', marginTop: '12px' }}>
-            <label style={{ fontSize: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>선 색 <input type="color" value={strokeColor} onChange={e => setStrokeColor(e.target.value)} style={{ width: '32px', height: '32px', padding: 0, border: '1px solid #000', cursor: 'pointer', background: 'transparent' }} /></label>
-            <label style={{ fontSize: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>면 색 <input type="color" value={fillColor} onChange={e => setFillColor(e.target.value)} style={{ width: '32px', height: '32px', padding: 0, border: '1px solid #000', cursor: 'pointer', background: 'transparent' }} /></label>
+          <div className="anche-colors" style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
+            <label style={{ fontSize: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>선 색 <input type="color" value={strokeColor} onChange={e => setStrokeColor(e.target.value)} style={{ width: '28px', height: '28px', padding: 0, border: '1px solid #000', cursor: 'pointer', background: 'transparent' }} /></label>
+            <label style={{ fontSize: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>면 색 <input type="color" value={fillColor} onChange={e => setFillColor(e.target.value)} style={{ width: '28px', height: '28px', padding: 0, border: '1px solid #000', cursor: 'pointer', background: 'transparent' }} /></label>
           </div>
         </div>
       </div>
 
 
 
+
+
       {/* 우측 하단: 랜덤 섞기 플로팅 버튼 */}
       {showUI && (
         <button 
+          className="anche-random-btn"
           onClick={handleRandomize} 
           style={{ position: 'absolute', bottom: '60px', right: '40px', zIndex: 20, padding: '20px 40px', background: '#000', color: '#fff', border: 'none', cursor: 'pointer', fontSize: '32px', fontFamily: 'agahnsangsoo2012', letterSpacing: '2px' }}
         >
